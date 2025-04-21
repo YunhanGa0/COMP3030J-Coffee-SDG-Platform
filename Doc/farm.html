@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Farm · Coffee Plantation Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ----------  Design Tokens  ---------- */
+    :root {
+      --green-900: #114232;
+      --green-700: #19624c;
+      --green-500: #2f8f5b;
+      --sand-50:  #faf9f6;
+      --sand-100: #efece6;
+      --sand-300: #d7d2c8;
+      --text-main: #1f1f1f;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, .06);
+    }
+
+    /* ----------  Reset  ---------- */
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Poppins",sans-serif;background:var(--sand-50);color:var(--text-main);}
+    a{color:inherit;text-decoration:none}
+
+    /* ----------  Hero Section (Farm Name)  ---------- */
+    .hero{
+      background:linear-gradient(135deg, var(--green-700) 0%, var(--green-500) 100%);
+      color:#fff;
+      padding:4rem 1rem 3rem;
+    }
+    .hero-inner{max-width:1200px;margin:auto;display:flex;flex-direction:column;gap:1.25rem}
+    .hero h1{font-size:2.75rem;font-weight:700;line-height:1.2}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:1rem;font-size:.95rem;font-weight:300;opacity:.95}
+    .badge-cert{background:#fff;color:var(--green-700);padding:.2rem .8rem;border-radius:9999px;font-size:.75rem;font-weight:600}
+
+    /* ----------  Layout ---------- */
+    .container{max-width:1200px;margin:auto;padding:2rem 1rem;display:grid;grid-template-columns:300px 1fr;gap:2rem}
+    @media(max-width:900px){.container{grid-template-columns:1fr}}
+
+    /* ----------  Farm Details Card ---------- */
+    .card{background:#fff;border-radius:var(--radius-lg);padding:1.75rem;box-shadow:var(--shadow-sm)}
+    .card h3{font-size:1.15rem;margin-bottom:1rem;color:var(--green-700)}
+    .farm-photo{display:flex;justify-content:center;align-items:center;background:var(--sand-100);border-radius:var(--radius-lg);overflow:hidden;max-width:100%;height:300px;margin-bottom:1.5rem}
+    .farm-photo img{object-fit:cover;width:100%;height:100%}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:.9rem}
+    .detail-grid div span{display:block;font-size:.7rem;color:#666;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.15rem}
+    .about{margin-top:1.25rem;font-size:.9rem;line-height:1.6;color:#555}
+
+    /* ----------  Blog Section ---------- */
+    .blogs-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+    .blogs-header h2{font-size:1.5rem;color:var(--green-700)}
+    select{padding:.45rem 1rem;border:1px solid var(--sand-300);border-radius:var(--radius-md);background:#fff;font-size:.85rem}
+    .blog-list{display:flex;flex-direction:column;gap:1.25rem}
+    .blog-card{background:#fff;border-radius:var(--radius-md);padding:1.5rem;box-shadow:var(--shadow-sm);transition:transform .2s}
+    .blog-card:hover{transform:translateY(-4px)}
+    .blog-title{font-size:1.15rem;font-weight:600;margin-bottom:.4rem}
+    .blog-meta{display:flex;align-items:center;gap:.5rem;font-size:.7rem;color:#777;margin-bottom:.6rem}
+    .blog-meta .badge{background:var(--sand-100);padding:.15rem .55rem;border-radius:9999px;font-weight:600}
+    .blog-excerpt{font-size:.9rem;color:#555;line-height:1.55}
+    .blog-footer{margin-top:.9rem;display:flex;justify-content:space-between;align-items:center;font-size:.78rem}
+    .blog-footer a{color:var(--green-700);font-weight:600}
+    .blog-footer a:hover{color:var(--green-900)}
+
+    /* ----------  Back Link ---------- */
+    .back-link{text-align:center;margin:3rem 0}
+    .back-link a{display:inline-block;border:1.5px solid var(--green-700);padding:.6rem 2rem;border-radius:9999px;font-size:.85rem;font-weight:600;color:var(--green-700);transition:.2s}
+    .back-link a:hover{background:var(--green-700);color:#fff}
+  </style>
+</head>
+<body>
+
+  <!-- ▸ Hero Banner (Farm Name) -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Test Farm</h1>
+      <div class="hero-meta">
+        <span>Country: China</span>
+        <span>Altitude: 200m</span>
+        <span>Established: 2020</span>
+        <span class="badge-cert">Certified Farm</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ▸ Main Content  -->
+  <main class="container">
+    <!-- Left Column → Farm Details -->
+    <aside class="card">
+      <h3>Farm Details</h3>
+      <div class="farm-photo">
+        <img src="https://via.placeholder.com/600x300" alt="Farm Image" />
+      </div>
+      <div class="detail-grid">
+        <div><span>Size</span>100 hectares</div>
+        <div><span>Location</span>Test Location</div>
+        <div><span>Soil Type</span>Loamy</div>
+        <div><span>Country</span>China</div>
+        <div><span>Owner</span>gyh</div>
+        <div><span>Established</span>2020</div>
+      </div>
+      <p class="about"><strong>About this Farm:</strong> Test description</p>
+    </aside>
+
+    <!-- Right Column → Blog Section -->
+    <section>
+      <header class="blogs-header">
+        <h2>Farm Blogs</h2>
+        <select id="blogFilter">
+          <option>All Blogs</option>
+          <option>Published</option>
+          <option>Draft</option>
+        </select>
+      </header>
+
+      <div class="blog-list">
+        <!-- Blog 1 -->
+        <article class="blog-card">
+          <h3 class="blog-title">咖啡种植经验分享</h3>
+          <div class="blog-meta"><span class="badge">Published</span></div>
+          <p class="blog-excerpt">分享我们农庄在高海拔地区种植咖啡间作时的心得</p>
+          <div class="blog-footer">
+            <time datetime="2025-04-09">2025‑04‑09</time>
+            <a href="#">READ MORE</a>
+          </div>
+        </article>
+        <!-- Blog 2 -->
+        <article class="blog-card">
+          <h3 class="blog-title">咖啡种植经验分享111</h3>
+          <div class="blog-meta"><span class="badge" style="background:#ececec;color:#666">Draft</span></div>
+          <p class="blog-excerpt">分享我们农庄在高海拔地区111111种植咖啡间作时的心得</p>
+          <div class="blog-footer">
+            <time datetime="2025-04-09">2025‑04‑09</time>
+            <a href="#">READ MORE</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ▸ Back Link  -->
+  <div class="back-link"><a href="#">BACK TO PLANTATIONS</a></div>
+</body>
+</html>

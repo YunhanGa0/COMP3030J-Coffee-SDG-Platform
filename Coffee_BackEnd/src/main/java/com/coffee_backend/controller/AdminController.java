@@ -24,6 +24,11 @@ public class AdminController {
         return adminService.saveFarmer(request);
     }
 
+    @GetMapping("/farmers")
+    public ApiResponse getFarmers() {
+        return adminService.getAllFarmers();
+    }
+
     @PostMapping("/trainings")
     public ApiResponse saveTechTraining(@RequestBody TechTrainingRequest request){
         return technicalTrainingService.saveTraining(request);

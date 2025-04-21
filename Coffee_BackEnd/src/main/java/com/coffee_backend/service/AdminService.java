@@ -3,6 +3,7 @@ package com.coffee_backend.service;
 import com.coffee_backend.dto.ApiResponse;
 import com.coffee_backend.dto.SaveFarmerRequest;
 import com.coffee_backend.dto.SaveFarmerResponse;
+import com.coffee_backend.dto.UserDTO;
 import com.coffee_backend.entity.User;
 import com.coffee_backend.enumType.UserRole;
 import com.coffee_backend.repo.UserRepository;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -66,5 +69,21 @@ public class AdminService {
         BeanUtils.copyProperties(savedUser, response);
 
         return ApiResponse.success(response);
+    }
+    
+    public ApiResponse getAllFarmers() {
+        // 查询所有农户用户
+        List<User> farmers = userRepository.findByRole(UserRole.FARMER);
+        
+        // 将实体对象转换为DTO
+        List<UserDTO> farmerDTOs = farmers.stream()
+            .map(farmer -> {
+                UserDTO dto = new UserDTO();
+                BeanUtils.copyProperties(farmer, dto);
+                return dto;
+            })
+            .collect(Collectors.toList());
+        
+        return ApiResponse.success(farmerDTOs);
     }
 }

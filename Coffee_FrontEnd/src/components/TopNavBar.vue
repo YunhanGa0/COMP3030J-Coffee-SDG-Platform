@@ -108,6 +108,12 @@
               </v-list-item-icon>
               <v-list-item-title>Admin Panel</v-list-item-title>
             </v-list-item>
+            <v-list-item v-if="isFarmer" to="/farmer-dashboard">
+              <v-list-item-icon>
+                <v-icon>mdi-barn</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Farm Management</v-list-item-title>
+            </v-list-item>
             <v-list-item v-if="isAdmin" to="/article/editor">
               <v-list-item-icon>
                 <v-icon>mdi-pencil</v-icon>
@@ -204,6 +210,12 @@
               <v-icon>mdi-shield-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Admin Panel</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-if="isFarmer" to="/farmer-dashboard">
+            <v-list-item-icon>
+              <v-icon>mdi-barn</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Farm Management</v-list-item-title>
           </v-list-item>
           <v-list-item v-if="isAdmin" to="/article/editor">
             <v-list-item-icon>

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="farm-detail py-8">
+  <div class="farm-detail">
     <!-- 加载状态 -->
     <v-skeleton-loader
       v-if="loading"
@@ -9,205 +9,104 @@
 
     <!-- 农庄内容 -->
     <template v-else>
-      <!-- 农庄头部 -->
-      <v-row justify="center">
-        <v-col cols="12" md="10" lg="8">
-          <transition name="fade" appear>
-            <div class="farm-header mb-6">
-              <h1 class="text-h2 font-weight-bold mb-5 farm-title">{{ farm.farmName }}</h1>
-              <div class="d-flex align-center mb-4">
-                <v-avatar color="primary" size="36" class="mr-3">
-                  <v-icon dark>mdi-coffee-maker</v-icon>
-                </v-avatar>
-                <div>
-                  <div class="farm-info d-flex align-center flex-wrap">
-                    <span class="text-body-2 grey--text text--darken-1">
-                      Country: {{ farm.country }}
-                    </span>
-                    <v-divider vertical class="mx-3"></v-divider>
-                    <span class="text-body-2 grey--text text--darken-1">
-                      Altitude: {{ farm.elevation }}m
-                    </span>
-                    <v-divider vertical class="mx-3"></v-divider>
-                    <span class="text-body-2 grey--text text--darken-1">
-                      Established: {{ farm.establishedYear }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div v-if="farm.isCertificated" class="certified-badge mb-2">
-                <v-chip color="success" small>
-                  <v-icon left small>mdi-check-circle</v-icon>
-                  Certified Farm
-                </v-chip>
-              </div>
-            </div>
-          </transition>
+      <!-- 农庄头部 - 英雄区域 -->
+      <section class="hero">
+        <div class="hero-inner">
+          <h1>{{ farm.farmName }}</h1>
+          <div class="hero-meta">
+            <span>Country: {{ farm.country }}</span>
+            <span>Altitude: {{ farm.elevation }}m</span>
+            <span>Established: {{ farm.establishedYear }}</span>
+            <span v-if="farm.isCertificated" class="badge-cert">
+              <v-icon small class="mr-1">mdi-check-circle</v-icon>
+              Certified Farm
+            </span>
+          </div>
+        </div>
+      </section>
 
-          <!-- 农庄封面图 -->
-          <transition name="fade" appear>
+      <!-- 主要内容 -->
+      <main class="container">
+        <!-- 左侧 - 农庄详情卡片 -->
+        <aside class="card">
+          <h3>Farm Details</h3>
+          <div class="farm-photo">
             <v-img
-              v-if="farm.imageUrl"
-              :src="farm.imageUrl"
-              max-height="500"
-              class="farm-cover rounded-lg mb-8"
-              gradient="to top, rgba(0,0,0,.4), rgba(0,0,0,0) 50%"
+              :src="farm.imageUrl || require('@/assets/pic/plantation.jpg')"
+              alt="Farm Image"
+              height="100%"
+              width="100%"
+            ></v-img>
+          </div>
+          <div class="detail-grid">
+            <div><span>Size</span>{{ farm.size }} hectares</div>
+            <div><span>Location</span>{{ farm.location }}</div>
+            <div><span>Soil Type</span>{{ formatSoilType(farm.soilType) }}</div>
+            <div><span>Country</span>{{ farm.country }}</div>
+            <div><span>Owner</span>{{ farm.user ? farm.user.username : 'Unknown' }}</div>
+            <div><span>Established</span>{{ farm.establishedYear }}</div>
+          </div>
+          <p class="about"><strong>About this Farm:</strong> {{ farm.description }}</p>
+        </aside>
+
+        <!-- 右侧 - 博客部分 -->
+        <section>
+          <header class="blogs-header">
+            <h2>Farm Blogs</h2>
+            <v-select
+              v-model="publishedFilter"
+              :items="publishedOptions"
+              hide-details
+              outlined
+              dense
+              class="filter-select"
+              @change="fetchFarmBlogs"
+            ></v-select>
+          </header>
+
+          <div v-if="blogs.length === 0" class="text-center py-8 empty-state">
+            <v-icon size="48" color="grey">mdi-text-box-outline</v-icon>
+            <p class="mt-4 grey--text">No blogs available for this farm yet.</p>
+          </div>
+
+          <div class="blog-list" v-else>
+            <article 
+              v-for="blog in blogs" 
+              :key="blog.id"
+              class="blog-card"
+              @click="$router.push(`/farms/${farmId}/blogs/${blog.id}`)"
             >
-              <div class="image-credit pa-3">
-                <v-icon small color="white" class="mr-1">mdi-map-marker</v-icon>
-                <span class="text-caption white--text">{{ farm.location }}</span>
+              <h3 class="blog-title">{{ blog.title }}</h3>
+              <div class="blog-meta">
+                <span class="badge" :class="blog.published ? 'published' : 'draft'">
+                  {{ blog.published ? 'Published' : 'Draft' }}
+                </span>
               </div>
-            </v-img>
-          </transition>
+              <p class="blog-excerpt">{{ blog.summary }}</p>
+              <div class="blog-footer">
+                <time :datetime="formatDate(blog.createdAt)">{{ formatDate(blog.createdAt) }}</time>
+                <a>READ MORE</a>
+              </div>
+            </article>
+          </div>
 
-          <!-- 农庄信息卡片 -->
-          <transition name="fade" appear>
-            <v-card class="farm-info-card mb-8 elevation-1">
-              <v-card-title>
-                <v-icon color="primary" class="mr-2">mdi-information-outline</v-icon>
-                Farm Details
-              </v-card-title>
-              <v-card-text>
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <div class="info-item mb-3">
-                      <span class="info-label">Size:</span>
-                      <span class="info-value">{{ farm.size }} hectares</span>
-                    </div>
-                    <div class="info-item mb-3">
-                      <span class="info-label">Soil Type:</span>
-                      <span class="info-value">{{ formatSoilType(farm.soilType) }}</span>
-                    </div>
-                    <div class="info-item mb-3">
-                      <span class="info-label">Owner:</span>
-                      <span class="info-value">{{ farm.user ? farm.user.username : 'Unknown' }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <div class="info-item mb-3">
-                      <span class="info-label">Location:</span>
-                      <span class="info-value">{{ farm.location }}</span>
-                    </div>
-                    <div class="info-item mb-3">
-                      <span class="info-label">Country:</span>
-                      <span class="info-value">{{ farm.country }}</span>
-                    </div>
-                    <div class="info-item mb-3">
-                      <span class="info-label">Established:</span>
-                      <span class="info-value">{{ farm.establishedYear }}</span>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-divider class="my-4"></v-divider>
-                <div class="description-section">
-                  <h3 class="text-subtitle-1 font-weight-bold mb-3">About this Farm</h3>
-                  <p class="text-body-1">{{ farm.description }}</p>
-                </div>
-              </v-card-text>
-            </v-card>
-          </transition>
+          <!-- 分页 -->
+          <div class="text-center mt-8" v-if="pagination.totalPages > 1">
+            <v-pagination
+              v-model="currentPage"
+              :length="pagination.totalPages"
+              :total-visible="7"
+              @input="handlePageChange"
+              color="var(--green-700)"
+            ></v-pagination>
+          </div>
+        </section>
+      </main>
 
-          <!-- 农庄博客列表 -->
-          <transition name="fade" appear>
-            <div class="farm-blogs mt-10">
-              <div class="d-flex justify-space-between align-center mb-6">
-                <h2 class="text-h4 font-weight-bold primary--text">Farm Blogs</h2>
-                <v-select
-                  v-model="publishedFilter"
-                  :items="publishedOptions"
-                  label="Filter"
-                  dense
-                  outlined
-                  hide-details
-                  class="filter-select"
-                  @change="fetchFarmBlogs"
-                ></v-select>
-              </div>
-              
-              <div v-if="blogs.length === 0" class="text-center pa-8 grey lighten-3 rounded">
-                <v-icon large color="grey">mdi-text-box-outline</v-icon>
-                <p class="text-body-1 mt-3 grey--text">No blogs available for this farm yet.</p>
-              </div>
-              
-              <v-row v-else>
-                <v-col cols="12" v-for="blog in blogs" :key="blog.id">
-                  <v-hover v-slot="{ hover }">
-                    <v-card
-                      :elevation="hover ? 5 : 1"
-                      class="blog-card transition-ease"
-                      :to="`/farms/${farmId}/blogs/${blog.id}`"
-                    >
-                      <div class="d-flex flex-column flex-md-row">
-                        <v-img
-                          :src="blog.coverImageUrl || require('@/assets/pic/plantation.jpg')"
-                          class="blog-image"
-                          height="200"
-                          width="300"
-                        ></v-img>
-                        <div class="d-flex flex-column justify-space-between pa-4 flex-grow-1">
-                          <div>
-                            <div class="d-flex align-center mb-2">
-                              <h3 class="text-h5 font-weight-bold">{{ blog.title }}</h3>
-                              <v-chip
-                                v-if="blog.published"
-                                color="success"
-                                x-small
-                                class="ml-3"
-                              >Published</v-chip>
-                              <v-chip
-                                v-else
-                                color="grey"
-                                x-small
-                                class="ml-3"
-                              >Draft</v-chip>
-                            </div>
-                            <p class="text-body-2 blog-summary">{{ blog.summary }}</p>
-                          </div>
-                          <div class="d-flex justify-space-between align-center">
-                            <span class="text-caption grey--text">
-                              {{ formatDate(blog.createdAt) }}
-                            </span>
-                            <v-btn
-                              text
-                              color="primary"
-                              small
-                              :ripple="false"
-                            >
-                              Read More
-                              <v-icon right small>mdi-arrow-right</v-icon>
-                            </v-btn>
-                          </div>
-                        </div>
-                      </div>
-                    </v-card>
-                  </v-hover>
-                </v-col>
-              </v-row>
-              
-              <!-- 分页 -->
-              <div class="text-center mt-6" v-if="pagination.totalPages > 1">
-                <v-pagination
-                  v-model="currentPage"
-                  :length="pagination.totalPages"
-                  :total-visible="7"
-                  @input="handlePageChange"
-                ></v-pagination>
-              </div>
-            </div>
-          </transition>
-          
-          <!-- 返回按钮 -->
-          <v-btn
-            color="primary"
-            outlined
-            class="mt-10"
-            @click="$router.push('/plantation')"
-          >
-            <v-icon left>mdi-arrow-left</v-icon>
-            Back to Plantations
-          </v-btn>
-        </v-col>
-      </v-row>
+      <!-- 返回按钮 -->
+      <div class="back-link">
+        <a @click="$router.push('/plantation')">BACK TO PLANTATIONS</a>
+      </div>
     </template>
 
     <!-- 错误提示 -->
@@ -228,7 +127,7 @@
         </v-btn>
       </template>
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -265,6 +164,17 @@ export default {
   created() {
     this.farmId = this.$route.params.id
     this.fetchFarmDetail()
+    // 添加设计变量到文档根
+    document.documentElement.style.setProperty('--green-900', '#114232')
+    document.documentElement.style.setProperty('--green-700', '#19624c')
+    document.documentElement.style.setProperty('--green-500', '#2f8f5b')
+    document.documentElement.style.setProperty('--sand-50', '#faf9f6')
+    document.documentElement.style.setProperty('--sand-100', '#efece6')
+    document.documentElement.style.setProperty('--sand-300', '#d7d2c8')
+    document.documentElement.style.setProperty('--text-main', '#1f1f1f')
+    document.documentElement.style.setProperty('--radius-lg', '18px')
+    document.documentElement.style.setProperty('--radius-md', '12px')
+    document.documentElement.style.setProperty('--shadow-sm', '0 4px 12px rgba(0, 0, 0, .06)')
   },
   methods: {
     async fetchFarmDetail() {
@@ -346,93 +256,67 @@ export default {
 </script>
 
 <style scoped>
+/* ----------  Reset  ---------- */
+*{box-sizing:border-box;}
+
+/* ----------  Hero Section (Farm Name)  ---------- */
+.hero{
+  background:linear-gradient(135deg, var(--green-700) 0%, var(--green-500) 100%);
+  color:#fff;
+  padding:4rem 1rem 3rem;
+}
+.hero-inner{max-width:1200px;margin:auto;display:flex;flex-direction:column;gap:1.25rem}
+.hero h1{font-size:2.75rem;font-weight:700;line-height:1.2}
+.hero-meta{display:flex;flex-wrap:wrap;gap:1rem;font-size:.95rem;font-weight:300;opacity:.95}
+.badge-cert{background:#fff;color:var(--green-700);padding:.2rem .8rem;border-radius:9999px;font-size:.75rem;font-weight:600;display:inline-flex;align-items:center;}
+
+/* ----------  Layout ---------- */
+.container{max-width:1200px;margin:auto;padding:2rem 1rem;display:grid;grid-template-columns:minmax(250px, 300px) 1fr;gap:2rem}
+@media(max-width:900px){.container{grid-template-columns:1fr}}
+
+/* ----------  Farm Details Card ---------- */
+.card{background:#fff;border-radius:var(--radius-lg);padding:1.75rem;box-shadow:var(--shadow-sm)}
+.card h3{font-size:1.15rem;margin-bottom:1rem;color:var(--green-700)}
+.farm-photo{display:flex;justify-content:center;align-items:center;background:var(--sand-100);border-radius:var(--radius-lg);overflow:hidden;max-width:100%;height:300px;margin-bottom:1.5rem}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:.9rem}
+.detail-grid div span{display:block;font-size:.7rem;color:#666;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.15rem}
+.about{margin-top:1.25rem;font-size:.9rem;line-height:1.6;color:#555}
+
+/* ----------  Blog Section ---------- */
+.blogs-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.blogs-header h2{font-size:1.5rem;color:var(--green-700)}
+.filter-select{max-width:160px;}
+.blog-list{display:flex;flex-direction:column;gap:1.25rem}
+.blog-card{background:#fff;border-radius:var(--radius-md);padding:1.5rem;box-shadow:var(--shadow-sm);transition:transform .2s; cursor:pointer;}
+.blog-card:hover{transform:translateY(-4px)}
+.blog-title{font-size:1.15rem;font-weight:600;margin-bottom:.4rem}
+.blog-meta{display:flex;align-items:center;gap:.5rem;font-size:.7rem;color:#777;margin-bottom:.6rem}
+.blog-meta .badge{background:var(--sand-100);padding:.15rem .55rem;border-radius:9999px;font-weight:600}
+.blog-meta .badge.published{background:#e8f5e9;color:#2e7d32;}
+.blog-meta .badge.draft{background:#ececec;color:#666;}
+.blog-excerpt{font-size:.9rem;color:#555;line-height:1.55;
+  max-height:4.5em;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;
+  -webkit-line-clamp:3;-webkit-box-orient:vertical;}
+.blog-footer{margin-top:.9rem;display:flex;justify-content:space-between;align-items:center;font-size:.78rem}
+.blog-footer a{color:var(--green-700);font-weight:600}
+.blog-footer a:hover{color:var(--green-900)}
+
+/* ----------  Back Link ---------- */
+.back-link{text-align:center;margin:3rem 0}
+.back-link a{display:inline-block;border:1.5px solid var(--green-700);padding:.6rem 2rem;border-radius:9999px;font-size:.85rem;font-weight:600;color:var(--green-700);transition:.2s;cursor:pointer;}
+.back-link a:hover{background:var(--green-700);color:#fff}
+
+/* Empty state */
+.empty-state {
+  background-color: var(--sand-50);
+  border-radius: var(--radius-md);
+  padding: 3rem 1rem;
+}
+
 .farm-detail {
+  background-color: var(--sand-50);
+  font-family: "Poppins", sans-serif;
+  color: var(--text-main);
   min-height: 100vh;
-  background-color: #fff;
-  padding-bottom: 100px;
-}
-
-.farm-title {
-  line-height: 1.3;
-  background: linear-gradient(to right, var(--primary-color), #408e6c);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-}
-
-.farm-cover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-.image-credit {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-top-left-radius: 8px;
-}
-
-.farm-info-card {
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.info-item {
-  display: flex;
-  align-items: flex-start;
-}
-
-.info-label {
-  font-weight: 500;
-  color: #666;
-  min-width: 120px;
-}
-
-.info-value {
-  color: #333;
-}
-
-.blog-card {
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-
-.blog-image {
-  flex-shrink: 0;
-}
-
-.blog-summary {
-  max-height: 4.5em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-
-.transition-ease {
-  transition: all 0.3s ease;
-}
-
-.filter-select {
-  max-width: 200px;
-}
-
-/* Fade Animation */
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-
-@media (max-width: 960px) {
-  .blog-image {
-    width: 100% !important;
-  }
 }
 </style> 

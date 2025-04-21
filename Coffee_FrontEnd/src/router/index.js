@@ -15,6 +15,8 @@ import AdminDashboard from '../views/admin/AdminDashboard.vue'
 import AdminCreateFarmer from '../views/admin/AdminCreateFarmer.vue'
 import FarmDetail from '../views/FarmDetail.vue'
 import FarmBlogDetail from '../views/FarmBlogDetail.vue'
+import FarmerDashboard from '../views/FarmerDashboard.vue'
+import BlogEditor from '../views/BlogEditor.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -91,6 +93,18 @@ const routes = [
     meta: { requiresAuth: true, adminOnly: true }
   },
   {
+    path: '/farmer-dashboard',
+    name: 'FarmerDashboard',
+    component: FarmerDashboard,
+    meta: { requiresAuth: true, farmerOnly: true }
+  },
+  {
+    path: '/blog-editor',
+    name: 'BlogEditor',
+    component: BlogEditor,
+    meta: { requiresAuth: true, farmerOnly: true }
+  },
+  {
     path: '/farms/:id',
     name: 'FarmDetail',
     component: FarmDetail
@@ -112,14 +126,18 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const adminOnly = to.matched.some(record => record.meta.adminOnly)
+  const farmerOnly = to.matched.some(record => record.meta.farmerOnly)
   const isAuthenticated = store.getters['auth/isAuthenticated']
   const currentUser = store.getters['auth/currentUser']
   const isAdmin = currentUser && currentUser.role === 'ADMIN'
+  const isFarmer = currentUser && currentUser.role === 'FARMER'
 
   if (requiresAuth && !isAuthenticated) {
     next('/login')
   } else if (adminOnly && !isAdmin) {
     next('/')  // 如果需要管理员权限但用户不是管理员，重定向到首页
+  } else if (farmerOnly && !isFarmer) {
+    next('/')  // 如果需要农民权限但用户不是农民，重定向到首页
   } else {
     next()
   }

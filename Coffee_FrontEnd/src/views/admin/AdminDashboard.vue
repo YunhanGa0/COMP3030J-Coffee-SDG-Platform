@@ -1,47 +1,149 @@
 <template>
   <div class="admin-dashboard">
-    <v-container>
+    <v-container fluid>
+      <!-- Admin Header -->
       <v-row>
         <v-col cols="12">
-          <h1 class="admin-title primary--text">Admin Dashboard</h1>
-          <v-divider class="mt-2 mb-6"></v-divider>
-        </v-col>
-      </v-row>
-
-      <!-- Feature Cards -->
-      <v-row>
-        <v-col cols="12" md="4">
-          <v-card class="admin-card" height="200" to="/article/editor" hover>
-            <v-card-text class="d-flex flex-column justify-center align-center h-100">
-              <v-icon size="48" color="primary">mdi-pencil</v-icon>
-              <div class="text-h5 mt-4">Create Article</div>
-              <div class="text-body-2 text-center mt-2">Publish new article content</div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" md="4">
-          <v-card class="admin-card" height="200" to="/admin/create-farmer" hover>
-            <v-card-text class="d-flex flex-column justify-center align-center h-100">
-              <v-icon size="48" color="green">mdi-account-plus</v-icon>
-              <div class="text-h5 mt-4">Add Farmer</div>
-              <div class="text-body-2 text-center mt-2">Create accounts for coffee producers</div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" md="4">
-          <v-card class="admin-card" height="200" hover>
-            <v-card-text class="d-flex flex-column justify-center align-center h-100">
-              <v-icon size="48" color="blue">mdi-clipboard-list</v-icon>
-              <div class="text-h5 mt-4">Farm Review</div>
-              <div class="text-body-2 text-center mt-2">Review farm certification applications</div>
-            </v-card-text>
+          <v-card class="pa-4 elevation-1">
+            <div class="d-flex align-center">
+              <v-avatar size="60" color="primary" class="mr-4">
+                <v-icon size="40" color="white">mdi-shield-account</v-icon>
+              </v-avatar>
+              <div>
+                <h1 class="text-h4 font-weight-bold primary--text mb-1">Admin Dashboard</h1>
+                <div class="text-subtitle-1 grey--text">
+                  Manage content, coffee farmers, and platform data
+                </div>
+              </div>
+              <v-spacer></v-spacer>
+              <v-btn 
+                color="primary" 
+                class="ml-2" 
+                @click="refreshData"
+                :loading="loading"
+              >
+                <v-icon left>mdi-refresh</v-icon>
+                Refresh Data
+              </v-btn>
+            </div>
           </v-card>
         </v-col>
       </v-row>
-
-      <!-- Statistics -->
+      
+      <!-- Admin Functions -->
+      <v-row class="mt-6">
+        <v-col cols="12">
+          <h2 class="admin-subtitle">Admin Functions</h2>
+          <v-divider class="mt-2 mb-4"></v-divider>
+        </v-col>
+        
+        <!-- Create Article Card -->
+        <v-col cols="12" md="4">
+          <v-card 
+            class="admin-card h-100"
+            hover
+            @click="$router.push('/article/editor')"
+          >
+            <v-img
+              height="150"
+              src="@/assets/admin/article.jpg"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              class="white--text align-end"
+            >
+              <v-card-title>Create Article</v-card-title>
+            </v-img>
+            <v-card-text class="text-center pt-4">
+              <v-icon size="64" color="green">mdi-newspaper-plus</v-icon>
+              <div class="mt-3 subtitle-1">
+                Create new coffee-related articles and sustainability content
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn 
+                color="primary" 
+                text 
+                @click.stop="$router.push('/article/editor')"
+              >
+                Create
+                <v-icon right>mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        
+        <!-- Add Farmer Card -->
+        <v-col cols="12" md="4">
+          <v-card 
+            class="admin-card h-100"
+            hover
+            @click="showCreateFarmerDialog"
+          >
+            <v-img
+              height="150"
+              src="@/assets/admin/farmer.jpg"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              class="white--text align-end"
+            >
+              <v-card-title>Add Farmer</v-card-title>
+            </v-img>
+            <v-card-text class="text-center pt-4">
+              <v-icon size="64" color="brown">mdi-account-plus</v-icon>
+              <div class="mt-3 subtitle-1">
+                Create accounts for coffee farmers to join the platform
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn 
+                color="primary" 
+                text 
+                @click.stop="showCreateFarmerDialog"
+              >
+                Create
+                <v-icon right>mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        
+        <!-- Farm Audit Card -->
+        <v-col cols="12" md="4">
+          <v-card 
+            class="admin-card h-100"
+            hover
+            @click="$router.push('/admin/farm-review')"
+          >
+            <v-img
+              height="150"
+              src="@/assets/admin/farm.jpg"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              class="white--text align-end"
+            >
+              <v-card-title>Farm Audit</v-card-title>
+            </v-img>
+            <v-card-text class="text-center pt-4">
+              <v-icon size="64" color="teal">mdi-clipboard-check</v-icon>
+              <div class="mt-3 subtitle-1">
+                Review and verify sustainable practices of coffee farms
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn 
+                color="primary" 
+                text 
+                @click.stop="$router.push('/admin/farm-review')"
+              >
+                Review
+                <v-icon right>mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+      
+      <!-- Platform Statistics -->
       <v-row class="mt-8">
         <v-col cols="12">
           <h2 class="admin-subtitle">Platform Statistics</h2>
@@ -49,100 +151,279 @@
         </v-col>
         
         <v-col cols="12" md="3">
-          <v-card class="stat-card" color="primary" dark>
+          <v-card class="stat-card">
             <v-card-text>
-              <div class="text-h4 font-weight-bold">{{ stats.totalArticles }}</div>
-              <div class="text-subtitle-2">Total Articles</div>
+              <div class="d-flex align-center">
+                <v-avatar 
+                  color="primary" 
+                  size="50" 
+                  class="mr-3"
+                >
+                  <v-icon color="white">mdi-account-multiple</v-icon>
+                </v-avatar>
+                <div>
+                  <div class="text-h5 font-weight-bold">{{ formatNumber(statistics.usersCount) }}</div>
+                  <div class="text-body-2 grey--text">Users</div>
+                </div>
+              </div>
             </v-card-text>
-            <v-progress-linear
-              v-if="loading.stats"
-              indeterminate
-              color="white"
-            ></v-progress-linear>
           </v-card>
         </v-col>
         
         <v-col cols="12" md="3">
-          <v-card class="stat-card" color="success" dark>
+          <v-card class="stat-card">
             <v-card-text>
-              <div class="text-h4 font-weight-bold">{{ stats.totalFarmers }}</div>
-              <div class="text-subtitle-2">Registered Farmers</div>
+              <div class="d-flex align-center">
+                <v-avatar 
+                  color="green" 
+                  size="50" 
+                  class="mr-3"
+                >
+                  <v-icon color="white">mdi-newspaper</v-icon>
+                </v-avatar>
+                <div>
+                  <div class="text-h5 font-weight-bold">{{ formatNumber(statistics.articlesCount) }}</div>
+                  <div class="text-body-2 grey--text">Articles</div>
+                </div>
+              </div>
             </v-card-text>
-            <v-progress-linear
-              v-if="loading.stats"
-              indeterminate
-              color="white"
-            ></v-progress-linear>
           </v-card>
         </v-col>
         
         <v-col cols="12" md="3">
-          <v-card class="stat-card" color="warning" dark>
+          <v-card class="stat-card">
             <v-card-text>
-              <div class="text-h4 font-weight-bold">{{ stats.certifiedFarms }}</div>
-              <div class="text-subtitle-2">Certified Farms</div>
+              <div class="d-flex align-center">
+                <v-avatar 
+                  color="brown" 
+                  size="50" 
+                  class="mr-3"
+                >
+                  <v-icon color="white">mdi-account-hard-hat</v-icon>
+                </v-avatar>
+                <div>
+                  <div class="text-h5 font-weight-bold">{{ formatNumber(statistics.farmersCount) }}</div>
+                  <div class="text-body-2 grey--text">Farmers</div>
+                </div>
+              </div>
             </v-card-text>
-            <v-progress-linear
-              v-if="loading.stats"
-              indeterminate
-              color="white"
-            ></v-progress-linear>
           </v-card>
         </v-col>
         
         <v-col cols="12" md="3">
-          <v-card class="stat-card" color="info" dark>
+          <v-card class="stat-card">
             <v-card-text>
-              <div class="text-h4 font-weight-bold">{{ stats.totalUsers }}</div>
-              <div class="text-subtitle-2">Total Users</div>
+              <div class="d-flex align-center">
+                <v-avatar 
+                  color="teal" 
+                  size="50" 
+                  class="mr-3"
+                >
+                  <v-icon color="white">mdi-home</v-icon>
+                </v-avatar>
+                <div>
+                  <div class="text-h5 font-weight-bold">{{ formatNumber(statistics.farmsCount) }}</div>
+                  <div class="text-body-2 grey--text">Farms</div>
+                </div>
+              </div>
             </v-card-text>
-            <v-progress-linear
-              v-if="loading.stats"
-              indeterminate
-              color="white"
-            ></v-progress-linear>
           </v-card>
         </v-col>
       </v-row>
-
+      
       <!-- Recent Articles -->
       <v-row class="mt-8">
         <v-col cols="12">
           <h2 class="admin-subtitle">Recent Articles</h2>
           <v-divider class="mt-2 mb-4"></v-divider>
-        </v-col>
-        
-        <v-col cols="12">
+          
           <v-data-table
             :headers="articleHeaders"
             :items="recentArticles"
             :items-per-page="5"
-            :loading="loading.articles"
+            :loading="loadingArticles"
             class="elevation-1 rounded"
           >
-            <template v-slot:item.action="{ item }">
-              <v-btn small text color="primary" :to="'/articles/' + item.id">
-                View
-              </v-btn>
-              <v-btn small text color="green" :to="'/article/editor/' + item.id">
-                Edit
-              </v-btn>
-              <v-btn small text color="red" @click="deleteArticle(item.id)">
-                Delete
-              </v-btn>
+            <template v-slot:item.createdAt="{ item }">
+              {{ formatDate(item.createdAt) }}
             </template>
-
-            <template v-slot:no-data>
-              <div v-if="error.articles" class="text-center red--text">
-                {{ error.articles }}
-              </div>
-              <div v-else class="text-center">
-                No articles found
-              </div>
+            
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                x-small
+                icon
+                color="primary"
+                @click="viewArticle(item)"
+              >
+                <v-icon>mdi-eye</v-icon>
+              </v-btn>
+              <v-btn
+                x-small
+                icon
+                color="green"
+                @click="editArticle(item)"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn
+                x-small
+                icon
+                color="red"
+                @click="deleteArticle(item)"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
             </template>
           </v-data-table>
         </v-col>
       </v-row>
+
+      <!-- Farmers List -->
+      <v-row class="mt-8">
+        <v-col cols="12">
+          <h2 class="admin-subtitle">Registered Farmers</h2>
+          <v-divider class="mt-2 mb-4"></v-divider>
+          
+          <v-data-table
+            :headers="farmerHeaders"
+            :items="farmers"
+            :items-per-page="5"
+            :loading="loadingFarmers"
+            class="elevation-1 rounded"
+          >
+            <template v-slot:item.createdAt="{ item }">
+              {{ formatDate(item.createdAt) }}
+            </template>
+            
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                x-small
+                icon
+                color="primary"
+                @click="viewFarmer(item)"
+              >
+                <v-icon>mdi-eye</v-icon>
+              </v-btn>
+            </template>
+          </v-data-table>
+        </v-col>
+      </v-row>
+
+      <!-- Farms List -->
+      <v-row class="mt-8 mb-6">
+        <v-col cols="12">
+          <h2 class="admin-subtitle">Registered Farms</h2>
+          <v-divider class="mt-2 mb-4"></v-divider>
+          
+          <v-data-table
+            :headers="farmHeaders"
+            :items="farms"
+            :items-per-page="5"
+            :loading="loadingFarms"
+            class="elevation-1 rounded"
+          >
+            <template v-slot:item.createdAt="{ item }">
+              {{ formatDate(item.createdAt) }}
+            </template>
+            
+            <template v-slot:item.status="{ item }">
+              <v-chip
+                :color="getFarmStatusColor(item.status)"
+                small
+              >
+                {{ item.status }}
+              </v-chip>
+            </template>
+            
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                x-small
+                icon
+                color="primary"
+                @click="viewFarm(item)"
+              >
+                <v-icon>mdi-eye</v-icon>
+              </v-btn>
+            </template>
+          </v-data-table>
+        </v-col>
+      </v-row>
+
+      <!-- Create Farmer Dialog -->
+      <v-dialog v-model="createFarmerDialog" max-width="500px">
+        <v-card>
+          <v-card-title class="primary white--text">
+            <v-icon left color="white">mdi-account-plus</v-icon>
+            Create Farmer Account
+          </v-card-title>
+
+          <v-card-text class="pt-4">
+            <v-form ref="farmerForm" v-model="farmerFormValid">
+              <v-text-field
+                v-model="newFarmer.username"
+                :rules="usernameRules"
+                label="Username"
+                required
+                outlined
+                dense
+              ></v-text-field>
+
+              <v-text-field
+                v-model="newFarmer.email"
+                :rules="emailRules"
+                label="Email"
+                type="email"
+                required
+                outlined
+                dense
+              ></v-text-field>
+
+              <v-text-field
+                v-model="newFarmer.password"
+                :rules="passwordRules"
+                label="Password"
+                :type="showPassword ? 'text' : 'password'"
+                required
+                outlined
+                dense
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPassword = !showPassword"
+              ></v-text-field>
+
+              <v-text-field
+                v-model="newFarmer.confirmPassword"
+                :rules="[(v) => !!v || 'Please confirm password', (v) => v === newFarmer.password || 'Passwords do not match']"
+                label="Confirm Password"
+                :type="showConfirmPassword ? 'text' : 'password'"
+                required
+                outlined
+                dense
+                :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showConfirmPassword = !showConfirmPassword"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+
+          <v-card-actions class="pb-4 px-4">
+            <v-spacer></v-spacer>
+            <v-btn
+              color="grey"
+              text
+              @click="closeCreateFarmerDialog"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="primary"
+              :loading="creatingFarmer"
+              :disabled="!farmerFormValid"
+              @click="createFarmer"
+            >
+              Create Account
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </div>
 </template>
@@ -160,80 +441,258 @@ export default {
         { text: 'Author', value: 'author' },
         { text: 'Publish Date', value: 'publishDate' },
         { text: 'Status', value: 'status' },
-        { text: 'Actions', value: 'action', sortable: false, width: '150px' }
+        { text: 'Actions', value: 'actions', sortable: false, width: '150px' }
+      ],
+      farmerHeaders: [
+        { text: 'ID', value: 'id', width: '80px' },
+        { text: 'Username', value: 'username' },
+        { text: 'Email', value: 'email' },
+        { text: 'Registration Date', value: 'createdAt' },
+        { text: 'Actions', value: 'actions', sortable: false, width: '100px' }
+      ],
+      farmHeaders: [
+        { text: 'ID', value: 'id', width: '80px' },
+        { text: 'Farm Name', value: 'name' },
+        { text: 'Location', value: 'location' },
+        { text: 'Status', value: 'status' },
+        { text: 'Registration Date', value: 'createdAt' },
+        { text: 'Actions', value: 'actions', sortable: false, width: '100px' }
       ],
       recentArticles: [],
-      stats: {
-        totalArticles: 0,
-        totalFarmers: 0,
-        certifiedFarms: 0,
-        totalUsers: 0
+      farmers: [],
+      farms: [],
+      statistics: {
+        usersCount: 0,
+        articlesCount: 0,
+        farmersCount: 0,
+        farmsCount: 0
       },
-      loading: {
-        articles: false,
-        stats: false
+      loading: false,
+      loadingArticles: false,
+      loadingFarmers: false,
+      loadingFarms: false,
+      createFarmerDialog: false,
+      farmerFormValid: false,
+      creatingFarmer: false,
+      showPassword: false,
+      showConfirmPassword: false,
+      newFarmer: {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
       },
-      error: {
-        articles: null,
-        stats: null
-      }
+      usernameRules: [
+        v => !!v || 'Username is required',
+        v => (v && v.length >= 3) || 'Username must be at least 3 characters'
+      ],
+      emailRules: [
+        v => !!v || 'Email is required',
+        v => /.+@.+\..+/.test(v) || 'Email must be valid'
+      ],
+      passwordRules: [
+        v => !!v || 'Password is required',
+        v => (v && v.length >= 6) || 'Password must be at least 6 characters'
+      ],
     }
   },
-  async created() {
-    await Promise.all([
-      this.fetchArticles(),
-      this.fetchStats()
-    ])
+  mounted() {
+    this.fetchData();
   },
   methods: {
+    async fetchData() {
+      this.loading = true;
+      try {
+        await Promise.all([
+          this.fetchArticles(),
+          this.fetchFarmers(),
+          this.fetchFarms(),
+          this.fetchStatistics()
+        ]);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    
     async fetchArticles() {
-      this.loading.articles = true
-      this.error.articles = null
+      this.loadingArticles = true;
       try {
-        const response = await axios.get('/api/articles')
+        const response = await axios.get('/api/articles');
         if (response.data.code === 200) {
-          this.recentArticles = response.data.data.map(article => ({
-            id: article.id,
-            title: article.title,
-            author: article.author || 'Admin',
-            publishDate: new Date(article.createTime || article.createDate).toLocaleDateString(),
-            status: article.status === 1 ? 'Published' : 'Draft'
-          }))
-          this.stats.totalArticles = this.recentArticles.length
+          this.recentArticles = response.data.data;
+        } else {
+          console.error('Error fetching articles:', response.data.message);
         }
       } catch (error) {
-        console.error('Failed to fetch articles:', error)
-        this.error.articles = 'Failed to fetch articles'
+        console.error('Error fetching articles:', (error.response && error.response.data && error.response.data.message) || error.message);
       } finally {
-        this.loading.articles = false
+        this.loadingArticles = false;
       }
     },
-    async fetchStats() {
-      this.loading.stats = true
-      this.error.stats = null
+    
+    async fetchFarmers() {
+      this.loadingFarmers = true;
       try {
-        const response = await axios.get('/api/admin/stats')
+        const response = await axios.get('/api/admin/farmers');
         if (response.data.code === 200) {
-          this.stats = response.data.data
+          this.farmers = response.data.data;
+        } else {
+          console.error('Error fetching farmers:', response.data.message);
         }
       } catch (error) {
-        console.error('Failed to fetch statistics:', error)
-        this.error.stats = 'Failed to fetch statistics'
+        console.error('Error fetching farmers:', (error.response && error.response.data && error.response.data.message) || error.message);
       } finally {
-        this.loading.stats = false
+        this.loadingFarmers = false;
       }
     },
-    async deleteArticle(articleId) {
+
+    async fetchFarms() {
+      this.loadingFarms = true;
       try {
-        const response = await axios.delete(`/api/articles/${articleId}`)
+        const response = await axios.get('/api/farms');
         if (response.data.code === 200) {
-          this.recentArticles = this.recentArticles.filter(article => article.id !== articleId)
-          this.stats.totalArticles = this.recentArticles.length
+          this.farms = response.data.data.content;
+        } else {
+          console.error('Error fetching farms:', response.data.message);
         }
       } catch (error) {
-        console.error('Failed to delete article:', error)
+        console.error('Error fetching farms:', (error.response && error.response.data && error.response.data.message) || error.message);
+      } finally {
+        this.loadingFarms = false;
       }
-    }
+    },
+
+    async fetchStatistics() {
+      try {
+        // 获取用户统计
+        const usersResponse = await axios.get('/api/admin/farmers');
+        const farmersCount = usersResponse.data.code === 200 ? usersResponse.data.data.length : 0;
+        
+        // 获取文章统计
+        const articlesResponse = await axios.get('/api/articles');
+        const articlesCount = articlesResponse.data.code === 200 ? articlesResponse.data.data.length : 0;
+        
+        // 获取农场统计
+        const farmsResponse = await axios.get('/api/farms');
+        const farmsCount = farmsResponse.data.code === 200 ? farmsResponse.data.data.content.length : 0;
+        
+        this.statistics = {
+          usersCount: farmersCount + 1, // +1 表示管理员账号
+          articlesCount: articlesCount,
+          farmersCount: farmersCount,
+          farmsCount: farmsCount
+        };
+      } catch (error) {
+        console.error('Error fetching statistics:', (error.response && error.response.data && error.response.data.message) || error.message);
+      }
+    },
+    
+    viewArticle(item) {
+      this.$router.push(`/article/${item.id}`);
+    },
+    
+    editArticle(item) {
+      this.$router.push(`/article/editor/${item.id}`);
+    },
+    
+    async deleteArticle(item) {
+      if (confirm('Are you sure you want to delete this article?')) {
+        try {
+          const response = await axios.delete(`/api/articles/${item.id}`);
+          if (response.data.code === 200) {
+            this.fetchArticles();
+            this.fetchStatistics();
+          }
+        } catch (error) {
+          console.error('Error deleting article:', error);
+        }
+      }
+    },
+    
+    viewFarmer(item) {
+      // 这里可以跳转到农户详情页面
+      console.log('View farmer:', item);
+    },
+
+    viewFarm(item) {
+      // 这里可以跳转到农场详情页面
+      this.$router.push(`/farms/${item.id}`);
+    },
+
+    getFarmStatusColor(status) {
+      const statusColors = {
+        PENDING: 'warning',
+        APPROVED: 'success',
+        REJECTED: 'error',
+        SUSPENDED: 'grey'
+      };
+      return statusColors[status] || 'primary';
+    },
+    
+    refreshData() {
+      this.fetchData();
+    },
+    
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString();
+    },
+    
+    formatNumber(number) {
+      return number.toLocaleString();
+    },
+
+    showCreateFarmerDialog() {
+      this.createFarmerDialog = true;
+    },
+
+    closeCreateFarmerDialog() {
+      this.createFarmerDialog = false;
+      this.$refs.farmerForm.reset();
+      this.newFarmer = {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      };
+    },
+
+    async createFarmer() {
+      if (this.$refs.farmerForm.validate()) {
+        this.creatingFarmer = true;
+        try {
+          const response = await axios.post('/api/admin/createFarmer', {
+            username: this.newFarmer.username,
+            email: this.newFarmer.email,
+            password: this.newFarmer.password
+          });
+
+          if (response.data.code === 200) {
+            // 显示成功消息
+            this.$emit('show-snackbar', {
+              color: 'success',
+              text: 'Farmer account created successfully'
+            });
+            
+            // 关闭对话框并刷新数据
+            this.closeCreateFarmerDialog();
+            this.fetchFarmers();
+            this.fetchStatistics();
+          } else {
+            throw new Error(response.data.message);
+          }
+        } catch (error) {
+          this.$emit('show-snackbar', {
+            color: 'error',
+            text: (error.response && error.response.data && error.response.data.message) || error.message
+          });
+        } finally {
+          this.creatingFarmer = false;
+        }
+      }
+    },
   }
 }
 </script>
