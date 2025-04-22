@@ -36,7 +36,7 @@ public class CoffeeBeanService {
 
     @Transactional
     public CoffeeBean createCoffeeBean(CreateCoffeeBeanRequest request) {
-        // 假设当前用户已登录，且可以通过 farmRepository 找到其所属农庄
+
         Farm farm = farmRepository.findByUserId(getCurrentUserId())
                 .orElseThrow(() -> new RuntimeException("当前用户未绑定农庄"));
 
@@ -62,10 +62,9 @@ public class CoffeeBeanService {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            String username = jwtUtil.getUsernameFromToken(token);
-            User user = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new RuntimeException("用户不存在"));
-            return user.getId();
+            Long id = jwtUtil.getUserIdFromToken(token);
+
+            return id;
         }
         throw new RuntimeException("未提供合法的Token");
     }

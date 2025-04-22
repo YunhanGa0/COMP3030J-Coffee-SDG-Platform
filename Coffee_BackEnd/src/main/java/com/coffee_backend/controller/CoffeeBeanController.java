@@ -5,6 +5,7 @@ import com.coffee_backend.dto.CreateCoffeeBeanRequest;
 import com.coffee_backend.entity.CoffeeBean;
 import com.coffee_backend.service.CoffeeBeanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,6 +22,7 @@ public class CoffeeBeanController {
      * 农庄上传咖啡豆商品
      * POST /api/farmers/coffee-beans
      */
+    @PreAuthorize("hasAuthority('FARMER')")
     @PostMapping
     public ApiResponse createCoffeeBean(@RequestBody CreateCoffeeBeanRequest request) {
         CoffeeBean coffeeBean = coffeeBeanService.createCoffeeBean(request);
