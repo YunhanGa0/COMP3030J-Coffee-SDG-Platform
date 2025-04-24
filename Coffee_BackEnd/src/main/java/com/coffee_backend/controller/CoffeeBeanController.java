@@ -40,4 +40,28 @@ public class CoffeeBeanController {
         coffeeBeanService.deleteCoffeeBean(id);
         return ApiResponse.success();
     }
+
+    /**
+     * 农庄获取咖啡豆商品列表
+     * GET /api/farmers/coffee-beans
+     */
+    @PreAuthorize("hasAuthority('FARMER')")
+    @GetMapping
+    public ApiResponse getCoffeeBeansList() {
+        return ApiResponse.success(coffeeBeanService.getCoffeeBeansList());
+    }
+
+    /**
+     * 农庄修改咖啡豆商品
+     * PUT /api/farmers/coffee-beans/{id}
+     */
+    @PreAuthorize("hasAuthority('FARMER')")
+    @PutMapping("/{id}")
+    public ApiResponse updateCoffeeBean(
+            @PathVariable Long id,
+            @RequestBody CreateCoffeeBeanRequest request // 可复用之前创建豆子的 DTO
+    ) {
+        coffeeBeanService.updateCoffeeBean(id, request);
+        return ApiResponse.success("");
+    }
 }
