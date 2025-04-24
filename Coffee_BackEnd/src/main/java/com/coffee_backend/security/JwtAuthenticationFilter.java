@@ -1,6 +1,9 @@
 package com.coffee_backend.security;
 
+import com.coffee_backend.dto.UserContextDTO;
+import com.coffee_backend.enumType.UserRole;
 import com.coffee_backend.util.JwtUtil;
+import com.coffee_backend.util.UserContext;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,6 +39,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Claims claims = jwtUtil.getAllClaimsFromToken(token);
                 String username = claims.getSubject();
                 String role = claims.get("role", String.class);
+
+                UserContextDTO userContextDTO = new UserContextDTO();
+                userContextDTO.setRole(UserRole.valueOf(role));
+                userContextDTO.setId(jwtUtil.getUserIdFromToken(token));
+                userContextDTO.setUsername(username);
+
+                UserContext.setUser(userContextDTO);
 
                 if (username != null && role != null) {
                     UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(

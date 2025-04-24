@@ -4,6 +4,7 @@ import com.coffee_backend.dto.ApiResponse;
 import com.coffee_backend.dto.PageQueryRequest;
 import com.coffee_backend.service.TechnicalTrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +24,7 @@ public class TrainingController {
         return technicalTrainingService.getTrainingInfo(id);
     }
 
+    @PreAuthorize("hasAuthority('FARMER')")
     @PostMapping("/{id}/apply")
     public ApiResponse applyTraining(@PathVariable Long id){
         return technicalTrainingService.applyTraining(id);

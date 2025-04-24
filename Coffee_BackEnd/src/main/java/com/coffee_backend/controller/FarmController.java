@@ -4,6 +4,7 @@ import com.coffee_backend.dto.*;
 import com.coffee_backend.service.FarmBlogService;
 import com.coffee_backend.service.FarmService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,16 +27,19 @@ public class FarmController {
         return farmService.getById(id);
     }
 
+    @PreAuthorize("hasAuthority('FARMER')")
     @PostMapping("/profile")
     public ApiResponse saveProfile(@RequestBody SaveProfileRequest saveProfileRequest){
         return farmService.saveProfile(saveProfileRequest);
     }
 
+    @PreAuthorize("hasAuthority('FARMER')")
     @PutMapping("/update")
     public ApiResponse updateProfile(@RequestBody SaveProfileRequest saveProfileRequest){
         return farmService.updateProfile(saveProfileRequest);
     }
 
+    @PreAuthorize("hasAuthority('FARMER')")
     @GetMapping("/status")
     public ApiResponse queryStatus(){
         return farmService.queryStatus();

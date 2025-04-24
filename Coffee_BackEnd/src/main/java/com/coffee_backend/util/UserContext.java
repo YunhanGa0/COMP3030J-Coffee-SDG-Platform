@@ -1,13 +1,15 @@
 package com.coffee_backend.util;
 
-public class UserContext {
-    private static final ThreadLocal<Long> tl = new ThreadLocal<>();
+import com.coffee_backend.dto.UserContextDTO;
 
-    public static void setUser(Long userId){
+public class UserContext {
+    private static final ThreadLocal<UserContextDTO> tl = new ThreadLocal<>();
+
+    public static void setUser(UserContextDTO userId){
         tl.set(userId);
     }
 
-    public static Long getUser(){
+    public static UserContextDTO getUser(){
         return tl.get();
     }
 

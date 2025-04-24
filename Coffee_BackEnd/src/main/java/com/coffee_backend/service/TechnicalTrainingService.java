@@ -213,9 +213,7 @@ public class TechnicalTrainingService {
 
     public ApiResponse applyTraining(Long id) {
         // DB needs to save a User object
-        Long userId = UserContext.getUser();
-        // TODO 记得在登录的时候保存userid 这里直接设置一个已经添加了的userId
-        userId = 23L;
+        Long userId = UserContext.getUser().getId();
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()){
             return ApiResponse.error(404, "User not found");
