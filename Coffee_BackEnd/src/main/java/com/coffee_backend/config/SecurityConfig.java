@@ -38,9 +38,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/articles/**").permitAll()
                         .requestMatchers("/api/farms/**").permitAll()
-                        .requestMatchers("/api/admin/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/api/trainings/**").permitAll()
+                        .requestMatchers("/api/financial-supports/**").permitAll()
                         //.requestMatchers("/api/farmers/coffee-beans").permitAll()
                         .anyRequest().authenticated()
 

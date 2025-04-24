@@ -2,10 +2,7 @@ package com.coffee_backend.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.coffee_backend.dto.*;
-import com.coffee_backend.entity.FarmBlog;
-import com.coffee_backend.entity.TechnicalTraining;
-import com.coffee_backend.entity.TrainingApplication;
-import com.coffee_backend.entity.User;
+import com.coffee_backend.entity.*;
 import com.coffee_backend.enumType.TrainingStatus;
 import com.coffee_backend.enumType.TrainingType;
 import com.coffee_backend.repo.TechnicalTrainingRepository;
@@ -222,6 +219,11 @@ public class TechnicalTrainingService {
         Optional<TechnicalTraining> optional = technicalTrainingRepository.findById(id);
         if (optional.isEmpty()){
             return ApiResponse.error(400, "Training not found");
+        }
+
+        Optional<TrainingApplication> repeat = trainingApplicationRepository.findByFarmerId(userId);
+        if (repeat.isPresent()){
+            return ApiResponse.error(400, "Training can not be applied, because you already applied it!");
         }
 
         TechnicalTraining training = optional.get();

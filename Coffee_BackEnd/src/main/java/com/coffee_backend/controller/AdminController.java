@@ -1,11 +1,14 @@
 package com.coffee_backend.controller;
 
 import com.coffee_backend.dto.ApiResponse;
+import com.coffee_backend.dto.FinancialSupportRequest;
 import com.coffee_backend.dto.SaveFarmerRequest;
 import com.coffee_backend.dto.TechTrainingRequest;
 import com.coffee_backend.service.AdminService;
+import com.coffee_backend.service.FinancialService;
 import com.coffee_backend.service.TechnicalTrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +21,8 @@ public class AdminController {
     @Autowired
     private TechnicalTrainingService technicalTrainingService;
 
+    @Autowired
+    private FinancialService financialService;
 
     @PostMapping("/createFarmer")
     public ApiResponse saveFarmer(@RequestBody SaveFarmerRequest request){
@@ -48,4 +53,11 @@ public class AdminController {
     public ApiResponse getTechTrainingFarmers(@PathVariable Long id){
         return technicalTrainingService.getTechTrainingFarmers(id);
     }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PostMapping("/financial-supports")
+    public ApiResponse createFinancialSupport(@RequestBody FinancialSupportRequest request){
+        return financialService.createFinancialSupport(request);
+    }
+
 }
