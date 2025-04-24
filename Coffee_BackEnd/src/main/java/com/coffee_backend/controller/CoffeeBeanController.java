@@ -28,4 +28,16 @@ public class CoffeeBeanController {
         CoffeeBean coffeeBean = coffeeBeanService.createCoffeeBean(request);
         return ApiResponse.created( coffeeBean);
     }
+
+
+    /**
+     * 农庄删除咖啡豆商品
+     * DELETE /api/farmers/coffee-beans/{id}
+     */
+    @PreAuthorize("hasAuthority('FARMER')")
+    @DeleteMapping("/{id}")
+    public ApiResponse deleteCoffeeBean(@PathVariable Long id) {
+        coffeeBeanService.deleteCoffeeBean(id);
+        return ApiResponse.success();
+    }
 }

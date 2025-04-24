@@ -68,4 +68,28 @@ public class CoffeeBeanService {
         }
         throw new RuntimeException("未提供合法的Token");
     }
+
+    @Transactional
+    public void deleteCoffeeBean(Long beanId) {
+        Long currentUserId = getCurrentUserId();
+
+        // 查找咖啡豆并验证归属权限
+        CoffeeBean bean = coffeeBeanRepository.findById(beanId)
+                .orElseThrow(() -> new RuntimeException("该咖啡豆不存在"));
+
+        // 校验该咖啡豆是否属于当前登录用户的农庄
+        Farm farm = farmRepository.findByUserId(currentUserId)
+                .orElseThrow(() -> new RuntimeException("当前用户未绑定农庄"));
+
+        if (!bean.getFarm().getId().equals(farm.getId())) {
+            throw new RuntimeException("无权删除不属于你的咖啡豆");
+        }
+
+        coffeeBeanRepository.deleteById(beanId);
+    }
+
+    public CoffeeBean getCoffeeBeanById(Long id) {
+        return coffeeBeanRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("找不到该咖啡豆"));
+    }
 }

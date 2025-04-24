@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/api/trainings/**").permitAll()
-                        //.requestMatchers("/api/farmers/coffee-beans").permitAll()
+                        .requestMatchers("/api/coffee-beans/**").permitAll()
                         .anyRequest().authenticated()
 
                 )
