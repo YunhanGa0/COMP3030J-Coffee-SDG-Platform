@@ -141,5 +141,19 @@ public class CoffeeBeanService {
         coffeeBeanRepository.save(bean);
     }
 
+    /**
+     * 根据农庄ID获取该农庄的所有咖啡豆
+     */
+    public List<CoffeeBeanDetailResponse> getCoffeeBeansByFarmId(Long farmId) {
+        // 查询该农庄所有咖啡豆
+        List<CoffeeBean> beans = coffeeBeanRepository.findByFarmId(farmId);
+
+        return beans.stream().map(bean -> {
+            CoffeeBeanDetailResponse dto = new CoffeeBeanDetailResponse();
+            BeanUtils.copyProperties(bean, dto);
+            return dto;
+        }).toList();
+    }
+
 
 }

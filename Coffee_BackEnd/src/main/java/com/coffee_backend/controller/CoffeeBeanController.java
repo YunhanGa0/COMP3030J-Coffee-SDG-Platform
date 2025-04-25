@@ -26,7 +26,7 @@ public class CoffeeBeanController {
     @PostMapping
     public ApiResponse createCoffeeBean(@RequestBody CreateCoffeeBeanRequest request) {
         CoffeeBean coffeeBean = coffeeBeanService.createCoffeeBean(request);
-        return ApiResponse.created( coffeeBean);
+        return ApiResponse.created(coffeeBean);
     }
 
 

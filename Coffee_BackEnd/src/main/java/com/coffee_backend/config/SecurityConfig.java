@@ -12,9 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +25,9 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private HandlerMappingIntrospector introspector;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/api/trainings/**").permitAll()
                         .requestMatchers("/api/coffee-beans/**").permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/{farmId}/coffee-beans")).permitAll()
                         .anyRequest().authenticated()
 
                 )
