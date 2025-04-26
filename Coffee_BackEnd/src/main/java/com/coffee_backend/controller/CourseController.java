@@ -1,0 +1,60 @@
+package com.coffee_backend.controller;
+
+import com.coffee_backend.dto.ApiResponse;
+import com.coffee_backend.dto.CourseRequest;
+import com.coffee_backend.dto.CourseVideoRequest;
+import com.coffee_backend.service.CourseService;
+import com.coffee_backend.service.CourseVideoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/courses")
+public class CourseController {
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private CourseVideoService courseVideoService;
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PostMapping
+    public ApiResponse createCourse(@RequestBody CourseRequest request){
+        return courseService.createCourse(request);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ApiResponse deleteCourse(@PathVariable Long id){
+        return courseService.deleteCourse(id);
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse queryCourse(@PathVariable Long id){
+        return courseService.queryCourse(id);
+    }
+
+    @GetMapping
+    public ApiResponse queryAllCourse(){
+        return courseService.queryAllCourse();
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PostMapping("/{courseId}/videos")
+    public ApiResponse createCourseVideo(@PathVariable Long courseId, @RequestBody CourseVideoRequest request){
+        return courseVideoService.createCourseVideo(courseId, request);
+    }
+
+    @GetMapping("/{courseId}/videos")
+    public ApiResponse queryCourseVideo(@PathVariable Long courseId){
+        return courseVideoService.queryCourseVideo(courseId);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @DeleteMapping("/{courseId}/videos")
+    public ApiResponse deleteCourseVideo(@PathVariable Long courseId){
+        return courseVideoService.deleteCourseVideo(courseId);
+    }
+}
