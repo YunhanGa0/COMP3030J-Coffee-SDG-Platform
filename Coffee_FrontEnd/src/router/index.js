@@ -18,6 +18,7 @@ import FarmBlogDetail from '../views/FarmBlogDetail.vue'
 import FarmerDashboard from '../views/FarmerDashboard.vue'
 import BlogEditor from '../views/BlogEditor.vue'
 import store from '../store'
+import CoffeeBeanDetail from "@/views/CoffeeBeanDetail.vue";
 
 Vue.use(VueRouter)
 
@@ -113,7 +114,13 @@ const routes = [
     path: '/farms/:farmId/blogs/:blogId',
     name: 'FarmBlogDetail',
     component: FarmBlogDetail
+  },
+  {
+    path: '/coffee-beans/:id',
+    name: 'CoffeeBeanDetail',
+    component: CoffeeBeanDetail
   }
+
 ]
 
 const router = new VueRouter({
@@ -143,4 +150,4 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-export default router 
+export default router
