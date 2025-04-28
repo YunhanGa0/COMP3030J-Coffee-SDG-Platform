@@ -59,7 +59,7 @@ public class CoffeeBeanController {
     @PutMapping("/{id}")
     public ApiResponse updateCoffeeBean(
             @PathVariable Long id,
-            @RequestBody CreateCoffeeBeanRequest request // 可复用之前创建豆子的 DTO
+            @RequestBody CreateCoffeeBeanRequest request
     ) {
         coffeeBeanService.updateCoffeeBean(id, request);
         return ApiResponse.success("");
