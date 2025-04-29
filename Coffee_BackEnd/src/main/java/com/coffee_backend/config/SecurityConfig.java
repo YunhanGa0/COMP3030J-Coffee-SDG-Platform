@@ -1,6 +1,7 @@
 package com.coffee_backend.config;
 
 import com.coffee_backend.security.JwtAuthenticationFilter;
+import com.coffee_backend.security.RestAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,9 @@ public class SecurityConfig {
 
     @Autowired
     private HandlerMappingIntrospector introspector;
+
+    @Autowired
+    private RestAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -61,6 +65,7 @@ public class SecurityConfig {
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .exceptionHandling(cfg -> cfg.authenticationEntryPoint(authenticationEntryPoint))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 

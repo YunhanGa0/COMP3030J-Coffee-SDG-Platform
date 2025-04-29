@@ -24,39 +24,26 @@ public class OrderController {
      * 创建订单（立即下单）
      * POST /api/orders
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @PostMapping
     public ApiResponse createOrder(@RequestBody CreateOrderRequest req) {
-
-        Order order = orderService.createOrder(req);
-
-        return ApiResponse.created(null);
+        OrderResponse order = orderService.createOrder(req);
+        return ApiResponse.created(order);
     }
 
     /** 查询当前用户的全部订单 */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/my")
     public ApiResponse listMyOrders() {
-        List<Order> orders = orderService.listMyOrders();
-        List<OrderResponse> orderResponses = orders.stream().map(order -> OrderResponse.builder()
-                .id(order.getId())
-                .totalAmount(order.getTotalAmount())
-                .status(order.getStatus())
-                .orderTime(order.getOrderTime())
-                .build()).toList();
-        return ApiResponse.success(orderResponses);
+        List<OrderResponse> orders = orderService.listMyOrders();
+        return ApiResponse.success(orders);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/{id}")
     public ApiResponse getOrder(@PathVariable Long id) {
-        Order order = orderService.getOrderDetail(id);
-        OrderResponse orderResponse = OrderResponse.builder()
-                .id(order.getId())
-                .totalAmount(order.getTotalAmount())
-                .status(order.getStatus())
-                .orderTime(order.getOrderTime())
-                .build();
-        return ApiResponse.success(orderResponse);
+        OrderResponse order = orderService.getOrderDetail(id);
+
+        return ApiResponse.success(order);
     }
 }
