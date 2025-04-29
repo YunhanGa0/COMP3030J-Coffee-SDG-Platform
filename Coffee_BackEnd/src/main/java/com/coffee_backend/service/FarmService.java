@@ -210,4 +210,16 @@ public class FarmService {
 
         return ApiResponse.success(response);
     }
+
+    public ApiResponse getProfile() {
+        Long userId = UserContext.getUser().getId();
+        Optional<Farm> farm = farmRepository.findByUserId(userId);
+        if (farm.isPresent()){
+            FarmFullResponse farmResponse = BeanUtil.copyProperties(farm.get(), FarmFullResponse.class);
+            return ApiResponse.success(farmResponse);
+        }
+        else {
+            return ApiResponse.error(404, "Farm not found");
+        }
+    }
 }
