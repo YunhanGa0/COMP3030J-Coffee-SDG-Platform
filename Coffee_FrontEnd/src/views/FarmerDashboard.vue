@@ -20,16 +20,16 @@
       <!-- 侧边栏导航 -->
       <aside class="sidebar">
         <div class="nav-menu">
-          <div 
-            class="nav-item" 
+          <div
+            class="nav-item"
             :class="{ active: activeTab === 'profile' }"
             @click="activeTab = 'profile'"
           >
             <v-icon size="20" class="mr-2">mdi-account-edit</v-icon>
             农场信息
           </div>
-          <div 
-            class="nav-item" 
+          <div
+            class="nav-item"
             :class="{ active: activeTab === 'blogs' }"
             @click="activeTab = 'blogs'"
           >
@@ -46,9 +46,9 @@
           <header class="section-header">
             <h2>农场信息</h2>
             <div class="actions">
-              <v-btn 
-                color="var(--green-700)" 
-                outlined 
+              <v-btn
+                color="var(--green-700)"
+                outlined
                 small
                 :loading="saveLoading"
                 @click="saveProfile"
@@ -168,8 +168,8 @@
           <header class="section-header">
             <h2>博客管理</h2>
             <div class="actions">
-              <v-btn 
-                color="var(--green-700)" 
+              <v-btn
+                color="var(--green-700)"
                 small
                 dark
                 @click="createNewBlog"
@@ -196,11 +196,11 @@
               <template v-slot:item.title="{ item }">
                 <div class="title-cell">{{ item.title }}</div>
               </template>
-              
+
               <template v-slot:item.createdAt="{ item }">
                 {{ formatDate(item.createdAt) }}
               </template>
-              
+
               <template v-slot:item.published="{ item }">
                 <v-chip
                   small
@@ -210,7 +210,7 @@
                   {{ item.published ? '已发布' : '草稿' }}
                 </v-chip>
               </template>
-              
+
               <template v-slot:item.actions="{ item }">
                 <div class="actions-cell">
                   <v-tooltip bottom>
@@ -228,7 +228,7 @@
                     </template>
                     <span>编辑</span>
                   </v-tooltip>
-                  
+
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
@@ -244,7 +244,7 @@
                     </template>
                     <span>{{ item.published ? '取消发布' : '发布' }}</span>
                   </v-tooltip>
-                  
+
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-btn
@@ -287,14 +287,14 @@
               outlined
               :rules="[v => !!v || '请输入博客标题']"
             ></v-text-field>
-            
+
             <v-text-field
               v-model="currentBlog.coverImageUrl"
               label="封面图片链接"
               outlined
               hint="输入有效的图片URL"
             ></v-text-field>
-            
+
             <v-textarea
               v-model="currentBlog.summary"
               label="摘要"
@@ -304,7 +304,7 @@
               counter="150"
               :rules="[v => !!v || '请输入博客摘要']"
             ></v-textarea>
-            
+
             <v-textarea
               v-model="currentBlog.content"
               label="正文内容"
@@ -317,8 +317,8 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions class="pa-4">
-          <v-btn 
-            text 
+          <v-btn
+            text
             @click="closeBlogDialog"
           >
             取消
@@ -353,9 +353,9 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="deleteDialog = false">取消</v-btn>
-          <v-btn 
-            color="error" 
-            text 
+          <v-btn
+            color="error"
+            text
             :loading="deleteLoading"
             @click="deleteBlog"
           >
@@ -391,16 +391,16 @@ import axios from 'axios'
 
 export default {
   name: 'FarmerDashboard',
-  
+
   components: {
   },
-  
+
   data: () => ({
     // 设置初始数据
     activeTab: 'profile',
     farm: {},
     blogs: [],
-    
+
     // 博客表格列
     blogHeaders: [
       { text: '标题', value: 'title', sortable: true },
@@ -408,7 +408,7 @@ export default {
       { text: '状态', value: 'published', sortable: true },
       { text: '操作', value: 'actions', sortable: false, align: 'end' }
     ],
-    
+
     // 编辑对话框
     blogDialog: false,
     editMode: false,
@@ -420,12 +420,12 @@ export default {
       coverImageUrl: '',
       published: false
     },
-    
+
     // 删除对话框
     deleteDialog: false,
     blogToDelete: null,
     deleteLoading: false,
-    
+
     // 农场资料编辑
     farmProfile: {
       farmName: '',
@@ -438,7 +438,7 @@ export default {
       elevation: null,
       soilType: ''
     },
-    
+
     // 土壤类型选项
     soilTypes: [
       'LOAMY',
@@ -448,10 +448,10 @@ export default {
       'CHALKY',
       'PEATY'
     ],
-    
+
     // 加载状态
     saveLoading: false,
-    
+
     // 提示消息
     snackbar: {
       show: false,
@@ -460,7 +460,7 @@ export default {
     },
     farmImageFile: null,
   }),
-  
+
   async created() {
     // 设置CSS变量
     document.documentElement.style.setProperty('--green-900', '#114232')
@@ -473,25 +473,25 @@ export default {
     document.documentElement.style.setProperty('--radius-lg', '18px')
     document.documentElement.style.setProperty('--radius-md', '12px')
     document.documentElement.style.setProperty('--shadow-sm', '0 4px 12px rgba(0, 0, 0, .06)')
-    
+
     // 获取农场信息
     this.fetchFarmProfile()
-    
+
     // 获取博客列表
     this.fetchBlogs()
   },
-  
+
   methods: {
     // 获取农场信息
     async fetchFarmProfile() {
       try {
         const response = await axios.get('/api/farms/profile')
         console.log('Farm profile response:', response.data)
-        
+
         if (response.data.code === 200 && response.data.data) {
           // 更新农场基本信息
           this.farm = response.data.data
-          
+
           // 填充编辑表单数据
           this.farmProfile = {
             farmName: response.data.data.farmName || '',
@@ -504,7 +504,7 @@ export default {
             elevation: response.data.data.elevation || null,
             soilType: response.data.data.soilType || ''
           }
-          
+
           // 更新页面标题
           if (this.farm.farmName) {
             document.title = `${this.farm.farmName} - 农场管理中心`
@@ -515,11 +515,11 @@ export default {
         this.showMessage('暂无农场信息', 'info')
       }
     },
-    
+
     // 保存农场资料
     async saveProfile() {
       if (!this.$refs.profileForm.validate()) return
-      
+
       this.saveLoading = true
       try {
         let response;
@@ -534,10 +534,10 @@ export default {
         } else {
           response = await axios.put('/api/farms/update', profileData);
         }
-        
+
         if (response.data.code === 200) {
           this.showMessage(
-            !this.farm.id ? '农场信息创建成功' : '农场信息更新成功', 
+            !this.farm.id ? '农场信息创建成功' : '农场信息更新成功',
             'success'
           );
           await this.fetchFarmProfile();
@@ -551,12 +551,14 @@ export default {
         this.saveLoading = false;
       }
     },
-    
+
     // 获取博客列表
     async fetchBlogs() {
       try {
+        const response0 = await axios.get('/api/farms/profile')
+        this.farm = response0.data.data
         const response = await axios.get(`/api/farms/${this.farm.id}/blogs`)
-        
+
         if (response.data.code === 200) {
           this.blogs = response.data.data.content || []
         } else {
@@ -567,7 +569,7 @@ export default {
         this.showMessage('获取博客列表失败', 'error')
       }
     },
-    
+
     // 创建新博客
     createNewBlog() {
       this.$router.push({
@@ -575,18 +577,18 @@ export default {
         query: { farmId: this.farm.id }
       })
     },
-    
+
     // 编辑博客
     editBlog(blog) {
       this.$router.push({
         path: '/blog-editor',
-        query: { 
+        query: {
           farmId: this.farm.id,
-          blogId: blog.id 
+          blogId: blog.id
         }
       })
     },
-    
+
     // 关闭博客编辑对话框
     closeBlogDialog() {
       this.blogDialog = false
@@ -601,13 +603,13 @@ export default {
         }
       }, 300)
     },
-    
+
     // 保存博客
     async saveBlog(published) {
       if (!this.$refs.blogForm.validate()) return
-      
+
       this.saveLoading = true
-      
+
       try {
         const blogData = {
           title: this.currentBlog.title,
@@ -616,26 +618,26 @@ export default {
           coverImageUrl: this.currentBlog.coverImageUrl,
           published: published
         }
-        
+
         let response
-        
+
         if (this.editMode) {
           // 更新博客
           response = await axios.put(
-            `/api/farms/${this.farm.id}/blogs/${this.currentBlog.id}`, 
+            `/api/farms/${this.farm.id}/blogs/${this.currentBlog.id}`,
             blogData
           )
         } else {
           // 创建博客
           response = await axios.post(
-            `/api/farms/${this.farm.id}/blogs`, 
+            `/api/farms/${this.farm.id}/blogs`,
             blogData
           )
         }
-        
+
         if (response.data.code === 200) {
           this.showMessage(
-            `博客${this.editMode ? '更新' : '创建'}成功${published ? '并已发布' : ''}`, 
+            `博客${this.editMode ? '更新' : '创建'}成功${published ? '并已发布' : ''}`,
             'success'
           )
           this.blogDialog = false
@@ -650,24 +652,24 @@ export default {
         this.saveLoading = false
       }
     },
-    
+
     // 确认删除博客
     confirmDelete(blog) {
       this.blogToDelete = blog
       this.deleteDialog = true
     },
-    
+
     // 删除博客
     async deleteBlog() {
       if (!this.blogToDelete) return
-      
+
       this.deleteLoading = true
-      
+
       try {
         const response = await axios.delete(
           `/api/farms/${this.farm.id}/blogs/${this.blogToDelete.id}`
         )
-        
+
         if (response.data.code === 200) {
           this.showMessage('博客已成功删除', 'success')
           this.deleteDialog = false
@@ -682,7 +684,7 @@ export default {
         this.deleteLoading = false
       }
     },
-    
+
     // 切换博客发布状态
     async togglePublish(blog) {
       try {
@@ -690,10 +692,10 @@ export default {
           `/api/farms/${this.farm.id}/blogs/${blog.id}/publish`,
           { published: !blog.published }
         )
-        
+
         if (response.data.code === 200) {
           this.showMessage(
-            `博客已${blog.published ? '取消发布' : '发布'}`, 
+            `博客已${blog.published ? '取消发布' : '发布'}`,
             'success'
           )
           this.fetchBlogs()
@@ -705,7 +707,7 @@ export default {
         this.showMessage(`${blog.published ? '取消发布' : '发布'}失败`, 'error')
       }
     },
-    
+
     // 显示提示消息
     showMessage(text, color = 'success') {
       this.snackbar = {
@@ -714,29 +716,29 @@ export default {
         color
       }
     },
-    
+
     // 格式化日期
     formatDate(date) {
       if (!date) return ''
       const d = new Date(date)
       return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
     },
-    
+
     // 处理图片上传
     async handleImageUpload(file) {
       if (!file) return;
-      
+
       try {
         const formData = new FormData();
         formData.append('image', file);
         formData.append('type', 'FARM');
-        
+
         const response = await axios.post('/api/articles/images/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-        
+
         if (response.data.code === 200) {
           this.farmProfile.imageUrl = response.data.data.url;
           this.showMessage('图片上传成功', 'success');
@@ -918,4 +920,4 @@ export default {
   font-size: 12px;
   margin-bottom: 8px;
 }
-</style> 
+</style>

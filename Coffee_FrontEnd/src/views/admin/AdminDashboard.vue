@@ -585,6 +585,10 @@ export default {
         const response = await axios.get('/api/farms');
         if (response.data.code === 200) {
           this.farms = response.data.data.content;
+          // 获取每个农场的博客信息
+          for (const farm of this.farms) {
+            await this.fetchFarmBlogs(farm.id);
+          }
         } else {
           console.error('Error fetching farms:', response.data.message);
         }
@@ -592,6 +596,21 @@ export default {
         console.error('Error fetching farms:', (error.response && error.response.data && error.response.data.message) || error.message);
       } finally {
         this.loadingFarms = false;
+      }
+    },
+
+    async fetchFarmBlogs(farmId) {
+      try {
+        const response = await axios.get(`/api/farms/${farmId}/blogs`);
+        if (response.data.code === 200) {
+          // 将博客信息添加到对应的农场对象中
+          const farmIndex = this.farms.findIndex(farm => farm.id === farmId);
+          if (farmIndex !== -1) {
+            Vue.set(this.farms[farmIndex], 'blogs', response.data.data);
+          }
+        }
+      } catch (error) {
+        console.error(`Error fetching blogs for farm ${farmId}:`, error);
       }
     },
 
