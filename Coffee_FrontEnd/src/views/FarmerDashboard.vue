@@ -383,24 +383,16 @@
         </v-btn>
       </template>
     </v-snackbar>
-
-    <initial-setup-dialog
-      :show="showInitialSetup"
-      @setup-completed="handleSetupCompleted"
-      @show-message="showMessage"
-    />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import InitialSetupDialog from '@/components/InitialSetupDialog.vue'
 
 export default {
   name: 'FarmerDashboard',
   
   components: {
-    InitialSetupDialog
   },
   
   data: () => ({
@@ -408,7 +400,6 @@ export default {
     activeTab: 'profile',
     farm: {},
     blogs: [],
-    showInitialSetup: false,
     
     // 博客表格列
     blogHeaders: [
@@ -471,7 +462,6 @@ export default {
   }),
   
   async created() {
-    await this.checkInitialSetup()
     // 设置CSS变量
     document.documentElement.style.setProperty('--green-900', '#114232')
     document.documentElement.style.setProperty('--green-700', '#19624c')
@@ -492,50 +482,37 @@ export default {
   },
   
   methods: {
-    async checkInitialSetup() {
-      try {
-        const response = await axios.get('/api/farms/profile')
-        if (!response.data || !response.data.farmName) {
-          this.showInitialSetup = true
-        }
-      } catch (error) {
-        console.error('Error checking farm profile:', error)
-        this.showInitialSetup = true
-      }
-    },
-    
     // 获取农场信息
     async fetchFarmProfile() {
       try {
-        const response = await axios.get('/api/farms/status')
+        const response = await axios.get('/api/farms/profile')
+        console.log('Farm profile response:', response.data)
         
-        if (response.data.code === 200) {
-          const { hasCompletedProfile, ...farmData } = response.data.data;
-          this.farm = farmData;
-          this.showInitialSetup = !hasCompletedProfile;
-
-          if (hasCompletedProfile) {
-            // 如果已完成设置，复制农场数据到编辑表单
-            this.farmProfile = {
-              farmName: this.farm.farmName,
-              country: this.farm.country,
-              location: this.farm.location,
-              size: this.farm.size,
-              establishedYear: this.farm.establishedYear,
-              description: this.farm.description,
-              imageUrl: this.farm.imageUrl,
-              elevation: this.farm.elevation,
-              soilType: this.farm.soilType
-            }
-            
+        if (response.data.code === 200 && response.data.data) {
+          // 更新农场基本信息
+          this.farm = response.data.data
+          
+          // 填充编辑表单数据
+          this.farmProfile = {
+            farmName: response.data.data.farmName || '',
+            country: response.data.data.country || '',
+            location: response.data.data.location || '',
+            size: response.data.data.size || null,
+            establishedYear: response.data.data.establishedYear || null,
+            description: response.data.data.description || '',
+            imageUrl: response.data.data.imageUrl || '',
+            elevation: response.data.data.elevation || null,
+            soilType: response.data.data.soilType || ''
+          }
+          
+          // 更新页面标题
+          if (this.farm.farmName) {
             document.title = `${this.farm.farmName} - 农场管理中心`
           }
-        } else {
-          this.showMessage(response.data.message || '获取农场信息失败', 'error')
         }
       } catch (error) {
         console.error('获取农场信息失败:', error)
-        this.showMessage('获取农场信息失败', 'error')
+        this.showMessage('暂无农场信息', 'info')
       }
     },
     
@@ -771,11 +748,6 @@ export default {
         this.showMessage(error.message || '图片上传失败', 'error');
         this.farmImageFile = null;
       }
-    },
-    
-    handleSetupCompleted() {
-      this.showInitialSetup = false
-      this.fetchFarmProfile()
     },
   }
 }

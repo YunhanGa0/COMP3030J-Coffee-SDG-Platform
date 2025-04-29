@@ -16,9 +16,9 @@
                 </div>
               </div>
               <v-spacer></v-spacer>
-              <v-btn 
-                color="primary" 
-                class="ml-2" 
+              <v-btn
+                color="primary"
+                class="ml-2"
                 @click="refreshData"
                 :loading="loading"
               >
@@ -29,17 +29,17 @@
           </v-card>
         </v-col>
       </v-row>
-      
+
       <!-- Admin Functions -->
       <v-row class="mt-6">
         <v-col cols="12">
           <h2 class="admin-subtitle">Admin Functions</h2>
           <v-divider class="mt-2 mb-4"></v-divider>
         </v-col>
-        
+
         <!-- Create Article Card -->
         <v-col cols="12" md="4">
-          <v-card 
+          <v-card
             class="admin-card h-100"
             hover
             @click="$router.push('/article/editor')"
@@ -60,9 +60,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn 
-                color="primary" 
-                text 
+              <v-btn
+                color="primary"
+                text
                 @click.stop="$router.push('/article/editor')"
               >
                 Create
@@ -71,10 +71,10 @@
             </v-card-actions>
           </v-card>
         </v-col>
-        
+
         <!-- Add Farmer Card -->
         <v-col cols="12" md="4">
-          <v-card 
+          <v-card
             class="admin-card h-100"
             hover
             @click="showCreateFarmerDialog"
@@ -95,9 +95,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn 
-                color="primary" 
-                text 
+              <v-btn
+                color="primary"
+                text
                 @click.stop="showCreateFarmerDialog"
               >
                 Create
@@ -106,10 +106,45 @@
             </v-card-actions>
           </v-card>
         </v-col>
-        
+
+        <!-- Farm Certification Card -->
+        <v-col cols="12" md="3">
+          <v-card
+            class="admin-card h-100"
+            hover
+            @click="$router.push('/admin/certifications')"
+          >
+            <v-img
+              height="150"
+              src="@/assets/admin/certification.jpg"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              class="white--text align-end"
+            >
+              <v-card-title>Farm Certification</v-card-title>
+            </v-img>
+            <v-card-text class="text-center pt-4">
+              <v-icon size="64" color="indigo">mdi-certificate</v-icon>
+              <div class="mt-3 subtitle-1">
+                Review and approve certification applications from farms
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                text
+                @click.stop="$router.push('/admin/certifications')"
+              >
+                Review
+                <v-icon right>mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+
         <!-- Farm Audit Card -->
         <v-col cols="12" md="4">
-          <v-card 
+          <v-card
             class="admin-card h-100"
             hover
             @click="$router.push('/admin/farm-review')"
@@ -130,9 +165,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn 
-                color="primary" 
-                text 
+              <v-btn
+                color="primary"
+                text
                 @click.stop="$router.push('/admin/farm-review')"
               >
                 Review
@@ -142,21 +177,21 @@
           </v-card>
         </v-col>
       </v-row>
-      
+
       <!-- Platform Statistics -->
       <v-row class="mt-8">
         <v-col cols="12">
           <h2 class="admin-subtitle">Platform Statistics</h2>
           <v-divider class="mt-2 mb-4"></v-divider>
         </v-col>
-        
+
         <v-col cols="12" md="3">
           <v-card class="stat-card">
             <v-card-text>
               <div class="d-flex align-center">
-                <v-avatar 
-                  color="primary" 
-                  size="50" 
+                <v-avatar
+                  color="primary"
+                  size="50"
                   class="mr-3"
                 >
                   <v-icon color="white">mdi-account-multiple</v-icon>
@@ -169,14 +204,14 @@
             </v-card-text>
           </v-card>
         </v-col>
-        
+
         <v-col cols="12" md="3">
           <v-card class="stat-card">
             <v-card-text>
               <div class="d-flex align-center">
-                <v-avatar 
-                  color="green" 
-                  size="50" 
+                <v-avatar
+                  color="green"
+                  size="50"
                   class="mr-3"
                 >
                   <v-icon color="white">mdi-newspaper</v-icon>
@@ -189,14 +224,14 @@
             </v-card-text>
           </v-card>
         </v-col>
-        
+
         <v-col cols="12" md="3">
           <v-card class="stat-card">
             <v-card-text>
               <div class="d-flex align-center">
-                <v-avatar 
-                  color="brown" 
-                  size="50" 
+                <v-avatar
+                  color="brown"
+                  size="50"
                   class="mr-3"
                 >
                   <v-icon color="white">mdi-account-hard-hat</v-icon>
@@ -209,14 +244,14 @@
             </v-card-text>
           </v-card>
         </v-col>
-        
+
         <v-col cols="12" md="3">
           <v-card class="stat-card">
             <v-card-text>
               <div class="d-flex align-center">
-                <v-avatar 
-                  color="teal" 
-                  size="50" 
+                <v-avatar
+                  color="teal"
+                  size="50"
                   class="mr-3"
                 >
                   <v-icon color="white">mdi-home</v-icon>
@@ -230,13 +265,13 @@
           </v-card>
         </v-col>
       </v-row>
-      
+
       <!-- Recent Articles -->
       <v-row class="mt-8">
         <v-col cols="12">
           <h2 class="admin-subtitle">Recent Articles</h2>
           <v-divider class="mt-2 mb-4"></v-divider>
-          
+
           <v-data-table
             :headers="articleHeaders"
             :items="recentArticles"
@@ -247,7 +282,7 @@
             <template v-slot:item.createdAt="{ item }">
               {{ formatDate(item.createdAt) }}
             </template>
-            
+
             <template v-slot:item.actions="{ item }">
               <v-btn
                 x-small
@@ -283,7 +318,7 @@
         <v-col cols="12">
           <h2 class="admin-subtitle">Registered Farmers</h2>
           <v-divider class="mt-2 mb-4"></v-divider>
-          
+
           <v-data-table
             :headers="farmerHeaders"
             :items="farmers"
@@ -294,7 +329,7 @@
             <template v-slot:item.createdAt="{ item }">
               {{ formatDate(item.createdAt) }}
             </template>
-            
+
             <template v-slot:item.actions="{ item }">
               <v-btn
                 x-small
@@ -314,7 +349,7 @@
         <v-col cols="12">
           <h2 class="admin-subtitle">Registered Farms</h2>
           <v-divider class="mt-2 mb-4"></v-divider>
-          
+
           <v-data-table
             :headers="farmHeaders"
             :items="farms"
@@ -325,7 +360,7 @@
             <template v-slot:item.createdAt="{ item }">
               {{ formatDate(item.createdAt) }}
             </template>
-            
+
             <template v-slot:item.status="{ item }">
               <v-chip
                 :color="getFarmStatusColor(item.status)"
@@ -334,7 +369,7 @@
                 {{ item.status }}
               </v-chip>
             </template>
-            
+
             <template v-slot:item.actions="{ item }">
               <v-btn
                 x-small
@@ -438,10 +473,7 @@ export default {
       articleHeaders: [
         { text: 'ID', value: 'id', width: '80px' },
         { text: 'Title', value: 'title', width: '30%' },
-        { text: 'Author', value: 'author' },
         { text: 'Publish Date', value: 'publishDate' },
-        { text: 'Status', value: 'status' },
-        { text: 'Actions', value: 'actions', sortable: false, width: '150px' }
       ],
       farmerHeaders: [
         { text: 'ID', value: 'id', width: '80px' },
@@ -452,10 +484,9 @@ export default {
       ],
       farmHeaders: [
         { text: 'ID', value: 'id', width: '80px' },
-        { text: 'Farm Name', value: 'name' },
+        { text: 'Farm Name', value: 'farmName' },
         { text: 'Location', value: 'location' },
-        { text: 'Status', value: 'status' },
-        { text: 'Registration Date', value: 'createdAt' },
+        { text: 'Established Year', value: 'establishedYear' },
         { text: 'Actions', value: 'actions', sortable: false, width: '100px' }
       ],
       recentArticles: [],
@@ -515,7 +546,7 @@ export default {
         this.loading = false;
       }
     },
-    
+
     async fetchArticles() {
       this.loadingArticles = true;
       try {
@@ -531,7 +562,7 @@ export default {
         this.loadingArticles = false;
       }
     },
-    
+
     async fetchFarmers() {
       this.loadingFarmers = true;
       try {
@@ -569,15 +600,15 @@ export default {
         // 获取用户统计
         const usersResponse = await axios.get('/api/admin/farmers');
         const farmersCount = usersResponse.data.code === 200 ? usersResponse.data.data.length : 0;
-        
+
         // 获取文章统计
         const articlesResponse = await axios.get('/api/articles');
         const articlesCount = articlesResponse.data.code === 200 ? articlesResponse.data.data.length : 0;
-        
+
         // 获取农场统计
         const farmsResponse = await axios.get('/api/farms');
         const farmsCount = farmsResponse.data.code === 200 ? farmsResponse.data.data.content.length : 0;
-        
+
         this.statistics = {
           usersCount: farmersCount + 1, // +1 表示管理员账号
           articlesCount: articlesCount,
@@ -588,15 +619,15 @@ export default {
         console.error('Error fetching statistics:', (error.response && error.response.data && error.response.data.message) || error.message);
       }
     },
-    
+
     viewArticle(item) {
       this.$router.push(`/article/${item.id}`);
     },
-    
+
     editArticle(item) {
       this.$router.push(`/article/editor/${item.id}`);
     },
-    
+
     async deleteArticle(item) {
       if (confirm('Are you sure you want to delete this article?')) {
         try {
@@ -610,7 +641,7 @@ export default {
         }
       }
     },
-    
+
     viewFarmer(item) {
       // 这里可以跳转到农户详情页面
       console.log('View farmer:', item);
@@ -630,16 +661,16 @@ export default {
       };
       return statusColors[status] || 'primary';
     },
-    
+
     refreshData() {
       this.fetchData();
     },
-    
+
     formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleDateString();
     },
-    
+
     formatNumber(number) {
       return number.toLocaleString();
     },
@@ -675,7 +706,7 @@ export default {
               color: 'success',
               text: 'Farmer account created successfully'
             });
-            
+
             // 关闭对话框并刷新数据
             this.closeCreateFarmerDialog();
             this.fetchFarmers();
@@ -731,4 +762,4 @@ export default {
 .h-100 {
   height: 100%;
 }
-</style> 
+</style>
