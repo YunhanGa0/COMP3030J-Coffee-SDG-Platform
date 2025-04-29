@@ -25,32 +25,37 @@ public class AdminController {
     @Autowired
     private CertificationService certificationService;
 
-
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/createFarmer")
     public ApiResponse saveFarmer(@RequestBody SaveFarmerRequest request){
         return adminService.saveFarmer(request);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/farmers")
     public ApiResponse getFarmers() {
         return adminService.getAllFarmers();
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/trainings")
     public ApiResponse saveTechTraining(@RequestBody TechTrainingRequest request){
         return technicalTrainingService.saveTraining(request);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/trainings/{id}/cancel")
     public ApiResponse cancelTechTraining(@PathVariable Long id){
         return technicalTrainingService.cancelTechTraining(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @DeleteMapping("/trainings/{id}")
     public ApiResponse deleteTechTraining(@PathVariable Long id){
         return technicalTrainingService.deleteTechTraining(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/trainings/{id}/applications")
     public ApiResponse getTechTrainingFarmers(@PathVariable Long id){
         return technicalTrainingService.getTechTrainingFarmers(id);
