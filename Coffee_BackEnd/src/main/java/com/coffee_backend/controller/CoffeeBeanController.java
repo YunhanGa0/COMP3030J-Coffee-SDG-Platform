@@ -26,6 +26,42 @@ public class CoffeeBeanController {
     @PostMapping
     public ApiResponse createCoffeeBean(@RequestBody CreateCoffeeBeanRequest request) {
         CoffeeBean coffeeBean = coffeeBeanService.createCoffeeBean(request);
-        return ApiResponse.created( coffeeBean);
+        return ApiResponse.created(coffeeBean);
+    }
+
+
+    /**
+     * 农庄删除咖啡豆商品
+     * DELETE /api/farmers/coffee-beans/{id}
+     */
+    @PreAuthorize("hasAuthority('FARMER')")
+    @DeleteMapping("/{id}")
+    public ApiResponse deleteCoffeeBean(@PathVariable Long id) {
+        coffeeBeanService.deleteCoffeeBean(id);
+        return ApiResponse.success();
+    }
+
+    /**
+     * 农庄获取咖啡豆商品列表
+     * GET /api/farmers/coffee-beans
+     */
+    @PreAuthorize("hasAuthority('FARMER')")
+    @GetMapping
+    public ApiResponse getCoffeeBeansList() {
+        return ApiResponse.success(coffeeBeanService.getCoffeeBeansList());
+    }
+
+    /**
+     * 农庄修改咖啡豆商品
+     * PUT /api/farmers/coffee-beans/{id}
+     */
+    @PreAuthorize("hasAuthority('FARMER')")
+    @PutMapping("/{id}")
+    public ApiResponse updateCoffeeBean(
+            @PathVariable Long id,
+            @RequestBody CreateCoffeeBeanRequest request
+    ) {
+        coffeeBeanService.updateCoffeeBean(id, request);
+        return ApiResponse.success("");
     }
 }
