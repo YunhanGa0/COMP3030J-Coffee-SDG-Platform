@@ -1,10 +1,13 @@
 package com.coffee_backend.controller;
 
 import com.coffee_backend.dto.ApiResponse;
+import com.coffee_backend.dto.OrderResponse;
 import com.coffee_backend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 农庄侧订单接口
@@ -23,7 +26,8 @@ public class FarmerOrderController {
     @PreAuthorize("hasAuthority('FARMER')")
     @GetMapping("/orders")
     public ApiResponse listMyFarmOrders() {
-        return ApiResponse.success(orderService.listOrdersForFarmer());
+        List<OrderResponse> orders = orderService.listOrdersForFarmer();
+        return ApiResponse.success(orders);
     }
 
     /**

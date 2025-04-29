@@ -143,6 +143,10 @@ public class OrderService {
 
     public List<OrderResponse> listOrdersForFarmer() {
         Long farmerId = getCurrentUserId();
+
+        User farmer = userRepository.findById(farmerId)
+                .orElseThrow(() -> new NotFoundException("农户不存在"));
+
         List<Order> orders = orderRepository.findAllForFarmer(farmerId);
         List<OrderResponse> orderResponses = orders.stream().map(order -> OrderResponse.builder()
                 .id(order.getId())
