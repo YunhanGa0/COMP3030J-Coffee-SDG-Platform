@@ -152,7 +152,20 @@
                 :src="farm.imageUrl || require('@/assets/pic/plantation.jpg')"
                 height="250"
                 class="grey lighten-2"
+                cover
               >
+                <template v-slot:placeholder>
+                  <v-row
+                    class="fill-height ma-0"
+                    align="center"
+                    justify="center"
+                  >
+                    <v-progress-circular
+                      indeterminate
+                      color="grey lighten-2"
+                    ></v-progress-circular>
+                  </v-row>
+                </template>
                 <v-expand-transition>
                   <div
                     v-if="hover"
@@ -374,12 +387,22 @@ export default {
 .farm-card {
   transition: all 0.3s ease;
   height: 100%;
+  overflow: hidden;
+}
+
+.farm-card .v-image {
+  transition: transform 0.3s ease;
+}
+
+.farm-card:hover .v-image {
+  transform: scale(1.05);
 }
 
 .v-card--reveal {
   align-items: center;
   justify-content: center;
   opacity: 0.9;
+  backdrop-filter: blur(3px);
 }
 
 .commitment-card {
