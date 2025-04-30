@@ -63,6 +63,7 @@ public class AdminController {
         return technicalTrainingService.getTechTrainingFarmers(id);
     }
 
+    // 管理员创建财务支持项目
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/financial-supports")
     public ApiResponse createFinancialSupport(@RequestBody FinancialSupportRequest request){
@@ -75,18 +76,21 @@ public class AdminController {
         return financialService.queryAllFinancialSupport();
     }
 
+    // 管理员审核财务申请
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PutMapping("/financial-applications/{id}/{review}")
-    public ApiResponse reviewFinancialSupport(@PathVariable Long id){
-        return financialService.reviewFinancialSupport(id);
+    @PutMapping("/financial-applications/review/{id}")
+    public ApiResponse reviewFinancialApplication(@PathVariable Long id, @RequestBody FinancialReviewRequest request){
+        return financialService.reviewFinancialSupport(id, request);
     }
 
+    // 管理员查询认证申请
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/certification/applications")
     public ApiResponse queryCertificationApplication(@RequestParam(name = "status", required = false) CertificationStatus status){
         return certificationService.queryCertificationApplication(status);
     }
 
+    // 管理员审核认证申请
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/certification/applications/review/{id}")
     public ApiResponse reviewCertificationApplication(@PathVariable Long id, @RequestBody CertificationReviewRequest request){

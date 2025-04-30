@@ -32,6 +32,9 @@ public class FinancialApplication {
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status = ApplicationStatus.PENDING;
 
+    @Column(name = "admin_feedback")
+    private String adminFeedback;
+
     @Column(name = "apply_time")
     private LocalDateTime applyTime;
 

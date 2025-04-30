@@ -26,7 +26,6 @@ public class FinancialSupport {
 
     private BigDecimal budget;
 
-
     @Column(name = "create_time")
     private LocalDateTime createTime;
 

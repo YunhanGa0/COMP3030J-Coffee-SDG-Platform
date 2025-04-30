@@ -113,14 +113,15 @@ public class FinancialService {
     }
 
 
-    public ApiResponse reviewFinancialSupport(Long id) {
+    public ApiResponse reviewFinancialSupport(Long id, FinancialReviewRequest request) {
         Optional<FinancialApplication> optional = financialApplicationRepository.findById(id);
         if (optional.isEmpty()){
             return ApiResponse.error(404, "There is not has application with id: " + id);
         }
 
         FinancialApplication old = optional.get();
-        old.setStatus(ApplicationStatus.APPROVED);
+        old.setStatus(request.getStatus());
+        old.setAdminFeedback(request.getAdminFeedback());
         FinancialApplication saved = financialApplicationRepository.save(old);
 
         return ApiResponse.success(BeanUtil.copyProperties(saved, FinancialApplicationResponse.class));

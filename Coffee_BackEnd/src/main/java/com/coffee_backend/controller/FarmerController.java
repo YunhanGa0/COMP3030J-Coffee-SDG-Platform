@@ -18,6 +18,7 @@ public class FarmerController {
     @Autowired
     private CertificationService certificationService;
 
+    //农民申请财政支持
     @PreAuthorize("hasAuthority('FARMER')")
     @PostMapping("/financial-applications")
     public ApiResponse farmApplyFinancial(@RequestBody FinancialApplicationRequest request){
