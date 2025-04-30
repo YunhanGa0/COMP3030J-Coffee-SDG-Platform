@@ -234,9 +234,9 @@
                         outlined
                         elevation="0"
                         class="card-btn"
-                        @click="navigateToDetail('selection')"
+                        @click="$router.push('/farm-certification')"
                       >
-                        View Details
+                        立即申请
                         <v-icon right>mdi-arrow-right</v-icon>
                       </v-btn>
                     </v-card-text>

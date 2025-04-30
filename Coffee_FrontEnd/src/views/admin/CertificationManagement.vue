@@ -408,7 +408,8 @@ export default {
 
       this.processingAction = true;
       try {
-        const response = await axios.post(`/api/admin/certifications/${this.selectedCertification.id}/approve`, {
+        const response = await axios.put(`/api/admin/certification/applications/review/${this.selectedCertification.id}`, {
+          status: 'APPROVED',
           comment: this.approveComment
         });
 
@@ -435,8 +436,9 @@ export default {
 
       this.processingAction = true;
       try {
-        const response = await axios.post(`/api/admin/certifications/${this.selectedCertification.id}/reject`, {
-          reason: this.rejectReason
+        const response = await axios.put(`/api/admin/certification/applications/review/${this.selectedCertification.id}`, {
+          status: 'REJECTED',
+          comment: this.rejectReason
         });
 
         if (response.data.code === 200) {
