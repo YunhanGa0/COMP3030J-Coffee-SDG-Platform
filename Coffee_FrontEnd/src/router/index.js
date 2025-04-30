@@ -20,6 +20,7 @@ import BlogEditor from '../views/BlogEditor.vue'
 import store from '../store'
 import CoffeeBeanDetail from "@/views/CoffeeBeanDetail.vue";
 import CertificationManagement from '../views/admin/CertificationManagement.vue'
+import FarmCertification from '../views/FarmCertification.vue'
 
 Vue.use(VueRouter)
 
@@ -126,6 +127,15 @@ const routes = [
     name: 'CertificationManagement',
     component: CertificationManagement,
     meta: { requiresAuth: true, adminOnly: true }
+  },
+  {
+    path: '/farm-certification',
+    name: 'FarmCertification',
+    component: FarmCertification,
+    meta: {
+      requiresAuth: true,
+      farmerOnly: true
+    }
   }
 ]
 
