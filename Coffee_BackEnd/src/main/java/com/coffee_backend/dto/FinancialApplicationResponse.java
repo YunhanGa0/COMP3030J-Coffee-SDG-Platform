@@ -19,6 +19,9 @@ public class FinancialApplicationResponse {
     private FinancialSupport financialSupport;
     private ApplicationStatus status;
     private String purpose;
+    private Long farmerId;
+    private String farmerUsername;
+    private String adminFeedback;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime applyTime;
 }

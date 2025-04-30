@@ -70,17 +70,18 @@ public class AdminController {
         return financialService.createFinancialSupport(request);
     }
 
+    // 管理员查询财务支持项目
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/financial-applications")
-    public ApiResponse queryAllFinancialSupport(){
-        return financialService.queryAllFinancialSupport();
+    public ApiResponse queryFinancialSupport(@RequestParam(name = "status", required = false) ApplicationStatus status){
+        return financialService.queryFinancialSupport(status);
     }
 
     // 管理员审核财务申请
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/financial-applications/review/{id}")
     public ApiResponse reviewFinancialApplication(@PathVariable Long id, @RequestBody FinancialReviewRequest request){
-        return financialService.reviewFinancialSupport(id, request);
+        return financialService.reviewFinancialApplication(id, request);
     }
 
     // 管理员查询认证申请

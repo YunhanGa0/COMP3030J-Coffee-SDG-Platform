@@ -98,6 +98,14 @@ public class CertificationService {
                 .adminFeedback(saved.getAdminFeedback() == null ? "" : saved.getAdminFeedback())
                 .status(saved.getStatus())
                 .build();
+
+        // 改farm表中的is_certificated
+        Farm farm = old.getFarm();
+        if (request.getStatus() == CertificationStatus.APPROVED) {
+            farm.setIsCertificated(true);  // 认证通过
+        } else if (request.getStatus() == CertificationStatus.REJECTED) {
+            farm.setIsCertificated(false); // 审核拒绝，撤销认证
+        }
         return ApiResponse.success(response);
     }
 }

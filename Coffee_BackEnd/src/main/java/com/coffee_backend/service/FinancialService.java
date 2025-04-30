@@ -106,14 +106,31 @@ public class FinancialService {
         return ApiResponse.success(response);
     }
 
-    public ApiResponse queryAllFinancialSupport() {
-        List<FinancialApplication> optional = financialApplicationRepository.findByStatus(ApplicationStatus.PENDING);
-        List<FinancialApplicationResponse> responses = optional.stream().map(financialApplication -> BeanUtil.copyProperties(financialApplication, FinancialApplicationResponse.class)).toList();
+    // 查询财政支持
+    public ApiResponse queryFinancialSupport(ApplicationStatus status) {
+        List<FinancialApplication> applications;
+
+        if (status != null) {
+            applications = financialApplicationRepository.findByStatus(status);
+        } else {
+            applications = financialApplicationRepository.findAll();
+        }
+        List<FinancialApplicationResponse> responses = applications.stream().map(app -> {
+            User farmer = app.getFarmer();
+            return FinancialApplicationResponse.builder()
+                    .id(app.getId())
+                    .financialSupport(app.getFinancialSupport())
+                    .status(app.getStatus())
+                    .purpose(app.getPurpose())
+                    .adminFeedback(app.getAdminFeedback())
+                    .applyTime(app.getApplyTime())
+                    .farmerId(farmer.getId())
+                    .build();
+        }).toList();
         return ApiResponse.success(responses);
     }
 
-
-    public ApiResponse reviewFinancialSupport(Long id, FinancialReviewRequest request) {
+    public ApiResponse reviewFinancialApplication(Long id, FinancialReviewRequest request) {
         Optional<FinancialApplication> optional = financialApplicationRepository.findById(id);
         if (optional.isEmpty()){
             return ApiResponse.error(404, "There is not has application with id: " + id);
