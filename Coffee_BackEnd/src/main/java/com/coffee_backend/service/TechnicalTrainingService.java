@@ -88,18 +88,23 @@ public class TechnicalTrainingService {
         return null;
     }
 
-    public ApiResponse cancelTechTraining(Long id) {
+    public ApiResponse updateTrainingStatus(Long id, UpdateTrainingStatusRequest status) {
         Optional<TechnicalTraining> optional = technicalTrainingRepository.findById(id);
         if (optional.isEmpty()){
             return ApiResponse.error(400, "Training not found");
         }
 
-        TechnicalTraining old = optional.get();
+        TechnicalTraining training = optional.get();
 
-        old.setStatus(TrainingStatus.CANCELLED);
+        TrainingStatus newStatus = status.getStatus();
+        TrainingStatus oldStatus = training.getStatus();
 
-        TechnicalTraining saved = technicalTrainingRepository.save(old);
+        if (oldStatus == TrainingStatus.COMPLETED || oldStatus == TrainingStatus.CANCELLED) {
+            return ApiResponse.error(400, "Cannot modify training in COMPLETED or CANCELLED state");
+        }
+        training.setStatus(newStatus);
 
+        TechnicalTraining saved = technicalTrainingRepository.save(training);
         TechTrainingResponse response = BeanUtil.copyProperties(saved, TechTrainingResponse.class);
 
         return ApiResponse.success(response);

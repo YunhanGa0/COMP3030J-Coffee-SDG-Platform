@@ -3,6 +3,7 @@ package com.coffee_backend.controller;
 import com.coffee_backend.dto.*;
 import com.coffee_backend.enumType.ApplicationStatus;
 import com.coffee_backend.enumType.CertificationStatus;
+import com.coffee_backend.enumType.TrainingStatus;
 import com.coffee_backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,10 +46,11 @@ public class AdminController {
         return technicalTrainingService.saveTraining(request);
     }
 
+    // 改变技术培训状态
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PutMapping("/trainings/{id}/cancel")
-    public ApiResponse cancelTechTraining(@PathVariable Long id){
-        return technicalTrainingService.cancelTechTraining(id);
+    @PutMapping("/trainings/update/{id}")
+    public ApiResponse updateTrainingStatus(@PathVariable Long id, @RequestBody UpdateTrainingStatusRequest status){
+        return technicalTrainingService.updateTrainingStatus(id, status);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
