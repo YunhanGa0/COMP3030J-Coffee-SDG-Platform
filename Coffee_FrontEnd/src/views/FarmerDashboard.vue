@@ -194,7 +194,12 @@
               class="blog-table"
             >
               <template v-slot:item.title="{ item }">
-                <div class="title-cell">{{ item.title }}</div>
+                <div 
+                  class="title-cell clickable"
+                  @click="viewBlogDetail(item)"
+                >
+                  {{ item.title }}
+                </div>
               </template>
 
               <template v-slot:item.createdAt="{ item }">
@@ -751,6 +756,13 @@ export default {
         this.farmImageFile = null;
       }
     },
+
+    // 查看博客详情
+    viewBlogDetail(blog) {
+      this.$router.push({
+        path: `/farms/${this.farm.id}/blogs/${blog.id}`
+      });
+    },
   }
 }
 </script>
@@ -896,6 +908,15 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 300px;
+}
+
+.title-cell.clickable {
+  cursor: pointer;
+  color: var(--green-700);
+}
+
+.title-cell.clickable:hover {
+  text-decoration: underline;
 }
 
 .actions-cell {
