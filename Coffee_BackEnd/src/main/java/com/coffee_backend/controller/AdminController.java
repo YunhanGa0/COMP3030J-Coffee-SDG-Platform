@@ -1,9 +1,6 @@
 package com.coffee_backend.controller;
 
-import com.coffee_backend.dto.ApiResponse;
-import com.coffee_backend.dto.FinancialSupportRequest;
-import com.coffee_backend.dto.SaveFarmerRequest;
-import com.coffee_backend.dto.TechTrainingRequest;
+import com.coffee_backend.dto.*;
 import com.coffee_backend.enumType.ApplicationStatus;
 import com.coffee_backend.enumType.CertificationStatus;
 import com.coffee_backend.service.*;
@@ -27,18 +24,21 @@ public class AdminController {
     @Autowired
     private CertificationService certificationService;
 
+    // 管理员创建农庄账户
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/createFarmer")
     public ApiResponse saveFarmer(@RequestBody SaveFarmerRequest request){
         return adminService.saveFarmer(request);
     }
 
+    // 管理员获取所有农庄账户
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/farmers")
     public ApiResponse getFarmers() {
         return adminService.getAllFarmers();
     }
 
+    // 管理员获取所有农庄账户
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/trainings")
     public ApiResponse saveTechTraining(@RequestBody TechTrainingRequest request){
@@ -88,9 +88,9 @@ public class AdminController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @PutMapping("/certification/applications/{id}/{review}")
-    public ApiResponse reviewCertificationApplication(@PathVariable Long id){
-        return certificationService.reviewCertificationApplication(id);
+    @PutMapping("/certification/applications/review/{id}")
+    public ApiResponse reviewCertificationApplication(@PathVariable Long id, @RequestBody CertificationReviewRequest request){
+        return certificationService.reviewCertificationApplication(id, request);
     }
 
 

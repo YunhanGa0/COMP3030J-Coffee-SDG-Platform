@@ -1,10 +1,7 @@
 package com.coffee_backend.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.coffee_backend.dto.ApiResponse;
-import com.coffee_backend.dto.CertificationApplicationRequest;
-import com.coffee_backend.dto.CertificationApplicationResponse;
-import com.coffee_backend.dto.FinancialApplicationResponse;
+import com.coffee_backend.dto.*;
 import com.coffee_backend.entity.CertificationApplication;
 import com.coffee_backend.entity.Farm;
 import com.coffee_backend.entity.FinancialApplication;
@@ -87,20 +84,20 @@ public class CertificationService {
         return ApiResponse.success(responses);
     }
 
-    public ApiResponse reviewCertificationApplication(Long id) {
+    public ApiResponse reviewCertificationApplication(Long id, CertificationReviewRequest request) {
         Optional<CertificationApplication> optional = certificationRepository.findById(id);
         if (optional.isEmpty()){
             return ApiResponse.error(404, "There is not has application with id: " + id);
         }
 
         CertificationApplication old = optional.get();
-        old.setStatus(CertificationStatus.APPROVED);
+        old.setStatus(request.getStatus());
+        old.setAdminFeedback(request.getAdminFeedback());
         CertificationApplication saved = certificationRepository.save(old);
         CertificationApplicationResponse response = CertificationApplicationResponse.builder()
                 .adminFeedback(saved.getAdminFeedback() == null ? "" : saved.getAdminFeedback())
                 .status(saved.getStatus())
                 .build();
-
         return ApiResponse.success(response);
     }
 }
