@@ -3,7 +3,6 @@ package com.coffee_backend.controller;
 import com.coffee_backend.dto.*;
 import com.coffee_backend.service.FarmBlogService;
 import com.coffee_backend.service.FarmService;
-import com.coffee_backend.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

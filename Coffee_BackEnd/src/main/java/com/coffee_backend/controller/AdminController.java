@@ -4,6 +4,8 @@ import com.coffee_backend.dto.ApiResponse;
 import com.coffee_backend.dto.FinancialSupportRequest;
 import com.coffee_backend.dto.SaveFarmerRequest;
 import com.coffee_backend.dto.TechTrainingRequest;
+import com.coffee_backend.enumType.ApplicationStatus;
+import com.coffee_backend.enumType.CertificationStatus;
 import com.coffee_backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -81,8 +83,8 @@ public class AdminController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/certification/applications")
-    public ApiResponse queryAllCertificationApplication(){
-        return certificationService.queryAllCertificationApplication();
+    public ApiResponse queryCertificationApplication(@RequestParam(name = "status", required = false) CertificationStatus status){
+        return certificationService.queryCertificationApplication(status);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -90,4 +92,6 @@ public class AdminController {
     public ApiResponse reviewCertificationApplication(@PathVariable Long id){
         return certificationService.reviewCertificationApplication(id);
     }
+
+
 }

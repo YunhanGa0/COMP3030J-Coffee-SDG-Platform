@@ -8,6 +8,7 @@ import com.coffee_backend.dto.FinancialApplicationResponse;
 import com.coffee_backend.entity.CertificationApplication;
 import com.coffee_backend.entity.Farm;
 import com.coffee_backend.entity.FinancialApplication;
+import com.coffee_backend.enumType.ApplicationStatus;
 import com.coffee_backend.enumType.CertificationStatus;
 import com.coffee_backend.repo.CertificationRepository;
 import com.coffee_backend.repo.FarmRepository;
@@ -64,17 +65,22 @@ public class CertificationService {
         return ApiResponse.success(response);
     }
 
-    public ApiResponse queryAllCertificationApplication() {
-        List<CertificationApplication> repositoryByStatus = certificationRepository.findByStatus(CertificationStatus.PENDING);
-        List<CertificationApplicationResponse> responses = repositoryByStatus.stream().map(certificationApplication -> {
+    public ApiResponse queryCertificationApplication(CertificationStatus status) {
+        List<CertificationApplication> applications;
+
+        if (status == null) {
+            applications = certificationRepository.findAll();
+        } else {
+            applications = certificationRepository.findByStatus(status);
+        }
+        List<CertificationApplicationResponse> responses = applications.stream().map(app -> {
             CertificationApplicationResponse response = new CertificationApplicationResponse();
-            response.setId(certificationApplication.getId());
-            response.setFarmId(certificationApplication.getFarm().getId());
-            response.setDescription(certificationApplication.getDescription());
-            response.setStatus(certificationApplication.getStatus());
-            response.setAdminFeedback(certificationApplication.getAdminFeedback());
-            response.setAdminFeedback((response.getAdminFeedback()) == null ? "" : response.getAdminFeedback());
-            response.setSubmitTime(certificationApplication.getSubmitTime());
+            response.setId(app.getId());
+            response.setFarmId(app.getFarm().getId());
+            response.setDescription(app.getDescription());
+            response.setStatus(app.getStatus());
+            response.setAdminFeedback(app.getAdminFeedback() == null ? "" : app.getAdminFeedback());
+            response.setSubmitTime(app.getSubmitTime());
             return response;
         }).toList();
 

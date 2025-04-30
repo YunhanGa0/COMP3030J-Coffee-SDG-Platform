@@ -1,12 +1,16 @@
 package com.coffee_backend.util;
 
 import com.coffee_backend.entity.User;
+import com.coffee_backend.enumType.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,22 +19,32 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
+    @Value("${jwt.secret}")
+    private String secret;
 
-    private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60 * 1000; // 24小时
+    @Value("${jwt.expiration}")
+    private long expiration;
+
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getRole().name());
         claims.put("userId", user.getId());
 
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-                .signWith(SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -47,6 +61,11 @@ public class JwtUtil {
         Claims claims = getAllClaimsFromToken(token);
         return claims.get("userId", Long.class);
     }
+
+    public UserRole getRoleFromToken(String token) {
+        Claims claims = getAllClaimsFromToken(token);
+        return UserRole.valueOf((String) claims.get("role"));
+    }
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -58,7 +77,7 @@ public class JwtUtil {
 
     public Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

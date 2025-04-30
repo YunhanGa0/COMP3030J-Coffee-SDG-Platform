@@ -38,7 +38,7 @@ public class CoffeeBeanController {
     @DeleteMapping("/{id}")
     public ApiResponse deleteCoffeeBean(@PathVariable Long id) {
         coffeeBeanService.deleteCoffeeBean(id);
-        return ApiResponse.success();
+        return ApiResponse.success("删除成功", null);
     }
 
     /**
@@ -62,6 +62,6 @@ public class CoffeeBeanController {
             @RequestBody CreateCoffeeBeanRequest request
     ) {
         coffeeBeanService.updateCoffeeBean(id, request);
-        return ApiResponse.success("");
+        return ApiResponse.success("修改成功", null);
     }
 }

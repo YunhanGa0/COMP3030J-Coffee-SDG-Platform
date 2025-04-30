@@ -1,6 +1,7 @@
 package com.coffee_backend.repo;
 
 import com.coffee_backend.entity.CertificationApplication;
+import com.coffee_backend.enumType.ApplicationStatus;
 import com.coffee_backend.enumType.CertificationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,7 @@ public interface CertificationRepository extends JpaRepository<CertificationAppl
 
     @Query("SELECT ca FROM CertificationApplication ca WHERE ca.status = :status")
     List<CertificationApplication> findByStatus(@Param("status") CertificationStatus status);
+
+
+
 }
