@@ -38,7 +38,7 @@ public class AdminController {
         return adminService.getAllFarmers();
     }
 
-    // 管理员获取所有农庄账户
+    // 管理员创建技术培训
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/trainings")
     public ApiResponse saveTechTraining(@RequestBody TechTrainingRequest request){

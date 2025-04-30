@@ -106,6 +106,7 @@ public class CertificationService {
         } else if (request.getStatus() == CertificationStatus.REJECTED) {
             farm.setIsCertificated(false); // 审核拒绝，撤销认证
         }
+        farmRepository.save(farm);
         return ApiResponse.success(response);
     }
 }
