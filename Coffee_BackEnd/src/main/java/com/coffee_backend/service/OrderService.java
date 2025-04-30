@@ -1,6 +1,7 @@
 package com.coffee_backend.service;
 
 import com.coffee_backend.dto.CreateOrderRequest;
+import com.coffee_backend.dto.OrderItemResponse;
 import com.coffee_backend.dto.OrderResponse;
 import com.coffee_backend.entity.CoffeeBean;
 import com.coffee_backend.entity.Order;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.coffee_backend.exception.*;
 
 import java.util.List;
 
@@ -38,16 +40,20 @@ public class OrderService {
     private JwtUtil jwtUtil;
 
     @Transactional
-    public Order createOrder(CreateOrderRequest req) {
+    public OrderResponse createOrder(CreateOrderRequest req) {
         // 获取当前用户 ID
         Long userId = getCurrentUserId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("用户不存在"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("用户不存在"));
 
         // 查询豆子单价
-        CoffeeBean coffeeBean = coffeeBeanRepository.findById(req.getCoffeeBeanId()).orElseThrow(() -> new RuntimeException("咖啡豆不存在"));
+        CoffeeBean coffeeBean = coffeeBeanRepository.findById(req.getCoffeeBeanId()).orElseThrow(() -> new NotFoundException("咖啡豆不存在"));
 
+        // 库存
+        if (coffeeBean.getBagStock() < req.getQuantity()) {
+            throw new BadRequestException("库存不足");
+        }
+        coffeeBean.setBagStock(coffeeBean.getBagStock() - req.getQuantity());
         Double totalAmount = coffeeBean.getPricePerBag() * req.getQuantity();
-
 
         // 创建订单
         Order order = new Order();
@@ -65,50 +71,82 @@ public class OrderService {
         item.setSubtotal(coffeeBean.getPricePerBag() * req.getQuantity());
         orderItemRepository.save(item);
 
-        return order;
+        OrderItemResponse orderItemResponse = OrderItemResponse.builder()
+                .id(item.getId())
+                .coffeeBeanId(item.getCoffeeBean().getId())
+                .coffeeBeanName(item.getCoffeeBean().getName())
+                .quantity(item.getQuantity())
+                .pricePerBag(item.getPricePerBag())
+                .subtotal(item.getSubtotal())
+                .build();
+
+        OrderResponse orderResponse = OrderResponse.builder()
+                .id(order.getId())
+                .totalAmount(order.getTotalAmount())
+                .status(order.getStatus())
+                .orderTime(order.getOrderTime())
+                .items(List.of(orderItemResponse))
+                .build();
+        return orderResponse;
     }
 
     /** 获取当前登录用户自己的订单 */
     @Transactional(readOnly = true)
-    public List<Order> listMyOrders() {
+    public List<OrderResponse> listMyOrders() {
         Long userId = getCurrentUserId();
-        return orderRepository.findByBuyer_IdOrderByOrderTimeDesc(userId);
+        List<Order> orderList = orderRepository.findByBuyer_IdOrderByOrderTimeDesc(userId);
+        List<OrderResponse> orderResponses = orderList.stream().map(order -> OrderResponse.builder()
+                .id(order.getId())
+                .totalAmount(order.getTotalAmount())
+                .status(order.getStatus())
+                .orderTime(order.getOrderTime())
+                .build()).toList();
+
+
+        return orderResponses;
     }
 
     private Long getCurrentUserId() {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            Long id = jwtUtil.getUserIdFromToken(token);
-
-            return id;
-        }
-        throw new RuntimeException("未提供合法的Token");
-    }
-
-    private String getToken() {
         String bearer = request.getHeader("Authorization");
-        if (bearer != null && bearer.startsWith("Bearer ")) {
-            return bearer.substring(7);
-        }
-        throw new RuntimeException("缺少 Token");
+        return jwtUtil.getUserIdFromToken(bearer.substring(7));
     }
 
-    /** 查询当前用户某订单，若非本人则抛异常（ADMIN 例外） */
-    public Order getOrderDetail(Long orderId) {
+
+    /** 查询当前用户某订单，若非本人则抛异常 */
+    public OrderResponse getOrderDetail(Long orderId) {
         Long currentUserId = getCurrentUserId();
 
-
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("订单不存在"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("订单不存在"));
         if (!order.getBuyer().getId().equals(currentUserId)) {
-            throw new RuntimeException("无权限查看该订单");
+            throw new ForbiddenException("无权限查看该订单");
         }
-        return order;
+        OrderItem orderItem = orderItemRepository.findById(order.getItems().get(0).getId()).orElseThrow(() -> new NotFoundException("订单项不存在"));
+        OrderItemResponse orderItemResponse = OrderItemResponse.builder()
+                .id(orderItem.getId())
+                .coffeeBeanId(orderItem.getCoffeeBean().getId())
+                .coffeeBeanName(orderItem.getCoffeeBean().getName())
+                .quantity(orderItem.getQuantity())
+                .pricePerBag(orderItem.getPricePerBag())
+                .subtotal(orderItem.getSubtotal())
+                .build();
+        OrderResponse orderResponse = OrderResponse.builder()
+                .id(order.getId())
+                .totalAmount(order.getTotalAmount())
+                .status(order.getStatus())
+                .orderTime(order.getOrderTime())
+                .items(List.of(orderItemResponse))
+                .build();
+
+        return orderResponse;
 
     }
 
     public List<OrderResponse> listOrdersForFarmer() {
         Long farmerId = getCurrentUserId();
+
+        User farmer = userRepository.findById(farmerId)
+                .orElseThrow(() -> new NotFoundException("农户不存在"));
+
         List<Order> orders = orderRepository.findAllForFarmer(farmerId);
         List<OrderResponse> orderResponses = orders.stream().map(order -> OrderResponse.builder()
                 .id(order.getId())
@@ -131,7 +169,7 @@ public class OrderService {
 
         // 2️⃣ 取订单 & 校验归属
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("订单不存在"));
+                .orElseThrow(() -> new NotFoundException("订单不存在"));
 
         // 农庄归属校验：只要订单里有一件商品来自该农户就允许发货
         boolean belongsToFarmer = order.getItems().stream()
@@ -139,12 +177,12 @@ public class OrderService {
                         .getFarm().getUser().getId().equals(farmerId));
 
         if (!belongsToFarmer) {
-            throw new RuntimeException("无权操作：该订单不属于你的农庄");
+            throw new ForbiddenException("该订单不属于你的农庄");
         }
 
         // 3️⃣ 只有待发货(PAID) 才能发货
         if (order.getStatus() != OrderStatus.PAID) {
-            throw new RuntimeException("当前状态不可发货");
+            throw new BadRequestException("当前状态不可发货");
         }
 
         // 4️⃣ 更新状态
