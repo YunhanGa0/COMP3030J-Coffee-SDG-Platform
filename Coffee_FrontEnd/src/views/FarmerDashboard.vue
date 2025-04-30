@@ -61,79 +61,32 @@
           <v-card class="form-card">
             <v-card-text>
               <v-form ref="profileForm">
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="farmProfile.farmName"
-                      label="农场名称"
-                      outlined
-                      dense
-                      :rules="[v => !!v || '请输入农场名称']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="farmProfile.country"
-                      label="国家"
-                      outlined
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="farmProfile.location"
-                      label="地址"
-                      outlined
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model.number="farmProfile.size"
-                      label="面积 (公顷)"
-                      outlined
-                      dense
-                      type="number"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model.number="farmProfile.establishedYear"
-                      label="成立年份"
-                      outlined
-                      dense
-                      type="number"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model.number="farmProfile.elevation"
-                      label="海拔 (米)"
-                      outlined
-                      dense
-                      type="number"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-select
-                      v-model="farmProfile.soilType"
-                      :items="soilTypes"
-                      label="土壤类型"
-                      outlined
-                      dense
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12">
+                <div class="form-layout">
+                  <div class="image-section">
                     <div class="image-upload-section">
                       <label class="image-label">农场图片</label>
-                      <div class="d-flex align-center">
+                      <div class="image-preview">
                         <v-img
                           v-if="farmProfile.imageUrl"
                           :src="farmProfile.imageUrl"
-                          max-width="200"
-                          max-height="120"
-                          class="mr-4 rounded"
-                        ></v-img>
+                          :aspect-ratio="16/9"
+                          cover
+                          class="preview-image"
+                          height="200"
+                        >
+                          <template v-slot:placeholder>
+                            <v-row
+                              class="fill-height ma-0"
+                              align="center"
+                              justify="center"
+                            >
+                              <v-progress-circular
+                                indeterminate
+                                color="grey lighten-2"
+                              ></v-progress-circular>
+                            </v-row>
+                          </template>
+                        </v-img>
                         <v-file-input
                           v-model="farmImageFile"
                           accept="image/*"
@@ -143,21 +96,92 @@
                           placeholder="选择图片"
                           prepend-icon="mdi-camera"
                           @change="handleImageUpload"
-                          class="flex-grow-1"
+                          class="mt-4"
+                          :rules="[v => !!v || '请上传农场图片']"
                         ></v-file-input>
                       </div>
                     </div>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-textarea
-                      v-model="farmProfile.description"
-                      label="农场描述"
-                      outlined
-                      auto-grow
-                      rows="4"
-                    ></v-textarea>
-                  </v-col>
-                </v-row>
+                  </div>
+                  <div class="form-fields">
+                    <v-row>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model="farmProfile.farmName"
+                          label="农场名称"
+                          outlined
+                          dense
+                          :rules="[v => !!v || '请输入农场名称']"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model="farmProfile.country"
+                          label="国家"
+                          outlined
+                          dense
+                          :rules="[v => !!v || '请输入国家']"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model="farmProfile.location"
+                          label="地址"
+                          outlined
+                          dense
+                          :rules="[v => !!v || '请输入地址']"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model.number="farmProfile.size"
+                          label="面积 (公顷)"
+                          outlined
+                          dense
+                          type="number"
+                          :rules="[v => !!v || '请输入面积']"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model.number="farmProfile.establishedYear"
+                          label="成立年份"
+                          outlined
+                          dense
+                          type="number"
+                          :rules="[v => !!v || '请输入成立年份']"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <v-text-field
+                          v-model.number="farmProfile.elevation"
+                          label="海拔 (米)"
+                          outlined
+                          dense
+                          type="number"
+                          :rules="[v => !!v || '请输入海拔']"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-select
+                          v-model="farmProfile.soilType"
+                          :items="soilTypes"
+                          label="土壤类型"
+                          outlined
+                          dense
+                          :rules="[v => !!v || '请选择土壤类型']"
+                        ></v-select>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-textarea
+                          v-model="farmProfile.description"
+                          label="农场描述"
+                          outlined
+                          :rules="[v => !!v || '请输入农场描述']"
+                        ></v-textarea>
+                      </v-col>
+                    </v-row>
+                  </div>
+                </div>
               </v-form>
             </v-card-text>
           </v-card>
@@ -193,17 +217,43 @@
               :items-per-page="5"
               class="blog-table"
             >
-              <template v-slot:item.title="{ item }">
-                <div 
-                  class="title-cell clickable"
-                  @click="viewBlogDetail(item)"
-                >
-                  {{ item.title }}
+              <template v-slot:item.info="{ item }">
+                <div class="blog-info-cell">
+                  <div class="blog-cover" v-if="item.coverImageUrl">
+                    <v-img
+                      :src="item.coverImageUrl"
+                      height="80"
+                      width="120"
+                      cover
+                      class="rounded"
+                    >
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-2"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
+                  </div>
+                  <div class="blog-text">
+                    <div 
+                      class="title-cell clickable"
+                      @click="viewBlogDetail(item)"
+                    >
+                      {{ item.title }}
+                    </div>
+                    <div class="blog-meta">
+                      <span class="blog-date">{{ formatDate(item.createdAt) }}</span>
+                      <p class="blog-summary">{{ item.summary }}</p>
+                    </div>
+                  </div>
                 </div>
-              </template>
-
-              <template v-slot:item.createdAt="{ item }">
-                {{ formatDate(item.createdAt) }}
               </template>
 
               <template v-slot:item.published="{ item }">
@@ -388,6 +438,138 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+    <!-- 强制填写农场信息对话框 -->
+    <v-dialog
+      v-model="showProfileDialog"
+      persistent
+      max-width="800px"
+      :overlay="true"
+    >
+      <v-card>
+        <v-card-title class="headline primary white--text">
+          完善农场信息
+        </v-card-title>
+        <v-card-text class="pt-4">
+          <p class="mb-4">请先完善您的农场信息，这是使用平台功能的必要步骤。</p>
+          <v-form ref="profileForm">
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="farmProfile.farmName"
+                  label="农场名称"
+                  outlined
+                  dense
+                  :rules="[v => !!v || '请输入农场名称']"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="farmProfile.country"
+                  label="国家"
+                  outlined
+                  dense
+                  :rules="[v => !!v || '请输入国家']"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="farmProfile.location"
+                  label="地址"
+                  outlined
+                  dense
+                  :rules="[v => !!v || '请输入地址']"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model.number="farmProfile.size"
+                  label="面积 (公顷)"
+                  outlined
+                  dense
+                  type="number"
+                  :rules="[v => !!v || '请输入面积']"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model.number="farmProfile.establishedYear"
+                  label="成立年份"
+                  outlined
+                  dense
+                  type="number"
+                  :rules="[v => !!v || '请输入成立年份']"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model.number="farmProfile.elevation"
+                  label="海拔 (米)"
+                  outlined
+                  dense
+                  type="number"
+                  :rules="[v => !!v || '请输入海拔']"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-select
+                  v-model="farmProfile.soilType"
+                  :items="soilTypes"
+                  label="土壤类型"
+                  outlined
+                  dense
+                  :rules="[v => !!v || '请选择土壤类型']"
+                ></v-select>
+              </v-col>
+              <v-col cols="12">
+                <div class="image-upload-section">
+                  <label class="image-label">农场图片</label>
+                  <div class="d-flex align-center">
+                    <v-img
+                      v-if="farmProfile.imageUrl"
+                      :src="farmProfile.imageUrl"
+                      max-width="200"
+                      max-height="120"
+                      class="mr-4 rounded"
+                    ></v-img>
+                    <v-file-input
+                      v-model="farmImageFile"
+                      accept="image/*"
+                      outlined
+                      dense
+                      hide-details
+                      placeholder="选择图片"
+                      prepend-icon="mdi-camera"
+                      @change="handleImageUpload"
+                      class="flex-grow-1"
+                      :rules="[v => !!v || '请上传农场图片']"
+                    ></v-file-input>
+                  </div>
+                </div>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="farmProfile.description"
+                  label="农场描述"
+                  outlined
+                  :rules="[v => !!v || '请输入农场描述']"
+                ></v-textarea>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="pb-4 px-4">
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            :loading="saveLoading"
+            @click="saveProfile"
+          >
+            保存信息
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -405,13 +587,14 @@ export default {
     activeTab: 'profile',
     farm: {},
     blogs: [],
+    hasCompletedProfile: false,  // 添加状态标记
+    showProfileDialog: false,    // 添加对话框控制
 
     // 博客表格列
     blogHeaders: [
-      { text: '标题', value: 'title', sortable: true },
-      { text: '创建时间', value: 'createdAt', sortable: true },
-      { text: '状态', value: 'published', sortable: true },
-      { text: '操作', value: 'actions', sortable: false, align: 'end' }
+      { text: '博客信息', value: 'info', sortable: false },
+      { text: '状态', value: 'published', sortable: true, width: 100 },
+      { text: '操作', value: 'actions', sortable: false, align: 'end', width: 120 }
     ],
 
     // 编辑对话框
@@ -479,14 +662,32 @@ export default {
     document.documentElement.style.setProperty('--radius-md', '12px')
     document.documentElement.style.setProperty('--shadow-sm', '0 4px 12px rgba(0, 0, 0, .06)')
 
-    // 获取农场信息
-    this.fetchFarmProfile()
-
-    // 获取博客列表
-    this.fetchBlogs()
+    // 先检查农场状态
+    await this.checkFarmStatus()
   },
 
   methods: {
+    // 检查农场状态
+    async checkFarmStatus() {
+      try {
+        const response = await axios.get('/api/farms/status')
+        if (response.data.code === 200) {
+          this.hasCompletedProfile = response.data.data.hasCompletedProfile
+          if (!this.hasCompletedProfile) {
+            this.activeTab = 'profile'
+            this.showProfileDialog = true
+          } else {
+            // 只有在完成农场信息填写后才获取其他信息
+            await this.fetchFarmProfile()
+            await this.fetchBlogs()
+          }
+        }
+      } catch (error) {
+        console.error('检查农场状态失败:', error)
+        this.showMessage('检查农场状态失败', 'error')
+      }
+    },
+
     // 获取农场信息
     async fetchFarmProfile() {
       try {
@@ -527,14 +728,13 @@ export default {
 
       this.saveLoading = true
       try {
-        let response;
         const profileData = {
           ...this.farmProfile,
           id: this.farm.id
         };
 
-        // 根据是否已有农场信息来决定是创建还是更新
-        if (!this.farm.id) {
+        let response;
+        if (!this.hasCompletedProfile) {
           response = await axios.post('/api/farms/profile', profileData);
         } else {
           response = await axios.put('/api/farms/update', profileData);
@@ -542,10 +742,13 @@ export default {
 
         if (response.data.code === 200) {
           this.showMessage(
-            !this.farm.id ? '农场信息创建成功' : '农场信息更新成功',
+            !this.hasCompletedProfile ? '农场信息创建成功' : '农场信息更新成功',
             'success'
           );
+          this.hasCompletedProfile = true;
+          this.showProfileDialog = false;
           await this.fetchFarmProfile();
+          await this.fetchBlogs();
         } else {
           this.showMessage(response.data.message || '保存农场信息失败', 'error');
         }
@@ -763,6 +966,16 @@ export default {
         path: `/farms/${this.farm.id}/blogs/${blog.id}`
       });
     },
+  },
+
+  watch: {
+    // 监听标签页变化
+    activeTab(newTab) {
+      if (!this.hasCompletedProfile) {
+        this.activeTab = 'profile'
+        this.showProfileDialog = true
+      }
+    }
   }
 }
 </script>
@@ -902,12 +1115,47 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 
+.blog-info-cell {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  align-items: center;
+}
+
+.blog-cover {
+  flex-shrink: 0;
+}
+
+.blog-text {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.blog-meta {
+  margin-top: 0.25rem;
+}
+
+.blog-date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.blog-summary {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.25rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .title-cell {
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 300px;
+  max-width: 500px;
 }
 
 .title-cell.clickable {
@@ -940,5 +1188,44 @@ export default {
   color: rgba(0, 0, 0, 0.6);
   font-size: 12px;
   margin-bottom: 8px;
+}
+
+/* 表单布局 */
+.form-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.image-section {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.form-fields {
+  flex: 1;
+  min-width: 0;
+}
+
+.image-preview {
+  background-color: var(--sand-50);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.preview-image {
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 768px) {
+  .form-layout {
+    flex-direction: column;
+  }
+
+  .image-section {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
 }
 </style>

@@ -31,7 +31,26 @@
         <aside class="farm-card">
           <h3>Farm Details</h3>
           <div class="farm-photo">
-            <v-img :src="farm.imageUrl || require('@/assets/pic/plantation.jpg')" alt="Farm Image" height=200px></v-img>
+            <v-img 
+              :src="farm.imageUrl || require('@/assets/pic/plantation.jpg')" 
+              :aspect-ratio="16/9"
+              cover
+              class="farm-image"
+              height="200"
+            >
+              <template v-slot:placeholder>
+                <v-row
+                  class="fill-height ma-0"
+                  align="center"
+                  justify="center"
+                >
+                  <v-progress-circular
+                    indeterminate
+                    color="grey lighten-2"
+                  ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
           </div>
           <div class="detail-grid">
             <div><span>Size</span>{{ farm.size }} hectares</div>
@@ -104,18 +123,44 @@
                 class="blog-card"
                 @click="$router.push(`/farms/${farmId}/blogs/${blog.id}`)"
               >
-                <h3 class="blog-title">{{ blog.title }}</h3>
-                <p class="blog-excerpt">{{ blog.summary }}</p>
-                <div class="blog-footer">
-                  <time :datetime="formatDate(blog.createdAt)">{{ formatDate(blog.createdAt) }}</time>
-                  <v-btn
-                    color="green-700"
-                    class="read-more-btn"
-                    @click="$router.push(`/farms/${farmId}/blogs/${blog.id}`)"
-                  >
-                    Read&nbsp;More
-                    <v-icon end>mdi-arrow-right</v-icon>
-                  </v-btn>
+                <div class="blog-card-content">
+                  <div class="blog-cover" v-if="blog.coverImageUrl">
+                    <v-img
+                      :src="blog.coverImageUrl"
+                      height="160"
+                      width="240"
+                      cover
+                      class="rounded"
+                    >
+                      <template v-slot:placeholder>
+                        <v-row
+                          class="fill-height ma-0"
+                          align="center"
+                          justify="center"
+                        >
+                          <v-progress-circular
+                            indeterminate
+                            color="grey lighten-2"
+                          ></v-progress-circular>
+                        </v-row>
+                      </template>
+                    </v-img>
+                  </div>
+                  <div class="blog-text">
+                    <h3 class="blog-title">{{ blog.title }}</h3>
+                    <p class="blog-excerpt">{{ blog.summary }}</p>
+                    <div class="blog-footer">
+                      <time :datetime="formatDate(blog.createdAt)">{{ formatDate(blog.createdAt) }}</time>
+                      <v-btn
+                        color="green-700"
+                        class="read-more-btn"
+                        @click.stop="$router.push(`/farms/${farmId}/blogs/${blog.id}`)"
+                      >
+                        Read&nbsp;More
+                        <v-icon end>mdi-arrow-right</v-icon>
+                      </v-btn>
+                    </div>
+                  </div>
                 </div>
               </article>
             </div>
@@ -325,7 +370,6 @@ export default {
 @media(max-width:900px){.container{grid-template-columns:1fr}}
 
 /* ----------  Farm Details Card ---------- */
-/* 左边农庄卡片 */
 .farm-card {
   background: #fff;
   border-radius: 16px;
@@ -333,19 +377,34 @@ export default {
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  gap: 1rem;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
 }
-/* 农庄照片 */
+
 .farm-photo {
   width: 100%;
-  background: var(--sand-100);
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 1rem;
+  background-color: var(--sand-100);
 }
+
+.farm-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.farm-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--green-700);
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
 .card{background:#fff;border-radius:var(--radius-lg);padding:1rem;box-shadow:var(--shadow-sm);text-align: left}
-.card h3{font-size:1.15rem;margin-bottom:1rem;color:var(--green-700)}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;font-size:.9rem}
 .detail-grid div span{display:block;font-size:.7rem;color:#666;text-transform:uppercase;letter-spacing:.4px;margin-bottom:.15rem}
 .about{margin-top:1.25rem;font-size:.9rem;line-height:1.6;color:#555}
@@ -363,44 +422,18 @@ export default {
 .blog-list{display:flex;flex-direction:column;gap:1.25rem}
 .blog-card{background:#fff;border-radius:var(--radius-md);padding:1.5rem;box-shadow:var(--shadow-sm);transition:transform .2s; cursor:pointer;}
 .blog-card:hover{transform:translateY(-4px)}
-.blog-title{font-size:1.15rem;font-weight:600;margin-bottom:.4rem}
-.blog-meta{display:flex;align-items:center;gap:.5rem;font-size:.7rem;color:#777;margin-bottom:.6rem}
-.blog-meta .badge{background:var(--sand-100);padding:.15rem .55rem;border-radius:9999px;font-weight:600}
-.blog-meta .badge.published{background:#e8f5e9;color:#2e7d32;}
-.blog-meta .badge.draft{background:#ececec;color:#666;}
-.blog-excerpt{font-size:.9rem;color:#555;line-height:1.55;
-  max-height:4.5em;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;
-  -webkit-line-clamp:3;-webkit-box-orient:vertical;}
-.blog-footer a{color:var(--green-700);font-weight:600}
-.blog-footer a:hover{color:var(--green-900)}
+.blog-card-content{display:flex;gap:1.5rem}
+.blog-cover{flex-shrink:0}
+.blog-text{flex-grow:1;min-width:0}
+.blog-title{font-size:1.15rem;font-weight:600;margin-bottom:.5rem;color:var(--green-700)}
+.blog-excerpt{font-size:.9rem;color:#555;line-height:1.55;margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.blog-footer{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.blog-footer time{font-size:0.85rem;color:#666}
 .read-more-btn{
   margin-left:auto;              /* 靠右 */
   text-transform:none;           /* 保持大小写 */
   font-weight:600;
   padding:0 16px;
-}
-.blog-footer{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:1rem;
-}
-.blog-title{
-  font-size:1.15rem;
-  font-weight:600;
-  margin-bottom:.5rem;
-}
-
-.blog-excerpt{
-  font-size:.9rem;
-  color:#555;
-  line-height:1.55;
-  max-height:4.5em;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  display:-webkit-box;
-  -webkit-line-clamp:3;
-  -webkit-box-orient:vertical;
 }
 
 /* ----------  Back Link ---------- */
