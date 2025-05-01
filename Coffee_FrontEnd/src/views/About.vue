@@ -84,7 +84,7 @@
                 <div>
                   <v-img
                     :src="require('@/assets/starbucks_logo.png')"
-                    alt="星巴克标志"
+                    alt="Starbucks"
                     contain
                     height="80"
                     class="mb-6"
@@ -172,9 +172,16 @@
             <div class="content-card">
               <transition name="fade-up-right" appear>
                 <div>
-                  <div class="ob-logo mb-6">
-                    <span class="text-h3 font-weight-black">OB</span>
-                    <span class="text-subtitle-1 ml-2">OriginBoost</span>
+                  <div class="ob-logo mb-6 d-flex justify-center">
+                    <v-img
+                      :src="require('@/assets/pic/OB.png')"
+                      alt="OB Logo"
+                      contain
+                      height="80"
+                      class="mb-6"
+                    ></v-img>
+                    <!--<span class="text-h3 font-weight-black">OB</span> -->
+                    <!--<span class="text-subtitle-1 ml-2">OriginBoost</span>-->
                   </div>
                   <h2 class="text-h4 font-weight-bold mb-6 secondary--text">OriginBoost Technology</h2>
                   <p class="text-body-1 mb-4">
