@@ -19,6 +19,7 @@ public class CourseController {
     @Autowired
     private CourseVideoService courseVideoService;
 
+    // 管理员创建培训课程
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping
     public ApiResponse createCourse(@RequestBody CourseRequest request){

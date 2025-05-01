@@ -13,5 +13,7 @@ public class CoffeeBeanDetailResponse {
     private Double weightPerBagKg;
     private Integer bagStock;
     private Double pricePerBag;
+    private Boolean available;     // 是否上架销售
+    private Boolean limitedEdition; // 是否为限量豆
     private String imageUrl;
 }

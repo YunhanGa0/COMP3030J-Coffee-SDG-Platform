@@ -39,7 +39,7 @@ public class CoffeeBeanService {
     private HttpServletRequest request;
 
     @Transactional
-    public CoffeeBean createCoffeeBean(CreateCoffeeBeanRequest request) {
+    public CoffeeBeanDetailResponse createCoffeeBean(CreateCoffeeBeanRequest request) {
 
         Farm farm = farmRepository.findByUserId(getCurrentUserId())
                 .orElseThrow(() -> new RuntimeException("当前用户未绑定农庄"));
@@ -58,8 +58,11 @@ public class CoffeeBeanService {
         bean.setAvailable(request.getAvailable() != null ? request.getAvailable() : true);
         bean.setLimitedEdition(request.getLimitedEdition() != null ? request.getLimitedEdition() : false);
         bean.setImageUrl(request.getImageUrl());
+        coffeeBeanRepository.save(bean);
+        CoffeeBeanDetailResponse coffeeBeanDetailResponse = new CoffeeBeanDetailResponse();
+        BeanUtils.copyProperties(bean, coffeeBeanDetailResponse);
 
-        return coffeeBeanRepository.save(bean);
+        return coffeeBeanDetailResponse;
     }
 
     private Long getCurrentUserId() {

@@ -7,6 +7,7 @@ import com.coffee_backend.dto.FileResponse;
 import com.coffee_backend.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,16 +36,19 @@ public class ArticleController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse save(@RequestBody ArticleRequest articleRequest){
         return articleService.save(articleRequest);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse update(@PathVariable Long id, @RequestBody ArticleRequest articleRequest){
         return articleService.update(id, articleRequest);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse delete(@PathVariable Long id){
         return articleService.deleteById(id);
     }

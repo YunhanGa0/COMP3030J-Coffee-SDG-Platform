@@ -44,9 +44,9 @@ public class CourseService {
         }
 
         Course course = BeanUtil.copyProperties(request, Course.class);
-        Course saved = courseRepository.save(course);
+        courseRepository.save(course);
 
-        return ApiResponse.success();
+        return ApiResponse.success(course);
     }
 
     public ApiResponse queryCourse(Long id) {

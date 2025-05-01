@@ -1,6 +1,7 @@
 package com.coffee_backend.controller;
 
 import com.coffee_backend.dto.ApiResponse;
+import com.coffee_backend.dto.CoffeeBeanDetailResponse;
 import com.coffee_backend.dto.CreateCoffeeBeanRequest;
 import com.coffee_backend.entity.CoffeeBean;
 import com.coffee_backend.service.CoffeeBeanService;
@@ -25,7 +26,7 @@ public class CoffeeBeanController {
     @PreAuthorize("hasAuthority('FARMER')")
     @PostMapping
     public ApiResponse createCoffeeBean(@RequestBody CreateCoffeeBeanRequest request) {
-        CoffeeBean coffeeBean = coffeeBeanService.createCoffeeBean(request);
+        CoffeeBeanDetailResponse coffeeBean = coffeeBeanService.createCoffeeBean(request);
         return ApiResponse.created(coffeeBean);
     }
 
