@@ -100,5 +100,10 @@ public class AdminController {
         return certificationService.reviewCertificationApplication(id, request);
     }
 
-
+    // 管理员查询CUSTOMER数量
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping("/queryCustomer")
+    public ApiResponse queryCustomer(){
+        return adminService.queryCustomer();
+    }
 }
