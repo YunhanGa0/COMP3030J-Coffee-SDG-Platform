@@ -10,9 +10,9 @@
                 <v-icon size="40" color="white">mdi-certificate</v-icon>
               </v-avatar>
               <div>
-                <h1 class="text-h4 font-weight-bold primary--text mb-1">Farm Certification Management</h1>
+                <h1 class="text-h4 font-weight-bold primary--text mb-1">Farm certification management</h1>
                 <div class="text-subtitle-1 grey--text">
-                  Review and manage certification applications
+                  Review and manage the farm's certification applications to ensure compliance with sustainability standards
                 </div>
               </div>
               <v-spacer></v-spacer>
@@ -23,7 +23,7 @@
                 :loading="loading"
               >
                 <v-icon left>mdi-refresh</v-icon>
-                Refresh
+                Refresh data
               </v-btn>
             </div>
           </v-card>
@@ -35,7 +35,7 @@
         <v-col cols="12">
           <v-card class="pa-4">
             <v-card-title class="px-0 pt-0">
-              Filter by Application Status
+              Certification application status filtering
             </v-card-title>
             <v-card-text class="px-0 pb-0">
               <v-chip-group
@@ -118,7 +118,7 @@
               <template v-slot:no-data>
                 <div class="text-center pa-5">
                   <v-icon large color="grey lighten-1">mdi-certificate-outline</v-icon>
-                  <p class="mt-3 grey--text">No certification applications yet</p>
+                  <p class="mt-3 grey--text">There is no certification application data yet</p>
                 </div>
               </template>
             </v-data-table>
@@ -132,7 +132,7 @@
       <v-card v-if="selectedCertification">
         <v-card-title class="primary white--text">
           <v-icon color="white" left>mdi-certificate</v-icon>
-          Certification Details
+          Details of the certification application
           <v-spacer></v-spacer>
           <v-btn icon color="white" @click="detailDialog = false">
             <v-icon>mdi-close</v-icon>
@@ -142,7 +142,7 @@
         <v-card-text class="pt-4">
           <v-row>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">Farm Name</div>
+              <div class="caption grey--text">Farm name</div>
               <div class="subtitle-1 font-weight-medium">{{ selectedCertification.farmName }}</div>
             </v-col>
             <v-col cols="12" sm="6">
@@ -155,11 +155,11 @@
               </v-chip>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">Submission Date</div>
+              <div class="caption grey--text">Application Date</div>
               <div class="subtitle-1">{{ formatDate(selectedCertification.createdAt) }}</div>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">Farm Owner</div>
+              <div class="caption grey--text">Farm owner</div>
               <div class="subtitle-1">{{ selectedCertification.ownerName }}</div>
             </v-col>
 
@@ -168,10 +168,10 @@
               <div class="caption grey--text">Certification Type</div>
               <div class="subtitle-1 mb-2">{{ selectedCertification.certificationType }}</div>
 
-              <div class="caption grey--text">Certification Details</div>
+              <div class="caption grey--text">Certification Description</div>
               <div class="body-1 mb-4">{{ selectedCertification.description }}</div>
 
-              <div class="caption grey--text mb-2">Submitted Documents</div>
+              <div class="caption grey--text mb-2">Supporting documents submitted</div>
               <v-card outlined class="pa-3">
                 <v-row>
                   <v-col v-for="(file, index) in selectedCertification.documents" :key="index" cols="6" md="4">
@@ -189,7 +189,7 @@
                       <div class="caption mt-1 text-center text-truncate">{{ file.name }}</div>
                       <div class="d-flex justify-center mt-1">
                         <v-btn x-small text color="primary" @click="viewDocument(file)">
-                          <v-icon x-small left>mdi-eye</v-icon> View
+                          <v-icon x-small left>mdi-eye</v-icon> Check
                         </v-btn>
                       </div>
                     </v-card>
@@ -228,9 +228,9 @@
     <!-- 批准确认对话框 -->
     <v-dialog v-model="approveDialog" max-width="500">
       <v-card>
-        <v-card-title class="headline">Approve Certification</v-card-title>
+        <v-card-title class="headline">Approve the certification</v-card-title>
         <v-card-text>
-          您确定要批准该农场的认证申请吗？批准后，该农场将获得认证标识。
+          Are you sure you want to approve the farm's application for certification? Upon approval, the farm will receive a certification mark.
 
           <v-textarea
             v-model="approveComment"
@@ -247,7 +247,7 @@
             color="success"
             @click="confirmApprove"
             :loading="processingAction"
-          >确认批准</v-btn>
+          >Confirm the approval</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -257,7 +257,7 @@
       <v-card>
         <v-card-title class="headline">拒绝认证</v-card-title>
         <v-card-text>
-          您确定要拒绝该农场的认证申请吗？
+          Are you sure you want to reject the farm's application for certification?
 
           <v-textarea
             v-model="rejectReason"
@@ -276,7 +276,7 @@
             @click="confirmReject"
             :loading="processingAction"
             :disabled="!rejectReason"
-          >确认拒绝</v-btn>
+          >Confirm the rejection</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -295,7 +295,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -313,9 +313,9 @@ export default {
       // 表格列配置
       headers: [
         { text: 'ID', value: 'id', width: '80px' },
-        { text: 'Farm', value: 'farmName' },
-        { text: 'Type', value: 'certificationType' },
-        { text: 'Date', value: 'createdAt' },
+        { text: 'Farm name', value: 'farmName' },
+        { text: 'Certification Type', value: 'certificationType' },
+        { text: 'Apply Date', value: 'createdAt' },
         { text: 'Status', value: 'status', width: '120px' },
         { text: 'Action', value: 'actions', sortable: false, width: '120px' }
       ],
@@ -374,11 +374,11 @@ export default {
         if (response.data.code === 200) {
           this.certifications = response.data.data;
         } else {
-          this.showMessage(response.data.message || '获取认证申请列表失败', 'error');
+          this.showMessage(response.data.message || 'Failed to get the certification application list', 'error');
         }
       } catch (error) {
-        console.error('获取认证申请列表失败:', error);
-        this.showMessage('获取认证申请列表失败', 'error');
+        console.error('Failed to get the certification application list:', error);
+        this.showMessage('Failed to get the certification application list', 'error');
       } finally {
         this.loading = false;
       }
@@ -414,17 +414,17 @@ export default {
         });
 
         if (response.data.code === 200) {
-          this.showMessage('认证已成功批准', 'success');
+          this.showMessage('The certification has been successfully approved', 'success');
           this.fetchCertifications();
           this.approveDialog = false;
           this.detailDialog = false;
           this.approveComment = '';
         } else {
-          throw new Error(response.data.message || '批准认证失败');
+          throw new Error(response.data.message || 'Approval certification failed');
         }
       } catch (error) {
-        console.error('批准认证失败:', error);
-        this.showMessage('批准认证失败: ' + (error.message || '未知错误'), 'error');
+        console.error('Approval certification failed:', error);
+        this.showMessage('Approval certification failed: ' + (error.message || 'Unknown error'), 'error');
       } finally {
         this.processingAction = false;
       }
@@ -442,17 +442,17 @@ export default {
         });
 
         if (response.data.code === 200) {
-          this.showMessage('认证已成功拒绝', 'success');
+          this.showMessage('The certification was successfully rejected', 'success');
           this.fetchCertifications();
           this.rejectDialog = false;
           this.detailDialog = false;
           this.rejectReason = '';
         } else {
-          throw new Error(response.data.message || '拒绝认证失败');
+          throw new Error(response.data.message || 'Failed to reject the authentication');
         }
       } catch (error) {
-        console.error('拒绝认证失败:', error);
-        this.showMessage('拒绝认证失败: ' + (error.message || '未知错误'), 'error');
+        console.error('Failed to reject the authentication:', error);
+        this.showMessage('Failed to reject the authentication: ' + (error.message || 'Unknown error'), 'error');
       } finally {
         this.processingAction = false;
       }

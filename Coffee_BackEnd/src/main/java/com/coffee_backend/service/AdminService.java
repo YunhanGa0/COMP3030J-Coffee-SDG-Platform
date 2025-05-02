@@ -1,9 +1,7 @@
 package com.coffee_backend.service;
 
-import com.coffee_backend.dto.ApiResponse;
-import com.coffee_backend.dto.SaveFarmerRequest;
-import com.coffee_backend.dto.SaveFarmerResponse;
-import com.coffee_backend.dto.UserDTO;
+import cn.hutool.core.bean.BeanUtil;
+import com.coffee_backend.dto.*;
 import com.coffee_backend.entity.User;
 import com.coffee_backend.enumType.UserRole;
 import com.coffee_backend.repo.UserRepository;
@@ -85,5 +83,18 @@ public class AdminService {
             .collect(Collectors.toList());
         
         return ApiResponse.success(farmerDTOs);
+    }
+
+    public ApiResponse queryCustomer() {
+        List<User> customers = userRepository.findByRole(UserRole.CUSTOMER);
+
+        List<UserDTO> userDTOS = customers.stream().map(customer -> BeanUtil.copyProperties(customer, UserDTO.class)).toList();
+
+        QueryNumberResponse response = QueryNumberResponse.builder()
+                .nums(userDTOS.size())
+                .users(userDTOS)
+                .build();
+
+        return ApiResponse.success(response);
     }
 }
