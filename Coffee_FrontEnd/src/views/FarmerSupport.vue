@@ -78,12 +78,12 @@
         <v-row justify="center">
           <v-col cols="12" md="10" lg="9">
             <h2 class="section-title text-center mb-10">Support Projects</h2>
-            
+
             <!-- 可持续种植技术 -->
             <transition-group name="fade-up-stagger" tag="div">
-              <v-card 
-                class="mb-10 support-card" 
-                elevation="4" 
+              <v-card
+                class="mb-10 support-card"
+                elevation="4"
                 key="tech"
               >
                 <v-row no-gutters>
@@ -136,9 +136,9 @@
               </v-card>
 
               <!-- 咖啡种植基金 -->
-              <v-card 
-                class="mb-10 support-card" 
-                elevation="4" 
+              <v-card
+                class="mb-10 support-card"
+                elevation="4"
                 key="fund"
               >
                 <v-row no-gutters>
@@ -190,9 +190,9 @@
               </v-card>
 
               <!-- 申请甄选农场 -->
-              <v-card 
-                class="mb-10 support-card" 
-                elevation="4" 
+              <v-card
+                class="mb-10 support-card"
+                elevation="4"
                 key="selection"
               >
                 <v-row no-gutters>
@@ -236,7 +236,7 @@
                         class="card-btn"
                         @click="$router.push('/farm-certification')"
                       >
-                        立即申请
+                        Apply Now
                         <v-icon right>mdi-arrow-right</v-icon>
                       </v-btn>
                     </v-card-text>
@@ -245,9 +245,9 @@
               </v-card>
 
               <!-- 在线学习视频 -->
-              <v-card 
-                class="mb-10 support-card" 
-                elevation="4" 
+              <v-card
+                class="mb-10 support-card"
+                elevation="4"
                 key="learning"
               >
                 <v-row no-gutters>
@@ -310,14 +310,14 @@
         <v-row justify="center">
           <v-col cols="12" md="10" lg="8" class="text-center">
             <h2 class="section-title text-center mb-10">Application Process</h2>
-            <v-stepper 
-              alt-labels 
+            <v-stepper
+              alt-labels
               class="process-stepper transparent-bg elevation-0"
               value="1"
             >
               <v-stepper-header class="elevation-0 transparent-bg">
-                <v-stepper-step 
-                  step="1" 
+                <v-stepper-step
+                  step="1"
                   color="primary"
                   complete
                 >
@@ -326,8 +326,8 @@
 
                 <v-divider></v-divider>
 
-                <v-stepper-step 
-                  step="2" 
+                <v-stepper-step
+                  step="2"
                   color="primary"
                 >
                   Initial Review
@@ -335,8 +335,8 @@
 
                 <v-divider></v-divider>
 
-                <v-stepper-step 
-                  step="3" 
+                <v-stepper-step
+                  step="3"
                   color="primary"
                 >
                   Farm Visit
@@ -344,8 +344,8 @@
 
                 <v-divider></v-divider>
 
-                <v-stepper-step 
-                  step="4" 
+                <v-stepper-step
+                  step="4"
                   color="primary"
                 >
                   Plan Development
@@ -353,15 +353,15 @@
 
                 <v-divider></v-divider>
 
-                <v-stepper-step 
-                  step="5" 
+                <v-stepper-step
+                  step="5"
                   color="primary"
                 >
                   Cooperation Begins
                 </v-stepper-step>
               </v-stepper-header>
             </v-stepper>
-            
+
             <v-btn
               color="primary"
               large
@@ -713,19 +713,19 @@ export default {
   .hero-title {
     font-size: 2.5rem !important;
   }
-  
+
   .hero-subtitle {
     font-size: 1.2rem !important;
   }
-  
+
   .intro-text {
     font-size: 1.1rem;
   }
-  
+
   .stat-number {
     font-size: 2rem;
   }
-  
+
   .card-title {
     font-size: 1.8rem !important;
   }
@@ -735,27 +735,27 @@ export default {
   .hero-title {
     font-size: 2rem !important;
   }
-  
+
   .hero-subtitle {
     font-size: 1rem !important;
   }
-  
+
   .section-title {
     font-size: 1.8rem;
   }
-  
+
   .stat-number {
     font-size: 1.8rem;
   }
-  
+
   .stat-label {
     font-size: 0.9rem;
   }
-  
+
   .card-title {
     font-size: 1.5rem !important;
   }
-  
+
   .feature-item {
     font-size: 0.95rem;
   }

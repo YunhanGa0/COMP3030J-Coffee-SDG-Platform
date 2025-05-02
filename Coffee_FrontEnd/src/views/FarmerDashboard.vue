@@ -3,13 +3,13 @@
     <!-- 顶部横幅 -->
     <section class="hero">
       <div class="hero-inner">
-        <h1>农场管理中心</h1>
+        <h1>Farm Management Center</h1>
         <div class="hero-meta">
-          <span>农场主: {{ farm.user ? farm.user.username : '加载中...' }}</span>
-          <span>农场名称: {{ farm.farmName || '加载中...' }}</span>
+          <span>Farmer: {{ farm.user ? farm.user.username : 'Loading...' }}</span>
+          <span>Farm Name: {{ farm.farmName || 'Loading...' }}</span>
           <span v-if="farm.isCertificated" class="badge-cert">
             <v-icon small class="mr-1">mdi-check-circle</v-icon>
-            认证农场
+            Certified Farm
           </span>
         </div>
       </div>
@@ -26,7 +26,7 @@
             @click="activeTab = 'profile'"
           >
             <v-icon size="20" class="mr-2">mdi-account-edit</v-icon>
-            农场信息
+            Farm Info
           </div>
           <div
             class="nav-item"
@@ -34,7 +34,7 @@
             @click="activeTab = 'blogs'"
           >
             <v-icon size="20" class="mr-2">mdi-post</v-icon>
-            博客管理
+            Blog Management
           </div>
         </div>
       </aside>
@@ -44,7 +44,7 @@
         <!-- 农场信息编辑 -->
         <div v-if="activeTab === 'profile'" class="profile-editor">
           <header class="section-header">
-            <h2>农场信息</h2>
+            <h2>Farm profile</h2>
             <div class="actions">
               <v-btn
                 color="var(--green-700)"
@@ -53,7 +53,7 @@
                 :loading="saveLoading"
                 @click="saveProfile"
               >
-                保存修改
+                Save Changes
               </v-btn>
             </div>
           </header>
@@ -64,7 +64,7 @@
                 <div class="form-layout">
                   <div class="image-section">
                     <div class="image-upload-section">
-                      <label class="image-label">农场图片</label>
+                      <label class="image-label">Farm Image</label>
                       <div class="image-preview">
                         <v-img
                           v-if="farmProfile.imageUrl"
@@ -93,11 +93,11 @@
                           outlined
                           dense
                           hide-details
-                          placeholder="选择图片"
+                          placeholder="Select image"
                           prepend-icon="mdi-camera"
                           @change="handleImageUpload"
                           class="mt-4"
-                          :rules="[v => !!v || '请上传农场图片']"
+                          :rules="[v => !!v || 'Please upload farm image']"
                         ></v-file-input>
                       </div>
                     </div>
@@ -107,76 +107,76 @@
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="farmProfile.farmName"
-                          label="农场名称"
+                          label="Farm Name"
                           outlined
                           dense
-                          :rules="[v => !!v || '请输入农场名称']"
+                          :rules="[v => !!v || 'Farm name is required']"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="farmProfile.country"
-                          label="国家"
+                          label="Country"
                           outlined
                           dense
-                          :rules="[v => !!v || '请输入国家']"
+                          :rules="[v => !!v || 'Country is required']"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model="farmProfile.location"
-                          label="地址"
+                          label="Address"
                           outlined
                           dense
-                          :rules="[v => !!v || '请输入地址']"
+                          :rules="[v => !!v || 'Address is required']"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model.number="farmProfile.size"
-                          label="面积 (公顷)"
+                          label="Area (hectares)"
                           outlined
                           dense
                           type="number"
-                          :rules="[v => !!v || '请输入面积']"
+                          :rules="[v => !!v || 'Area is required']"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model.number="farmProfile.establishedYear"
-                          label="成立年份"
+                          label="Established Year"
                           outlined
                           dense
                           type="number"
-                          :rules="[v => !!v || '请输入成立年份']"
+                          :rules="[v => !!v || 'Established year is required']"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" md="6">
                         <v-text-field
                           v-model.number="farmProfile.elevation"
-                          label="海拔 (米)"
+                          label="Elevation (meters"
                           outlined
                           dense
                           type="number"
-                          :rules="[v => !!v || '请输入海拔']"
+                          :rules="[v => !!v || 'Elevation is required']"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12">
                         <v-select
                           v-model="farmProfile.soilType"
                           :items="soilTypes"
-                          label="土壤类型"
+                          label="Soil Type"
                           outlined
                           dense
-                          :rules="[v => !!v || '请选择土壤类型']"
+                          :rules="[v => !!v || 'Soil type is required']"
                         ></v-select>
                       </v-col>
                       <v-col cols="12">
                         <v-textarea
                           v-model="farmProfile.description"
-                          label="农场描述"
+                          label="Farm Description"
                           outlined
-                          :rules="[v => !!v || '请输入农场描述']"
+                          :rules="[v => !!v || 'Description is required']"
                         ></v-textarea>
                       </v-col>
                     </v-row>
@@ -190,7 +190,7 @@
         <!-- 博客管理 -->
         <div v-if="activeTab === 'blogs'" class="blogs-manager">
           <header class="section-header">
-            <h2>博客管理</h2>
+            <h2>Blog Management</h2>
             <div class="actions">
               <v-btn
                 color="var(--green-700)"
@@ -199,7 +199,7 @@
                 @click="createNewBlog"
               >
                 <v-icon size="18" class="mr-1">mdi-plus</v-icon>
-                新建博客
+                New Blog
               </v-btn>
             </div>
           </header>
@@ -207,7 +207,7 @@
           <!-- 博客列表 -->
           <div v-if="blogs.length === 0" class="text-center py-8 empty-state">
             <v-icon size="48" color="grey">mdi-text-box-outline</v-icon>
-            <p class="mt-4 grey--text">暂无农场博客，快来创建第一篇吧！</p>
+            <p class="mt-4 grey--text">No blogs yet. Create your first one now!</p>
           </div>
 
           <div v-else class="blog-list">
@@ -242,7 +242,7 @@
                     </v-img>
                   </div>
                   <div class="blog-text">
-                    <div 
+                    <div
                       class="title-cell clickable"
                       @click="viewBlogDetail(item)"
                     >
@@ -262,7 +262,7 @@
                   :color="item.published ? 'success' : 'grey'"
                   text-color="white"
                 >
-                  {{ item.published ? '已发布' : '草稿' }}
+                  {{ item.published ? 'Published' : 'Draft' }}
                 </v-chip>
               </template>
 
@@ -281,7 +281,7 @@
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
                     </template>
-                    <span>编辑</span>
+                    <span>Edit</span>
                   </v-tooltip>
 
                   <v-tooltip bottom>
@@ -297,7 +297,7 @@
                         <v-icon>{{ item.published ? 'mdi-eye-off' : 'mdi-eye' }}</v-icon>
                       </v-btn>
                     </template>
-                    <span>{{ item.published ? '取消发布' : '发布' }}</span>
+                    <span>{{ item.published ? 'Unpublish' : 'Publish' }}</span>
                   </v-tooltip>
 
                   <v-tooltip bottom>
@@ -313,7 +313,7 @@
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
                     </template>
-                    <span>删除</span>
+                    <span>Delete</span>
                   </v-tooltip>
                 </div>
               </template>
@@ -327,7 +327,7 @@
     <v-dialog v-model="blogDialog" max-width="900px" persistent>
       <v-card>
         <v-card-title class="headline">
-          {{ editMode ? '编辑博客' : '创建新博客' }}
+          {{ editMode ? 'Edit Blog' : 'Create New Blog' }}
           <v-spacer></v-spacer>
           <v-btn icon @click="closeBlogDialog">
             <v-icon>mdi-close</v-icon>
@@ -338,35 +338,35 @@
           <v-form ref="blogForm">
             <v-text-field
               v-model="currentBlog.title"
-              label="标题"
+              label="Title"
               outlined
-              :rules="[v => !!v || '请输入博客标题']"
+              :rules="[v => !!v || 'Title is required']"
             ></v-text-field>
 
             <v-text-field
               v-model="currentBlog.coverImageUrl"
-              label="封面图片链接"
+              label="Cover Image URL"
               outlined
-              hint="输入有效的图片URL"
+              hint="Valid image URL required"
             ></v-text-field>
 
             <v-textarea
               v-model="currentBlog.summary"
-              label="摘要"
+              label="Summary"
               outlined
               rows="2"
               auto-grow
               counter="150"
-              :rules="[v => !!v || '请输入博客摘要']"
+              :rules="[v => !!v || 'Summary is required']"
             ></v-textarea>
 
             <v-textarea
               v-model="currentBlog.content"
-              label="正文内容"
+              label="Content"
               outlined
               rows="15"
               auto-grow
-              :rules="[v => !!v || '请输入博客内容']"
+              :rules="[v => !!v || 'Content is required']"
             ></v-textarea>
           </v-form>
         </v-card-text>
@@ -376,7 +376,7 @@
             text
             @click="closeBlogDialog"
           >
-            取消
+            Cancel
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
@@ -385,14 +385,14 @@
             :loading="saveLoading"
             @click="saveBlog(false)"
           >
-            保存为草稿
+            Save as Draft
           </v-btn>
           <v-btn
             color="success"
             :loading="saveLoading"
             @click="saveBlog(true)"
           >
-            {{ editMode ? '更新并发布' : '保存并发布' }}
+            {{ editMode ? 'Update & Publish' : 'Save & Publish' }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -403,7 +403,7 @@
       <v-card>
         <v-card-title class="headline">确认删除</v-card-title>
         <v-card-text>
-          你确定要删除博客 "{{ blogToDelete ? blogToDelete.title : '' }}" 吗？此操作不可撤销。
+          Are you sure you want to delete blog "{{ blogToDelete ? blogToDelete.title : '' }}"? This action cannot be undone.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -414,7 +414,7 @@
             :loading="deleteLoading"
             @click="deleteBlog"
           >
-            删除
+            Delete
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -448,28 +448,28 @@
     >
       <v-card>
         <v-card-title class="headline primary white--text">
-          完善农场信息
+          Complete Farm Profile
         </v-card-title>
         <v-card-text class="pt-4">
-          <p class="mb-4">请先完善您的农场信息，这是使用平台功能的必要步骤。</p>
+          <p class="mb-4">Please complete your farm profile first. This is required to use platform features.</p>
           <v-form ref="profileForm">
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="farmProfile.farmName"
-                  label="农场名称"
+                  label="Farm Name"
                   outlined
                   dense
-                  :rules="[v => !!v || '请输入农场名称']"
+                  :rules="[v => !!v || 'Please enter farm name']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="farmProfile.country"
-                  label="国家"
+                  label="Country"
                   outlined
                   dense
-                  :rules="[v => !!v || '请输入国家']"
+                  :rules="[v => !!v || 'Please enter country']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
