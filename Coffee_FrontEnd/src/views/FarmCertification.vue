@@ -2,6 +2,7 @@
   <div class="certification-page">
     <!-- 顶部横幅 -->
     <section class="hero">
+      <div class="hero-overlay"></div> <!-- ✅ 遮罩层 -->
       <div class="hero-inner">
         <h1>Farm Certification Application</h1>
         <div class="hero-meta">
@@ -11,6 +12,7 @@
         </div>
       </div>
     </section>
+
 
     <!-- 主要内容 -->
     <main class="container">
@@ -153,12 +155,26 @@ export default {
 
 /* 顶部横幅 */
 .hero {
-  background: linear-gradient(135deg, var(--green-700) 0%, var(--green-500) 100%);
+  position: relative;
+  background: #00704A;
   color: #fff;
   padding: 3rem 1rem 2.5rem;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* ✅ 黑色半透明遮罩 */
+  z-index: 0;
 }
 
 .hero-inner {
+  position: relative; /* ✅ 确保文字在遮罩之上 */
+  z-index: 1;
   max-width: 1200px;
   margin: auto;
   display: flex;
@@ -166,7 +182,7 @@ export default {
   gap: 1rem;
 }
 
-.hero h1 {
+.hero h1{
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.2;
