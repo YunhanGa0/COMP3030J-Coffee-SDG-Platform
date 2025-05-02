@@ -3,11 +3,11 @@
     <!-- 顶部横幅 -->
     <section class="hero">
       <div class="hero-inner">
-        <h1>农场认证申请</h1>
+        <h1>Farm Certification Application</h1>
         <div class="hero-meta">
-          <span>提升农场价值</span>
-          <span>获得更多支持</span>
-          <span>加入可持续发展计划</span>
+          <span>Enhance your farm's value</span>
+          <span>Gain more support</span>
+          <span>Join the sustainability program</span>
         </div>
       </div>
     </section>
@@ -19,7 +19,7 @@
           <v-stepper v-model="currentStep" class="certification-stepper">
             <v-stepper-header>
               <v-stepper-step step="1">
-                认证申请
+                  Certification
               </v-stepper-step>
             </v-stepper-header>
 
@@ -31,11 +31,11 @@
                     <v-col cols="12">
                       <v-textarea
                         v-model="description"
-                        label="申请说明"
+                        label="Application Description"
                         :rules="rules.required"
                         outlined
                         counter="1000"
-                        hint="请详细描述您的农场情况，包括种植方式、质量控制措施、可持续发展实践等"
+                        hint="Please describe your farm in detail, including cultivation methods, quality control measures, and sustainability practices."
                         persistent-hint
                       ></v-textarea>
                     </v-col>
@@ -48,7 +48,7 @@
                     :loading="submitting"
                     @click="submitApplication"
                   >
-                    提交申请
+                    Submit Application
                     <v-icon right>mdi-check</v-icon>
                   </v-btn>
                 </div>
@@ -73,7 +73,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -227,4 +227,4 @@ export default {
     padding: 1rem;
   }
 }
-</style> 
+</style>
