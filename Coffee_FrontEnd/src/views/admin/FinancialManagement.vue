@@ -92,31 +92,33 @@
 
               <template v-slot:item.actions="{ item }">
                 <v-btn
-                  x-small
+                  small
                   color="primary"
                   class="mr-1"
                   @click="viewDetails(item)"
                   :disabled="loading"
                 >
-                  <v-icon small>mdi-eye</v-icon>
+                  查看
                 </v-btn>
-                <v-btn
-                  x-small
-                  color="success"
-                  class="mr-1"
-                  @click="approveApplication(item)"
-                  :disabled="loading || item.status !== 'PENDING'"
-                >
-                  <v-icon small>mdi-check</v-icon>
-                </v-btn>
-                <v-btn
-                  x-small
-                  color="error"
-                  @click="rejectApplication(item)"
-                  :disabled="loading || item.status !== 'PENDING'"
-                >
-                  <v-icon small>mdi-close</v-icon>
-                </v-btn>
+                <template v-if="item.status === 'PENDING'">
+                  <v-btn
+                    small
+                    color="success"
+                    class="mr-1"
+                    @click="approveApplication(item)"
+                    :disabled="loading"
+                  >
+                    批准
+                  </v-btn>
+                  <v-btn
+                    small
+                    color="error"
+                    @click="rejectApplication(item)"
+                    :disabled="loading"
+                  >
+                    拒绝
+                  </v-btn>
+                </template>
               </template>
 
               <template v-slot:no-data>
@@ -296,6 +298,7 @@ export default {
       // 表格列配置
       headers: [
         { text: 'ID', value: 'id', width: '80px' },
+        { text: '申请人ID', value: 'farmerId' },
         { text: '申请项目', value: 'financialSupport.title' },
         { text: '申请金额', value: 'financialSupport.budget' },
         { text: '申请时间', value: 'applyTime' },
@@ -483,4 +486,4 @@ export default {
 .financial-management {
   padding-bottom: 2rem;
 }
-</style> 
+</style>

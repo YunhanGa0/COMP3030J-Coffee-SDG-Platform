@@ -88,30 +88,30 @@
 
               <template v-slot:item.actions="{ item }">
                 <v-btn
-                  x-small
+                  small
                   color="primary"
                   class="mr-1"
                   @click="viewDetails(item)"
                   :disabled="loading"
                 >
-                  <v-icon small>mdi-eye</v-icon>
+                  查看
                 </v-btn>
                 <v-btn
-                  x-small
+                  small
                   color="success"
                   class="mr-1"
                   @click="approveCertification(item)"
                   :disabled="loading || item.status !== 'PENDING'"
                 >
-                  <v-icon small>mdi-check</v-icon>
+                  批准
                 </v-btn>
                 <v-btn
-                  x-small
+                  small
                   color="error"
                   @click="rejectCertification(item)"
                   :disabled="loading || item.status !== 'PENDING'"
                 >
-                  <v-icon small>mdi-close</v-icon>
+                  拒绝
                 </v-btn>
               </template>
 
