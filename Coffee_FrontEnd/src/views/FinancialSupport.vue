@@ -258,7 +258,7 @@ export default {
           purpose: this.application.purpose
         })
 
-        if (response.data.code === 200) {
+        if (response.data.code === 200 || 201) {
           this.showMessage('申请提交成功', 'success')
           this.$refs.form.reset()
           this.fetchApplications()

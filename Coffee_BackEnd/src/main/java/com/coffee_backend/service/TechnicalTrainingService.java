@@ -226,10 +226,6 @@ public class TechnicalTrainingService {
             return ApiResponse.error(400, "Training not found");
         }
 
-        Optional<TrainingApplication> repeat = trainingApplicationRepository.findByFarmerId(userId);
-        if (repeat.isPresent()){
-            return ApiResponse.error(400, "Training can not be applied, because you already applied it!");
-        }
 
         TechnicalTraining training = optional.get();
 

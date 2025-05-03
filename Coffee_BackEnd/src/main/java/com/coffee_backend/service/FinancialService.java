@@ -75,10 +75,6 @@ public class FinancialService {
             return ApiResponse.error(400, "Support not found");
         }
 
-        Optional<FinancialApplication> repeat = financialApplicationRepository.findByFarmerId(UserContext.getUser().getId());
-        if (repeat.isPresent()){
-            return ApiResponse.error(400, "Support can not be applied, because you already applied it!");
-        }
 
         FinancialSupport financialSupport = optional.get();
 
