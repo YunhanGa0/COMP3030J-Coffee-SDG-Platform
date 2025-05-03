@@ -252,7 +252,7 @@ export default {
     async fetchApplications() {
       this.loading = true
       try {
-        const response = await axios.get('/api/farmer/financial-support')
+        const response = await axios.get('/api/farmer/financial-application')
         if (response.data.code === 200) {
           this.applications = response.data.data
         } else {
