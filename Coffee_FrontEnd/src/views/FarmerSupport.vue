@@ -179,9 +179,9 @@
                         outlined
                         elevation="0"
                         class="card-btn"
-                        @click="navigateToDetail('fund')"
+                        @click="$router.push('/financial-support')"
                       >
-                        View Details
+                        Apply Now
                         <v-icon right>mdi-arrow-right</v-icon>
                       </v-btn>
                     </v-card-text>

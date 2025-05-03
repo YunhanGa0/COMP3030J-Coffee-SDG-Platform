@@ -21,6 +21,8 @@ import store from '../store'
 import CoffeeBeanDetail from "@/views/CoffeeBeanDetail.vue";
 import CertificationManagement from '../views/admin/CertificationManagement.vue'
 import FarmCertification from '../views/FarmCertification.vue'
+import FinancialSupport from "@/views/FinancialSupport.vue";
+import FinancialManagement from '../views/admin/FinancialManagement.vue'
 
 Vue.use(VueRouter)
 
@@ -129,9 +131,24 @@ const routes = [
     meta: { requiresAuth: true, adminOnly: true }
   },
   {
+    path: '/admin/financial',
+    name: 'FinancialManagement',
+    component: FinancialManagement,
+    meta: { requiresAuth: true, roles: ['ADMIN'] }
+  },
+  {
     path: '/farm-certification',
     name: 'FarmCertification',
     component: FarmCertification,
+    meta: {
+      requiresAuth: true,
+      farmerOnly: true
+    }
+  },
+  {
+    path: '/financial-support',
+    name: 'FinancialSupport',
+    component: FinancialSupport,
     meta: {
       requiresAuth: true,
       farmerOnly: true

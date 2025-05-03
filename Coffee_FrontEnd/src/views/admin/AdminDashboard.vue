@@ -142,6 +142,41 @@
           </v-card>
         </v-col>
 
+        <!-- Financial Support Card -->
+        <v-col cols="12" md="3">
+          <v-card
+            class="admin-card h-100"
+            hover
+            @click="$router.push('/admin/financial')"
+          >
+            <v-img
+              height="150"
+              src="@/assets/admin/financial.jpg"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              class="white--text align-end"
+            >
+              <v-card-title>Financial Support</v-card-title>
+            </v-img>
+            <v-card-text class="text-center pt-4">
+              <v-icon size="64" color="success">mdi-cash</v-icon>
+              <div class="mt-3 subtitle-1">
+                Review and manage financial support applications
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="success"
+                text
+                @click.stop="$router.push('/admin/financial')"
+              >
+                Review
+                <v-icon right>mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+
         <!-- Farm Audit Card -->
         <v-col cols="12" md="4">
           <v-card
