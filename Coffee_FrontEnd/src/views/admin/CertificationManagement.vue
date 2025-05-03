@@ -313,11 +313,12 @@ export default {
       // 表格列配置
       headers: [
         { text: 'ID', value: 'id', width: '80px' },
-        { text: 'Farm name', value: 'farmName' },
-        { text: 'Certification Type', value: 'certificationType' },
-        { text: 'Apply Date', value: 'createdAt' },
-        { text: 'Status', value: 'status', width: '120px' },
-        { text: 'Action', value: 'actions', sortable: false, width: '120px' }
+        { text: '农场ID', value: 'farmId' },
+        { text: '认证描述', value: 'description' },
+        { text: '申请时间', value: 'submitTime' },
+        { text: '状态', value: 'status', width: '120px' },
+        { text: '管理员反馈', value: 'adminFeedback' },
+        { text: '操作', value: 'actions', sortable: false, width: '200px' }
       ],
 
       // 数据和加载状态
@@ -328,8 +329,9 @@ export default {
       // 状态过滤
       selectedStatus: 'PENDING',
       statusOptions: [
-        { text: 'Pending', value: 'PENDING' },
-        { text: 'Approved', value: 'APPROVED' },
+        { text: '待审核', value: 'PENDING' },
+        { text: '已批准', value: 'APPROVED' },
+        { text: '已拒绝', value: 'REJECTED' }
       ],
 
       // 对话框控制
@@ -466,9 +468,9 @@ export default {
     // 获取状态文本
     getStatusText(status) {
       const statusMap = {
-        'PENDING': 'Pending',
-        'APPROVED': 'Approved',
-        'REJECTED': 'Rejected'
+        'PENDING': '待审核',
+        'APPROVED': '已批准',
+        'REJECTED': '已拒绝'
       };
       return statusMap[status] || status;
     },
