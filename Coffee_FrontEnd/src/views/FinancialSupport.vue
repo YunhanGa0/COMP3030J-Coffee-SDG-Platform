@@ -228,7 +228,6 @@ export default {
 
   mounted() {
     this.fetchSupportList()
-    this.fetchApplications()
   },
 
   methods: {
@@ -245,24 +244,6 @@ export default {
         console.error('获取支持项目列表失败:', error)
         const errorMessage = error.response && error.response.data && error.response.data.message || '获取支持项目列表失败'
         this.showMessage(errorMessage, 'error')
-      }
-    },
-
-    // 获取申请列表
-    async fetchApplications() {
-      this.loading = true
-      try {
-        const response = await axios.get('/api/farmer/financial-application')
-        if (response.data.code === 200) {
-          this.applications = response.data.data
-        } else {
-          this.showMessage(response.data.message || 'Failed to fetch applications', 'error')
-        }
-      } catch (error) {
-        console.error('Failed to fetch applications:', error)
-        this.showMessage('Failed to fetch applications', 'error')
-      } finally {
-        this.loading = false
       }
     },
 
