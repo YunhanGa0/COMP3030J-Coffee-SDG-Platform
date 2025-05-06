@@ -16,6 +16,8 @@ public class ApplicationQueryResponse {
     private Long applicationId;
     private Long farmerId;
     private String farmerName;
+    private int currentParticipants;
+    private int maxParticipants;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime applicationTime;
 }

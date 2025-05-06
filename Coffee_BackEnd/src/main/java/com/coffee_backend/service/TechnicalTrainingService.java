@@ -214,7 +214,6 @@ public class TechnicalTrainingService {
     }
 
     public ApiResponse applyTraining(Long id) {
-        // DB needs to save a User object
         Long userId = UserContext.getUser().getId();
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()){
@@ -229,9 +228,19 @@ public class TechnicalTrainingService {
 
         TechnicalTraining training = optional.get();
 
+        if (training.getMaxParticipants() <= training.getCurrentParticipants()){
+            return ApiResponse.error(400, "Training is full");
+        }
+
         if ((training.getStatus() != TrainingStatus.UPCOMING) && (training.getStatus() != TrainingStatus.ONGOING)){
             return ApiResponse.error(400, "Training can not join");
         }
+
+        if (trainingApplicationRepository.findByFarmerId(userId).isPresent()){
+            return ApiResponse.error(400, "You have already applied for this training");
+        }
+
+        training.setCurrentParticipants(training.getCurrentParticipants() + 1);
 
         TrainingApplication application = new TrainingApplication();
         application.setTraining(training);
@@ -243,6 +252,8 @@ public class TechnicalTrainingService {
         response.setApplicationId(saved.getId());
         response.setFarmerId(userId);
         response.setFarmerName(user.get().getUsername());
+        response.setCurrentParticipants(training.getCurrentParticipants());
+        response.setMaxParticipants(training.getMaxParticipants());
 
         return ApiResponse.success(response);
     }
