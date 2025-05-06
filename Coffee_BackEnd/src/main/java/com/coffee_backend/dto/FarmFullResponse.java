@@ -25,8 +25,6 @@ public class FarmFullResponse {
     private Integer elevation;
     private String soilType;
     private Boolean isCertificated;
-    private String blogTitle;
-    private String blogContent;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;

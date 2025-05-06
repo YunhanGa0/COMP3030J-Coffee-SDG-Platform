@@ -75,4 +75,34 @@ public class CourseService {
 
         return ApiResponse.success();
     }
+
+    public ApiResponse publishCourse(Long id) {
+        Optional<Course> optional = courseRepository.findById(id);
+        if (optional.isEmpty()){
+            return ApiResponse.error(404, "Course not found");
+        }
+
+        Course course = optional.get();
+        if (course.getPublished()){
+            course.setPublished(false);
+        } else {
+            course.setPublished(true);
+        }
+        courseRepository.save(course);
+
+        return ApiResponse.success(course);
+    }
+
+    public ApiResponse updateCourse(Long id, CourseRequest request) {
+        Optional<Course> optional = courseRepository.findById(id);
+        if (optional.isEmpty()){
+            return ApiResponse.error(404, "Course not found");
+        }
+
+        Course course = optional.get();
+        BeanUtil.copyProperties(request, course, true);
+        courseRepository.save(course);
+
+        return ApiResponse.success(course);
+    }
 }

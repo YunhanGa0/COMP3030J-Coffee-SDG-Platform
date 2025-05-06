@@ -20,16 +20,44 @@ public class CourseController {
     private CourseVideoService courseVideoService;
 
     // 管理员创建培训课程
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ApiResponse createCourse(@RequestBody CourseRequest request){
         return courseService.createCourse(request);
     }
 
+    /**
+     * 管理员删除培训课程
+     * @param id
+     * @return
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ApiResponse deleteCourse(@PathVariable Long id){
         return courseService.deleteCourse(id);
+    }
+
+    /**
+     * 管理员发布/取消发布培训课程
+     * @param id
+     * @return
+     */
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("published/{id}")
+    public ApiResponse publishCourse(@PathVariable Long id){
+        return courseService.publishCourse(id);
+    }
+
+    /**
+     * 管理员修改培训课程
+     * @param id
+     * @param request
+     * @return
+     */
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PutMapping("/update/{id}")
+    public ApiResponse updateCourse(@PathVariable Long id, @RequestBody CourseRequest request){
+        return courseService.updateCourse(id, request);
     }
 
     @GetMapping("/{id}")
