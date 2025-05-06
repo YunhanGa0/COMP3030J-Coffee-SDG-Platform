@@ -177,6 +177,41 @@
           </v-card>
         </v-col>
 
+        <!-- Technical Training Card -->
+        <v-col cols="12" md="4">
+          <v-card
+            class="admin-card h-100"
+            hover
+            @click="$router.push('/admin/trainings')"
+          >
+            <v-img
+              height="150"
+              src="@/assets/admin/training.jpg"
+              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              class="white--text align-end"
+            >
+              <v-card-title>技术培训管理</v-card-title>
+            </v-img>
+            <v-card-text class="text-center pt-4">
+              <v-icon size="64" color="blue">mdi-school</v-icon>
+              <div class="mt-3 subtitle-1">
+                管理和发布农场技术培训项目
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                text
+                @click.stop="$router.push('/admin/trainings')"
+              >
+                管理
+                <v-icon right>mdi-arrow-right</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+
         <!-- Farm Audit Card -->
         <v-col cols="12" md="4">
           <v-card

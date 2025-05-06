@@ -153,6 +153,15 @@ const routes = [
       requiresAuth: true,
       farmerOnly: true
     }
+  },
+  {
+    path: '/admin/trainings',
+    name: 'TrainingManagement',
+    component: () => import('@/views/admin/TrainingManagement.vue'),
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   }
 ]
 
