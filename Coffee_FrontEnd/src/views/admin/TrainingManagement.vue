@@ -185,17 +185,7 @@
                   class="mr-2"
                   outlined
                 >
-
                   详情
-                </v-btn>
-                <v-btn
-                  small
-                  color="primary"
-                  @click="viewApplications(item)"
-                  class="mr-2"
-                  outlined
-                >
-                  报名
                 </v-btn>
                 <v-btn
                   small
@@ -217,35 +207,66 @@
               </template>
             </v-data-table>
           </v-card>
+
+          <!-- 所有申请信息列表 -->
+          <v-card class="mt-4">
+            <v-card-title class="primary white--text">
+              <span class="text-h6">培训申请记录</span>
+              <v-spacer></v-spacer>
+              <v-text-field
+                v-model="applicationSearch"
+                append-icon="mdi-magnify"
+                label="搜索"
+                single-line
+                hide-details
+                dark
+                class="mt-1"
+              ></v-text-field>
+            </v-card-title>
+            
+            <v-card-text class="pa-4">
+              <v-data-table
+                :headers="allApplicationHeaders"
+                :items="allApplications"
+                :loading="loadingApplications"
+                :search="applicationSearch"
+                class="elevation-1"
+                :footer-props="{
+                  'items-per-page-options': [10, 20, 50, -1],
+                  'items-per-page-text': '每页显示',
+                  'items-per-page-all-text': '全部'
+                }"
+                :items-per-page="10"
+              >
+                <template v-slot:item.applicationTime="{ item }">
+                  {{ formatDate(item.applicationTime) }}
+                </template>
+
+                <template v-slot:item.trainingTitle="{ item }">
+                  <v-chip
+                    small
+                    label
+                    class="mr-2"
+                  >
+                    {{ item.trainingTitle }}
+                  </v-chip>
+                </template>
+
+                <template v-slot:footer.prepend>
+                  <div class="text-body-2 grey--text">
+                    总申请数: {{ allApplications.length }} 条
+                  </div>
+                </template>
+
+                <template v-slot:no-data>
+                  暂无报名记录
+                </template>
+              </v-data-table>
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
-
-    <!-- 报名情况对话框 -->
-    <v-dialog v-model="applicationsDialog" max-width="600">
-      <v-card v-if="selectedTraining">
-        <v-card-title class="primary white--text">
-          报名情况 - {{ selectedTraining.title }}
-          <v-spacer></v-spacer>
-          <v-btn icon color="white" @click="applicationsDialog = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-card-text class="pa-4">
-          <v-list v-if="applications.length">
-            <v-list-item v-for="app in applications" :key="app.applicationId">
-              <v-list-item-content>
-                <v-list-item-title>{{ app.farmerName }}</v-list-item-title>
-                <v-list-item-subtitle>申请时间：{{ formatDate(app.applicationTime) }}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-          <div v-else class="text-center pa-4">
-            暂无报名记录
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
 
     <!-- 状态更新对话框 -->
     <v-dialog v-model="statusDialog" max-width="400">
@@ -502,11 +523,29 @@ export default {
       show: false,
       text: '',
       color: 'success'
-    }
+    },
+
+    // 申请搜索
+    applicationSearch: '',
+
+    // 所有申请列表
+    allApplications: [],
+    
+    // 申请列表表头
+    allApplicationHeaders: [
+      { text: '培训项目', value: 'trainingTitle' },
+      { text: '农户ID', value: 'farmerId' },
+      { text: '农户姓名', value: 'farmerName' },
+      { text: '申请时间', value: 'applicationTime' }
+    ],
+
+    // 加载状态
+    loadingApplications: false
   }),
 
   mounted() {
     this.fetchTrainings()
+    this.fetchAllApplications()
   },
 
   methods: {
@@ -517,6 +556,8 @@ export default {
         const response = await axios.get('/api/trainings')
         if (response.data.code === 200) {
           this.trainings = response.data.data.content
+          // 获取完培训列表后，获取所有申请信息
+          await this.fetchAllApplications()
         }
       } catch (error) {
         this.showMessage('获取培训列表失败', 'error')
@@ -566,10 +607,17 @@ export default {
       }
     },
 
-    // 查看报名情况
-    async viewApplications(training) {
+    // 加载申请信息
+    async loadApplications(training) {
+      if (this.selectedTraining && this.selectedTraining.id === training.id) {
+        // 如果点击的是当前选中的培训，则关闭申请信息
+        this.selectedTraining = null
+        this.applications = []
+        return
+      }
+
       this.selectedTraining = training
-      this.applicationsDialog = true
+      this.loadingApplications = true
       try {
         const response = await axios.get(`/api/admin/trainings/${training.id}/applications`)
         if (response.data.code === 200) {
@@ -577,6 +625,10 @@ export default {
         }
       } catch (error) {
         this.showMessage('获取报名情况失败', 'error')
+        this.selectedTraining = null
+        this.applications = []
+      } finally {
+        this.loadingApplications = false
       }
     },
 
@@ -721,6 +773,39 @@ export default {
         }
       } catch (error) {
         this.showMessage('获取培训详情失败', 'error')
+      }
+    },
+
+    // 获取所有申请信息
+    async fetchAllApplications() {
+      this.loadingApplications = true
+      this.allApplications = []
+      try {
+        // 遍历所有培训项目，获取每个培训的申请信息
+        for (const training of this.trainings) {
+          try {
+            const response = await axios.get(`/api/admin/trainings/${training.id}/applications`)
+            if (response.data.code === 200) {
+              // 为每个申请添加培训信息
+              const applications = response.data.data.map(app => ({
+                ...app,
+                trainingId: training.id,
+                trainingTitle: training.title,
+                trainingType: training.type,
+                trainingLocation: training.location,
+                trainingStartDate: training.startDate,
+                trainingEndDate: training.endDate
+              }))
+              this.allApplications.push(...applications)
+            }
+          } catch (error) {
+            console.error(`获取培训 ${training.id} 的申请记录失败:`, error)
+          }
+        }
+      } catch (error) {
+        this.showMessage('获取申请记录失败', 'error')
+      } finally {
+        this.loadingApplications = false
       }
     }
   }
