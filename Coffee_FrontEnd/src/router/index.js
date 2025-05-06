@@ -14,14 +14,14 @@ import ArticleDetail from '../views/ArticleDetail.vue'
 import AdminDashboard from '../views/admin/AdminDashboard.vue'
 import AdminCreateFarmer from '../views/admin/AdminCreateFarmer.vue'
 import FarmDetail from '../views/FarmDetail.vue'
-import FarmBlogDetail from '../views/FarmBlogDetail.vue'
-import FarmerDashboard from '../views/FarmerDashboard.vue'
+import FarmBlogDetail from '../views/farmer/FarmBlogDetail.vue'
+import FarmerDashboard from '../views/farmer/FarmerDashboard.vue'
 import BlogEditor from '../views/BlogEditor.vue'
 import store from '../store'
 import CoffeeBeanDetail from "@/views/CoffeeBeanDetail.vue";
 import CertificationManagement from '../views/admin/CertificationManagement.vue'
-import FarmCertification from '../views/FarmCertification.vue'
-import FinancialSupport from "@/views/FinancialSupport.vue";
+import FarmCertification from '../views/farmer/FarmCertification.vue'
+import FinancialSupport from "@/views/farmer/FinancialSupport.vue";
 import FinancialManagement from '../views/admin/FinancialManagement.vue'
 
 Vue.use(VueRouter)
