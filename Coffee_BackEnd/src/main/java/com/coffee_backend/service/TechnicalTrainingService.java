@@ -246,4 +246,15 @@ public class TechnicalTrainingService {
 
         return ApiResponse.success(response);
     }
+
+    // 获取某个训练的报名人数
+    public ApiResponse getTrainingApplicants(Long id) {
+        Optional<TechnicalTraining> optional = technicalTrainingRepository.findById(id);
+        if (optional.isEmpty()){
+            return ApiResponse.error(400, "Training not found");
+        }
+        TechnicalTraining training = optional.get();
+        int num = training.getCurrentParticipants();
+        return ApiResponse.success(num);
+    }
 }

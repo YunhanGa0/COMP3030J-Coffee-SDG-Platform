@@ -106,4 +106,6 @@ public class AdminController {
     public ApiResponse queryCustomer(){
         return adminService.queryCustomer();
     }
+
+
 }

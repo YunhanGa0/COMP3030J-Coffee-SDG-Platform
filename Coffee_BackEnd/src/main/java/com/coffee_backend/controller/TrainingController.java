@@ -29,4 +29,10 @@ public class TrainingController {
     public ApiResponse applyTraining(@PathVariable Long id){
         return technicalTrainingService.applyTraining(id);
     }
+
+    // 查询训练项目报名人数
+    @GetMapping("/applicants/{id}")
+    public ApiResponse getTrainingApplicants(@PathVariable Long id){
+        return technicalTrainingService.getTrainingApplicants(id);
+    }
 }

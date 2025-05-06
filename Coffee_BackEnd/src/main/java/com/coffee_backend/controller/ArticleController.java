@@ -4,6 +4,7 @@ import cn.hutool.core.lang.UUID;
 import com.coffee_backend.dto.ApiResponse;
 import com.coffee_backend.dto.ArticleRequest;
 import com.coffee_backend.dto.FileResponse;
+import com.coffee_backend.service.AliyunOssImageStorageService;
 import com.coffee_backend.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,9 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private AliyunOssImageStorageService imageStorageService;
+
     @GetMapping
     public ApiResponse list(){
         return articleService.list();
@@ -53,47 +57,54 @@ public class ArticleController {
         return articleService.deleteById(id);
     }
 
+//    @PostMapping("/images/upload")
+//    public ApiResponse uploadImage(@RequestParam("image") MultipartFile file,
+//                                 @RequestParam(defaultValue = "COVER") String type,
+//                                 @RequestParam(required = false) String alt) {
+//        if (file.isEmpty()) {
+//            return ApiResponse.error(400, "File can not be null");
+//        }
+//
+//        try {
+//            // 创建上传目录
+//            Path uploadDir = Paths.get(uploadPath, type.toLowerCase());
+//            if (!Files.exists(uploadDir)) {
+//                Files.createDirectories(uploadDir);
+//            }
+//
+//            // 生成文件名
+//            String originalFilename = file.getOriginalFilename();
+//            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+//            String newFileName = UUID.randomUUID().toString() + extension;
+//
+//            // 保存文件
+//            Path filePath = uploadDir.resolve(newFileName);
+//            Files.copy(file.getInputStream(), filePath);
+//
+//            // 生成访问URL
+//            String fileUrl = accessUrl + "/" + uploadPath + "/" + type.toLowerCase() + "/" + newFileName;
+//
+//            FileResponse fileResponse = FileResponse.builder()
+//                    .url(fileUrl)
+//                    .type(type)
+//                    .build();
+//
+//            return ApiResponse.success(fileResponse);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return ApiResponse.error(500, "File save failed: " + e.getMessage());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ApiResponse.error(500, "Unexpected error: " + e.getMessage());
+//        }
+//    }
+
     @PostMapping("/images/upload")
-    public ApiResponse uploadImage(@RequestParam("image") MultipartFile file, 
-                                 @RequestParam(defaultValue = "COVER") String type, 
-                                 @RequestParam(required = false) String alt) {
-        if (file.isEmpty()) {
-            return ApiResponse.error(400, "File can not be null");
-        }
-
-        try {
-            // 创建上传目录
-            Path uploadDir = Paths.get(uploadPath, type.toLowerCase());
-            if (!Files.exists(uploadDir)) {
-                Files.createDirectories(uploadDir);
-            }
-
-            // 生成文件名
-            String originalFilename = file.getOriginalFilename();
-            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String newFileName = UUID.randomUUID().toString() + extension;
-
-            // 保存文件
-            Path filePath = uploadDir.resolve(newFileName);
-            Files.copy(file.getInputStream(), filePath);
-
-            // 生成访问URL
-            String fileUrl = accessUrl + "/" + uploadPath + "/" + type.toLowerCase() + "/" + newFileName;
-
-            FileResponse fileResponse = FileResponse.builder()
-                    .url(fileUrl)
-                    .type(type)
-                    .build();
-
-            return ApiResponse.success(fileResponse);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ApiResponse.error(500, "File save failed: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ApiResponse.error(500, "Unexpected error: " + e.getMessage());
-        }
+    public ApiResponse uploadImage(@RequestParam("image") MultipartFile file,
+                                   @RequestParam(defaultValue = "COVER") String type,
+                                   @RequestParam(required = false) String alt) {
+        return imageStorageService.upload(file, type, alt);
     }
 
     @GetMapping("/{id}")
