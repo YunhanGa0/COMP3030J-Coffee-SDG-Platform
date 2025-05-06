@@ -23,6 +23,7 @@ import CertificationManagement from '../views/admin/CertificationManagement.vue'
 import FarmCertification from '../views/farmer/FarmCertification.vue'
 import FinancialSupport from "@/views/farmer/FinancialSupport.vue";
 import FinancialManagement from '../views/admin/FinancialManagement.vue'
+import TrainingApplication from '@/views/farmer/TrainingApplication.vue'
 
 Vue.use(VueRouter)
 
@@ -161,6 +162,14 @@ const routes = [
     meta: {
       requiresAuth: true,
       requiresAdmin: true
+    }
+  },
+  {
+    path: '/training-application',
+    name: 'TrainingApplication',
+    component: () => import('@/views/farmer/TrainingApplication.vue'),
+    meta: {
+      requiresAuth: true,
     }
   }
 ]

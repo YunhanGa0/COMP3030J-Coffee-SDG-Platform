@@ -125,9 +125,9 @@
                         outlined
                         elevation="0"
                         class="card-btn"
-                        @click="navigateToDetail('sustainable')"
+                        @click="$router.push('/training-application')"
                       >
-                        View Details
+                        Apply Now
                         <v-icon right>mdi-arrow-right</v-icon>
                       </v-btn>
                     </v-card-text>
