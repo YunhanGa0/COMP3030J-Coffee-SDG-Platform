@@ -19,7 +19,8 @@ public class CorsConfig {
         // 允许跨域的源，这里设置为前端应用的地址
         config.setAllowedOrigins(List.of(
             "http://localhost:8081", // Vue默认端口
-            "http://uspa.zhangbh.com"
+            "https://csi420-02-vm2.ucd.ie/" // 服务器地址
+
         ));
         
         // 允许携带认证信息（cookies等）
