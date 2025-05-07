@@ -18,6 +18,7 @@
     "is-plain-object": "^5.0.0",
     "vue": "^2.5.11",
     "vue-router": "^3.6.5",
+    "vue-video-player": "^5.0.1",
     "vuetify": "^2.7.1",
     "vuex": "^3.6.2",
     "wangeditor": "^4.7.15"

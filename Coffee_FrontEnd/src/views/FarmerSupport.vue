@@ -124,11 +124,21 @@
                         color="primary"
                         outlined
                         elevation="0"
-                        class="card-btn"
+                        class="card-btn mr-4"
                         @click="$router.push('/training-application')"
                       >
                         Apply Now
                         <v-icon right>mdi-arrow-right</v-icon>
+                      </v-btn>
+                      <v-btn
+                        color="secondary"
+                        outlined
+                        elevation="0"
+                        class="card-btn"
+                        @click="watchTrainingVideo"
+                      >
+                        Watch Training Video
+                        <v-icon right>mdi-play</v-icon>
                       </v-btn>
                     </v-card-text>
                   </v-col>
@@ -474,14 +484,31 @@ export default {
   }),
   methods: {
     navigateToDetail(section) {
-      this.$router.push({
-        name: 'ArticleList',
-        query: { category: section }
-      })
+      if (section === 'learning') {
+        // 这里使用示例视频URL，实际使用时应该替换为真实的视频URL
+        this.$router.push({
+          name: 'VideoPlayer',
+          query: {
+            url: 'https://www.bilibili.com/video/BV1y9VmzZEGu/?spm_id_from=333.1007.tianma.1-2-2.click&vd_source=21075a0c85e0c5417fd80d14e27494ed',
+            title: '咖啡种植技术培训',
+            description: '本视频详细介绍了咖啡种植的关键技术要点，包括土壤管理、灌溉技术、以及病虫害防治等内容。'
+          }
+        })
+      } else {
+        this.$router.push({
+          name: 'ArticleList',
+          query: { category: section }
+        })
+      }
     },
     contactSupport() {
       // 实现联系支持的逻辑
       console.log('Contacting support')
+    },
+    watchTrainingVideo() {
+      this.$router.push({
+        name: 'VideoPlayer'
+      });
     }
   }
 }
