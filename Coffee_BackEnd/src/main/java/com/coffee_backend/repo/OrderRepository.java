@@ -9,14 +9,13 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
     /** 查询某个买家的全部订单，按下单时间倒序 */
-    List<Order> findByBuyer_IdOrderByOrderTimeDesc(Long buyerId);
+    List<Order> findByUser_IdOrderByOrderTimeDesc(Long userId);
 
     /** 农庄主收到的全部订单 */
     @Query("""
         select distinct o
         from   Order o
-        join   o.items i
-        join   i.coffeeBean cb
+        join   o.coffeeBean cb
         join   cb.farm f
         where  f.user.id = :farmerId
         order  by o.orderTime desc

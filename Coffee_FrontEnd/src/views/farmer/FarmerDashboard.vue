@@ -36,6 +36,14 @@
             <v-icon size="20" class="mr-2">mdi-post</v-icon>
             Blog Management
           </div>
+          <div
+            class="nav-item"
+            :class="{ active: activeTab === 'orders' }"
+            @click="activeTab = 'orders'"
+          >
+            <v-icon size="20" class="mr-2">mdi-package-variant-closed</v-icon>
+            Order Management
+          </div>
         </div>
       </aside>
 
@@ -320,6 +328,56 @@
             </v-data-table>
           </div>
         </div>
+
+        <!-- 订单管理 -->
+        <div v-if="activeTab === 'orders'" class="orders-manager">
+          <header class="section-header">
+            <h2>Order Management</h2>
+          </header>
+
+          <!-- 订单筛选 -->
+          <v-btn-toggle
+            v-model="orderStatusFilter"
+            class="mb-4"
+            mandatory
+          >
+            <v-btn value="ALL">All Orders</v-btn>
+            <v-btn value="PAID">Pending</v-btn>
+            <v-btn value="SHIPPED">Shipped</v-btn>
+          </v-btn-toggle>
+
+
+          <!-- 订单列表 -->
+          <v-data-table
+            :headers="orderHeaders"
+            :items="filteredOrders"
+            :items-per-page="5"
+            class="order-table"
+            dense
+          >
+            <template v-slot:item.status="{ item }">
+              <v-chip
+                small
+                :color="item.status === 'SHIPPED' ? 'success' : 'orange'"
+                text-color="white"
+              >
+                {{ item.status === 'SHIPPED' ? 'Shipped' : 'Pending' }}
+              </v-chip>
+            </template>
+
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                small
+                color="primary"
+                :disabled="item.status === 'SHIPPED'"
+                @click="markAsShipped(item.id)"
+              >
+                Mark as Shipped
+              </v-btn>
+            </template>
+          </v-data-table>
+        </div>
+
       </section>
     </main>
 
@@ -647,6 +705,20 @@ export default {
       color: 'success'
     },
     farmImageFile: null,
+
+    orders: [],
+    orderStatusFilter: 'ALL',
+    orderHeaders: [
+      { text: 'Order ID', value: 'id', sortable: false },
+      { text: 'Recipient', value: 'recipientName', sortable: false },
+      { text: 'Contact', value: 'contactNumber', sortable: false },
+      { text: 'Address', value: 'shippingAddress', sortable: false },
+      { text: 'Product', value: 'coffeeBeanName', sortable: false },
+      { text: 'Quantity', value: 'quantity', sortable: false },
+      { text: 'Total', value: 'totalAmount', sortable: false },
+      { text: 'Status', value: 'status', sortable: false },
+      { text: 'Actions', value: 'actions', sortable: false }
+    ]
   }),
 
   async created() {
@@ -664,6 +736,7 @@ export default {
 
     // 先检查农场状态
     await this.checkFarmStatus()
+
   },
 
   methods: {
@@ -680,6 +753,7 @@ export default {
             // 只有在完成农场信息填写后才获取其他信息
             await this.fetchFarmProfile()
             await this.fetchBlogs()
+            await this.fetchOrders()
           }
         }
       } catch (error) {
@@ -966,6 +1040,38 @@ export default {
         path: `/farms/${this.farm.id}/blogs/${blog.id}`
       });
     },
+
+    // 获取订单列表
+    async fetchOrders() {
+      try {
+        const response = await axios.get(`/api/farmers/orders`);
+        if (response.data.code === 200) {
+          this.orders = response.data.data;
+        } else {
+          this.showMessage(response.data.message || 'Failed to load orders', 'error');
+        }
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
+        this.showMessage('Failed to load orders', 'error');
+      }
+    },
+    // 标记订单为已发货
+    async markAsShipped (orderId) {
+      try {
+        // 等待请求完成
+        const { data } = await axios.put(`/api/farmers/orders/${orderId}/ship`);
+
+        if (data.code === 200) {
+          this.showMessage('Order marked as shipped', 'success');
+          this.fetchOrders();   // 重新加载订单列表
+        } else {
+          this.showMessage(data.message || 'Failed to update order', 'error');
+        }
+      } catch (err) {
+        console.error('Failed to mark order as shipped:', err);
+        this.showMessage('Failed to update order', 'error');
+      }
+    }
   },
 
   watch: {
@@ -975,6 +1081,21 @@ export default {
         this.activeTab = 'profile'
         this.showProfileDialog = true
       }
+    }
+  },
+  computed: {
+    filteredOrders () {
+      // 确保有数据
+      if (!this.orders || this.orders.length === 0) return []
+
+      // 直接用 v‑model 绑定的字段
+      if (this.orderStatusFilter === 'ALL') {
+        return this.orders
+      }
+      // 这里最好统一大小写比较
+      return this.orders.filter(
+        o => (o.status || '').toUpperCase() === this.orderStatusFilter
+      )
     }
   }
 }
@@ -1227,5 +1348,22 @@ export default {
     width: 100%;
     margin-bottom: 1.5rem;
   }
+
+
 }
+
+.orders-manager {
+  margin-top: 2rem;
+}
+
+.order-tabs {
+  margin-bottom: 1.5rem;
+}
+
+.order-table {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
 </style>

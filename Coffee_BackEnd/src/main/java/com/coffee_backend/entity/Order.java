@@ -21,8 +21,15 @@ public class Order {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "buyer_id", nullable = false)
-    private User buyer;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "coffee_bean_id", nullable = false)
+    private CoffeeBean coffeeBean;
+
+    @Column(nullable = false)
+    private Integer quantity;
 
     @Column(nullable = false)
     private Double totalAmount; // = pricePerBag × quantity
@@ -34,11 +41,19 @@ public class Order {
     @Column(name = "order_time", nullable = false)
     private LocalDateTime orderTime;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OrderItem> items = new ArrayList<>();
+
+    @Column(nullable = false, length = 255)
+    private String shippingAddress;
+
+    @Column(nullable = false, length = 50)
+    private String contactNumber;
+
+    @Column(length = 100)
+    private String recipientName;
 
     @PrePersist
     protected void onCreate() {
-        orderTime = LocalDateTime.now();
+        this.orderTime = LocalDateTime.now();
+        this.totalAmount = this.coffeeBean.getPricePerBag() * this.quantity;
     }
 }

@@ -17,8 +17,13 @@ import java.util.List;
 public class OrderResponse {
     private Long id;
     private Double totalAmount;
+    private Long coffeeBeanId;
+    private Integer quantity;
+    private String coffeeBeanName;
+    private String coffeeBeanImageUrl;
     private OrderStatus status;
+    private String shippingAddress;
+    private String contactNumber;
+    private String recipientName;
     private LocalDateTime orderTime;
-
-    private List<OrderItemResponse> items;
 }

@@ -86,12 +86,37 @@
             <span>Price / bag</span><strong>${{ bean.pricePerBag }}</strong>
           </div>
 
+          <!-- Quantity -->
           <v-text-field
             v-model.number="qty"
             type="number"
             label="Quantity"
             :min="1"
             :max="bean.bagStock"
+            class="mt-2"
+          />
+
+          <!-- Address -->
+          <v-text-field
+            v-model="shippingAddress"
+            label="Shipping Address"
+            required
+            class="mt-2"
+          />
+
+          <!-- Contact Name -->
+          <v-text-field
+            v-model="recipientName"
+            label="Recipient Name"
+            required
+            class="mt-2"
+          />
+
+          <!-- Contact Phone -->
+          <v-text-field
+            v-model="contactNumber"
+            label="Contact Number"
+            required
             class="mt-2"
           />
 
@@ -105,8 +130,9 @@
 
           <div class="checkout-actions mt-6">
             <v-btn
-              :loading="placingOrder"
+              :loading="placing"
               color="green-darken-1"
+              large
               class="flex-1 mr-2"
               @click="placeOrder"
             >
@@ -145,6 +171,9 @@ export default {
       loading: true,
       drawer: false,
       qty: 1,
+      shippingAddress: '',
+      recipientName: '',
+      contactNumber: '',
       placing: false,
       snackbar: { show: false, text: '', color: 'success' },
       fallbackImg: '/img/default-bean.jpg'
@@ -167,18 +196,47 @@ export default {
 
   methods: {
     async placeOrder () {
-      if (this.qty < 1) return
+      if (this.qty < 1) {
+        this.toast('Please select at least 1 bag.', 'error');
+        return
+      }
+
+      if (!this.shippingAddress || !this.recipientName || !this.contactNumber) {
+        this.toast('Please fill in all required fields.', 'error');
+        return;
+      }
+
       this.placing = true
       try {
-        await axios.post('/api/orders', {
-          beanId: this.bean.id,
-          quantity: this.qty
-        })
-        this.toast('Order placed 🎉', 'success')
-        this.drawer = false
-        this.$router.push('/orders')
+        const response = await axios.post('/api/orders', {
+          coffeeBeanId: this.bean.id,
+          quantity: this.qty,
+          shippingAddress: this.shippingAddress,
+          recipientName: this.recipientName,
+          contactNumber: this.contactNumber
+        });
+
+        if (response.data.code === 201) {
+          this.toast('Order placed successfully 🎉', 'success');
+          // 等待提示显示完毕
+          await this.$nextTick();
+
+          // 2 秒后跳转到订单列表
+          setTimeout(() => {
+            this.drawer = false;
+            this.$router.push('/orders');
+          }, 1500);
+
+        } else {
+          this.toast(response.data.message || 'Order failed', 'error');
+        }
       } catch (e) {
-        this.toast('Payment failed', 'error')
+        console.error(e);
+        if (e.response && e.response.data && e.response.data.message) {
+          this.toast(e.response.data.message, 'error');
+        } else {
+          this.toast('Failed to place order. Please try again.', 'error');
+        }
       } finally {
         this.placing = false
       }

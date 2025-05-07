@@ -176,6 +176,17 @@ const routes = [
     path: '/video-player',
     name: 'VideoPlayer',
     component: () => import('@/components/VideoPlayer.vue')
+  },
+  {
+    path: '/orders',
+    name: 'OrderList',
+    component: () => import('@/views/OrderList.vue'),
+  },
+  {
+    path: '/orders/:id',
+    name: 'OrderDetail',
+    component: () => import('@/views/OrderDetail.vue'),
+    meta: { requiresAuth: true }
   }
 ]
 

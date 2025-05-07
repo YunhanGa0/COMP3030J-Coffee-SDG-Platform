@@ -7,7 +7,7 @@
     flat
   >
     <!-- 左侧Logo -->
-    <v-app-bar-nav-icon 
+    <v-app-bar-nav-icon
       class="hidden-md-and-up"
       color="primary"
       @click="drawer = !drawer"
@@ -33,7 +33,7 @@
       background-color="transparent"
       height="64"
     >
-      <v-tab 
+      <v-tab
         v-for="item in menuItems"
         :key="item.path"
         :to="item.path"
@@ -119,6 +119,12 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Write Article</v-list-item-title>
+            </v-list-item>
+            <v-list-item v-if="isCustomer" to="/orders">
+              <v-list-item-icon>
+                <v-icon>mdi-package-variant-closed</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>My Orders</v-list-item-title>
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item @click="handleLogout">
@@ -262,9 +268,12 @@ export default {
     isFarmer() {
       return this.currentUser && this.currentUser.role === 'FARMER'
     },
+    isCustomer() {
+      return this.currentUser && this.currentUser.role === 'CUSTOMER'
+    },
     userRoleText() {
       if (!this.currentUser) return '';
-      
+
       if (this.currentUser.role === 'ADMIN') {
         return 'Administrator';
       } else if (this.currentUser.role === 'FARMER') {
@@ -277,10 +286,10 @@ export default {
 
   methods: {
     ...mapActions('auth', ['logout']),
-    
+
     getUserAvatar() {
       if (!this.currentUser) return require('@/assets/pic/user.jpg');
-      
+
       if (this.currentUser.role === 'ADMIN') {
         return require('@/assets/pic/admin.jpg');
       } else if (this.currentUser.role === 'FARMER') {
@@ -289,7 +298,7 @@ export default {
         return require('@/assets/pic/user.jpg');
       }
     },
-    
+
     async handleLogout() {
       try {
         await this.logout()
@@ -388,4 +397,4 @@ export default {
   --light-color: #f5f5f5;
   --accent-color: #C4A484;
 }
-</style> 
+</style>

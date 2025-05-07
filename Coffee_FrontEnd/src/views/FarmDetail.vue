@@ -31,8 +31,8 @@
         <aside class="farm-card">
           <h3>Farm Details</h3>
           <div class="farm-photo">
-            <v-img 
-              :src="farm.imageUrl || require('@/assets/pic/plantation.jpg')" 
+            <v-img
+              :src="farm.imageUrl || require('@/assets/pic/plantation.jpg')"
               :aspect-ratio="16/9"
               cover
               class="farm-image"
@@ -76,7 +76,18 @@
                 sm="6"
                 md="4">
                 <v-card class="coffee-bean-card" outlined>
-                  <v-img :src="bean.imageUrl || require('@/assets/pic/farm.jpg')" height="150px"></v-img>
+                  <v-img :src="bean.imageUrl || require('@/assets/pic/farm.jpg')" height="150px" width="262" cover class="coffee-bean-image"><template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-2"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template></v-img>
 
                   <div class="bean-content">
                     <div class="bean-title">{{ bean.name }}</div>
@@ -465,11 +476,18 @@ export default {
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
+  flex-shrink: 0;
 }
 
 .coffee-bean-card:hover {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   transform: translateY(-4px);
+}
+
+.coffee-bean-card .coffee-bean-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
 }
 
 .bean-content {
@@ -506,7 +524,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* flavor 最多两行 */
+  -webkit-line-clamp: 1; /* flavor 最多两行 */
   -webkit-box-orient: vertical;
 }
 
@@ -532,7 +550,7 @@ export default {
   font-weight: 600;
 }
 
-/* 如果想让 hover 时更明显 */
+
 .bean-buy-btn:hover {
   background-color: var(--green-700) !important;
   --v-theme-on-surface: #FFFFFF;     /* hover 时文字改白色 */

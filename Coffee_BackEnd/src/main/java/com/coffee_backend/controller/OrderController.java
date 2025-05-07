@@ -27,8 +27,8 @@ public class OrderController {
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @PostMapping
     public ApiResponse createOrder(@RequestBody CreateOrderRequest req) {
-        OrderResponse order = orderService.createOrder(req);
-        return ApiResponse.created(order);
+        OrderResponse orderResponse = orderService.createOrder(req);
+        return ApiResponse.created(orderResponse);
     }
 
     /** 查询当前用户的全部订单 */
@@ -42,8 +42,8 @@ public class OrderController {
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/{id}")
     public ApiResponse getOrder(@PathVariable Long id) {
-        OrderResponse order = orderService.getOrderDetail(id);
+        OrderResponse orderResponse = orderService.getOrderDetail(id);
 
-        return ApiResponse.success(order);
+        return ApiResponse.success(orderResponse);
     }
 }
