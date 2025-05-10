@@ -10,9 +10,9 @@
                 <v-icon size="40" color="white">mdi-school</v-icon>
               </v-avatar>
               <div>
-                <h1 class="text-h4 font-weight-bold primary--text mb-1">技术培训管理</h1>
+                <h1 class="text-h4 font-weight-bold primary--text mb-1">Technical Training Management</h1>
                 <div class="text-subtitle-1 grey--text">
-                  管理和发布农场技术培训项目
+                  Manage and publish on-farm technical training programs
                 </div>
               </div>
             </div>
@@ -27,46 +27,46 @@
           <v-card class="pa-4">
             <v-card-title class="d-flex align-center">
               <v-icon left color="primary">mdi-plus-circle</v-icon>
-              创建培训项目
+              Create a training program
             </v-card-title>
             <v-card-text>
               <v-form ref="form" v-model="valid">
                 <v-text-field
                   v-model="newTraining.title"
-                  label="培训标题"
-                  :rules="[v => !!v || '请输入标题']"
+                  label="Training Title"
+                  :rules="[v => !!v || 'Please enter a title']"
                   required
                 ></v-text-field>
 
                 <v-textarea
                   v-model="newTraining.description"
-                  label="培训描述"
-                  :rules="[v => !!v || '请输入描述']"
+                  label="Training Description"
+                  :rules="[v => !!v || 'Please enter a description']"
                   required
                 ></v-textarea>
 
                 <v-select
                   v-model="newTraining.type"
                   :items="trainingTypes"
-                  label="培训类型"
-                  :rules="[v => !!v || '请选择类型']"
+                  label="Type of training"
+                  :rules="[v => !!v || 'Please select a type']"
                   required
                 ></v-select>
 
                 <v-text-field
                   v-model="newTraining.location"
-                  label="培训地点"
-                  :rules="[v => !!v || '请输入地点']"
+                  label="Training location"
+                  :rules="[v => !!v || 'Please enter a location']"
                   required
                 ></v-text-field>
 
                 <v-text-field
                   v-model.number="newTraining.maxParticipants"
-                  label="最大参与人数"
+                  label="Maximum number of participants"
                   type="number"
                   :rules="[
-                    v => !!v || '请输入人数',
-                    v => v > 0 || '人数必须大于0'
+                    v => !!v || 'Please enter the number of participants',
+                    v => v > 0 || 'The number of people must be greater than 0'
                   ]"
                   required
                 ></v-text-field>
@@ -81,11 +81,11 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       v-model="newTraining.startDate"
-                      label="开始日期"
+                      label="Start date"
                       readonly
                       v-bind="attrs"
                       v-on="on"
-                      :rules="[v => !!v || '请选择开始日期']"
+                      :rules="[v => !!v || 'Please select a start date']"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -105,11 +105,11 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       v-model="newTraining.endDate"
-                      label="结束日期"
+                      label="End date"
                       readonly
                       v-bind="attrs"
                       v-on="on"
-                      :rules="[v => !!v || '请选择结束日期']"
+                      :rules="[v => !!v || 'Please select an end date']"
                     ></v-text-field>
                   </template>
                   <v-date-picker
@@ -121,9 +121,9 @@
 
                 <v-file-input
                   v-model="trainingImage"
-                  label="培训图片"
+                  label="Training pictures"
                   accept="image/*"
-                  :rules="[v => !!v || '请上传图片']"
+                  :rules="[v => !!v || 'Please upload an image']"
                   @change="handleImageUpload"
                 ></v-file-input>
               </v-form>
@@ -136,7 +136,7 @@
                 :disabled="!valid"
                 @click="createTraining"
               >
-                创建培训
+                Create a training
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -146,12 +146,12 @@
         <v-col cols="12" md="8">
           <v-card>
             <v-card-title>
-              培训项目列表
+              List of training programs
               <v-spacer></v-spacer>
               <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
-                label="搜索"
+                label="Search"
                 single-line
                 hide-details
               ></v-text-field>
@@ -185,7 +185,7 @@
                   class="mr-2"
                   outlined
                 >
-                  详情
+                  Details
                 </v-btn>
                 <v-btn
                   small
@@ -194,7 +194,7 @@
                   class="mr-2"
                   outlined
                 >
-                  状态
+                  Status
                 </v-btn>
                 <v-btn
                   small
@@ -202,7 +202,7 @@
                   @click="confirmDelete(item)"
                   outlined
                 >
-                  删除
+                  Delete
                 </v-btn>
               </template>
             </v-data-table>
@@ -211,19 +211,19 @@
           <!-- 所有申请信息列表 -->
           <v-card class="mt-4">
             <v-card-title class="primary white--text">
-              <span class="text-h6">培训申请记录</span>
+              <span class="text-h6">Training application records</span>
               <v-spacer></v-spacer>
               <v-text-field
                 v-model="applicationSearch"
                 append-icon="mdi-magnify"
-                label="搜索"
+                label="Search"
                 single-line
                 hide-details
                 dark
                 class="mt-1"
               ></v-text-field>
             </v-card-title>
-            
+
             <v-card-text class="pa-4">
               <v-data-table
                 :headers="allApplicationHeaders"
@@ -233,8 +233,8 @@
                 class="elevation-1"
                 :footer-props="{
                   'items-per-page-options': [10, 20, 50, -1],
-                  'items-per-page-text': '每页显示',
-                  'items-per-page-all-text': '全部'
+                  'items-per-page-text': 'Item per page',
+                  'items-per-page-all-text': 'All'
                 }"
                 :items-per-page="10"
               >
@@ -254,12 +254,12 @@
 
                 <template v-slot:footer.prepend>
                   <div class="text-body-2 grey--text">
-                    总申请数: {{ allApplications.length }} 条
+                    Total number of applications: {{ allApplications.length }}
                   </div>
                 </template>
 
                 <template v-slot:no-data>
-                  暂无报名记录
+                  There is no registration record yet
                 </template>
               </v-data-table>
             </v-card-text>
@@ -272,24 +272,24 @@
     <v-dialog v-model="statusDialog" max-width="400">
       <v-card v-if="selectedTraining">
         <v-card-title class="primary white--text">
-          更新培训状态
+          Update the training status
         </v-card-title>
         <v-card-text class="pa-4">
           <v-select
             v-model="newStatus"
             :items="statusOptions"
-            label="选择新状态"
+            label="Select a new status"
           ></v-select>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="statusDialog = false">取消</v-btn>
+          <v-btn text @click="statusDialog = false">Cancel</v-btn>
           <v-btn
             color="primary"
             :loading="updating"
             @click="updateStatus"
           >
-            确认
+            Confirm
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -299,20 +299,20 @@
     <v-dialog v-model="deleteDialog" max-width="400">
       <v-card>
         <v-card-title class="error white--text">
-          确认删除
+          Confirm the deletion
         </v-card-title>
         <v-card-text class="pa-4">
-          确定要删除培训"{{ selectedTraining ? selectedTraining.title : '' }}"吗？此操作不可恢复。
+          Decide that you want to delete the training"{{ selectedTraining ? selectedTraining.title : '' }}"? This operation is not recoverable.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="deleteDialog = false">取消</v-btn>
+          <v-btn text @click="deleteDialog = false">Cancel</v-btn>
           <v-btn
             color="error"
             :loading="deleting"
             @click="deleteTraining"
           >
-            删除
+            Delete
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -337,7 +337,7 @@
                   <v-icon color="primary">mdi-tag</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>培训类型</v-list-item-title>
+                  <v-list-item-title>Type of training</v-list-item-title>
                   <v-list-item-subtitle>{{ getTrainingTypeName(selectedTraining.type) }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -348,7 +348,7 @@
                   <v-icon color="primary">mdi-map-marker</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>培训地点</v-list-item-title>
+                  <v-list-item-title>Training location</v-list-item-title>
                   <v-list-item-subtitle>{{ selectedTraining.location }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -359,7 +359,7 @@
                   <v-icon color="primary">mdi-calendar-range</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>开始时间</v-list-item-title>
+                  <v-list-item-title>Start time</v-list-item-title>
                   <v-list-item-subtitle>{{ formatDate(selectedTraining.startDate) }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -370,7 +370,7 @@
                   <v-icon color="primary">mdi-calendar-check</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>结束时间</v-list-item-title>
+                  <v-list-item-title>End time</v-list-item-title>
                   <v-list-item-subtitle>{{ formatDate(selectedTraining.endDate) }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -381,7 +381,7 @@
                   <v-icon color="primary">mdi-account-group</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>参与人数</v-list-item-title>
+                  <v-list-item-title>Number of participants</v-list-item-title>
                   <v-list-item-subtitle>{{ selectedTraining.currentParticipants }}/{{ selectedTraining.maxParticipants }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -392,7 +392,7 @@
                   <v-icon :color="getStatusColor(selectedTraining.status)">mdi-clock-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>当前状态</v-list-item-title>
+                  <v-list-item-title>Current status</v-list-item-title>
                   <v-list-item-subtitle>
                     <v-chip
                       :color="getStatusColor(selectedTraining.status)"
@@ -407,12 +407,12 @@
             </v-col>
           </v-row>
           <v-divider class="my-4"></v-divider>
-          <div class="text-subtitle-1 font-weight-bold mb-2">培训描述</div>
+          <div class="text-subtitle-1 font-weight-bold mb-2">Training Description</div>
           <div class="text-body-2">{{ selectedTraining.description }}</div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="detailsDialog = false">关闭</v-btn>
+          <v-btn text @click="detailsDialog = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -431,7 +431,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -489,14 +489,14 @@ export default {
 
     // 表格配置
     headers: [
-      { text: '培训标题', value: 'title' },
+      { text: 'Training', value: 'title' },
       //{ text: '培训类型', value: 'type' },
-      { text: '地点', value: 'location' },
-      { text: '开始日期', value: 'startDate' },
+      { text: 'Location', value: 'location' },
+      { text: 'Startdate', value: 'startDate' },
       //{ text: '结束日期', value: 'endDate' },
-      { text: '状态', value: 'status' },
+      { text: 'Status', value: 'status' },
       //{ text: '当前/最大人数', value: 'participants', sortable: false },
-      { text: '操作', value: 'actions', sortable: false }
+      { text: 'Action', value: 'actions', sortable: false }
     ],
 
     // 培训列表
@@ -530,13 +530,13 @@ export default {
 
     // 所有申请列表
     allApplications: [],
-    
+
     // 申请列表表头
     allApplicationHeaders: [
-      { text: '培训项目', value: 'trainingTitle' },
-      { text: '农户ID', value: 'farmerId' },
-      { text: '农户姓名', value: 'farmerName' },
-      { text: '申请时间', value: 'applicationTime' }
+      { text: 'Training Title', value: 'trainingTitle' },
+      { text: 'FarmerID', value: 'farmerId' },
+      { text: 'FarmerName', value: 'farmerName' },
+      { text: 'ApplicationTime', value: 'applicationTime' }
     ],
 
     // 加载状态
@@ -560,7 +560,7 @@ export default {
           await this.fetchAllApplications()
         }
       } catch (error) {
-        this.showMessage('获取培训列表失败', 'error')
+        this.showMessage('Failed to get training list', 'error')
       } finally {
         this.loading = false
       }
@@ -581,7 +581,7 @@ export default {
 
         const response = await axios.post('/api/admin/trainings', trainingData)
         if (response.data.code === 200) {
-          this.showMessage('培训创建成功', 'success')
+          this.showMessage('The training was created successfully', 'success')
           this.$refs.form.reset()
           this.newTraining = {
             title: '',
@@ -597,10 +597,10 @@ export default {
           await this.fetchTrainings()
         }
       } catch (error) {
-        console.error('创建培训失败:', error)
+        console.error('Failed to create training:', error)
         const errorMessage = error.response && error.response.data && error.response.data.message
           ? error.response.data.message
-          : '创建培训失败'
+          : 'Failed to create training'
         this.showMessage(errorMessage, 'error')
       } finally {
         this.saving = false
@@ -624,7 +624,7 @@ export default {
           this.applications = response.data.data
         }
       } catch (error) {
-        this.showMessage('获取报名情况失败', 'error')
+        this.showMessage('Failed to get enrollment', 'error')
         this.selectedTraining = null
         this.applications = []
       } finally {
@@ -650,12 +650,12 @@ export default {
           { status: this.newStatus }
         )
         if (response.data.code === 200) {
-          this.showMessage('状态更新成功', 'success')
+          this.showMessage('The status update was successful', 'success')
           this.statusDialog = false
           this.fetchTrainings()
         }
       } catch (error) {
-        this.showMessage('更新状态失败', 'error')
+        this.showMessage('Update status failed', 'error')
       } finally {
         this.updating = false
       }
@@ -675,12 +675,12 @@ export default {
       try {
         const response = await axios.delete(`/api/admin/trainings/${this.selectedTraining.id}`)
         if (response.data.code === 200) {
-          this.showMessage('培训删除成功', 'success')
+          this.showMessage('The training deletion is successful', 'success')
           this.deleteDialog = false
           this.fetchTrainings()
         }
       } catch (error) {
-        this.showMessage('删除培训失败', 'error')
+        this.showMessage('Failed to delete training', 'error')
       } finally {
         this.deleting = false
       }
@@ -706,11 +706,11 @@ export default {
 
         if (response.data.code === 200) {
           this.newTraining.imageUrl = response.data.data.url
-          this.showMessage('图片上传成功', 'success')
+          this.showMessage('The image has been uploaded successfully', 'success')
         }
       } catch (error) {
-        console.error('图片上传失败:', error)
-        this.showMessage('图片上传失败', 'error')
+        console.error('Image upload failed:', error)
+        this.showMessage('Image upload failed', 'error')
         this.trainingImage = null
         this.newTraining.imageUrl = ''
       }
@@ -772,7 +772,7 @@ export default {
           this.detailsDialog = true
         }
       } catch (error) {
-        this.showMessage('获取培训详情失败', 'error')
+        this.showMessage('Failed to get training details', 'error')
       }
     },
 
@@ -799,11 +799,11 @@ export default {
               this.allApplications.push(...applications)
             }
           } catch (error) {
-            console.error(`获取培训 ${training.id} 的申请记录失败:`, error)
+            console.error(`Get training ${training.id} 's request record failed:`, error)
           }
         }
       } catch (error) {
-        this.showMessage('获取申请记录失败', 'error')
+        this.showMessage('Failed to obtain application records', 'error')
       } finally {
         this.loadingApplications = false
       }
