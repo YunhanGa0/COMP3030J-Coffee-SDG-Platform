@@ -190,12 +190,12 @@
               gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               class="white--text align-end"
             >
-              <v-card-title>技术培训管理</v-card-title>
+              <v-card-title>Technical Training</v-card-title>
             </v-img>
             <v-card-text class="text-center pt-4">
               <v-icon size="64" color="blue">mdi-school</v-icon>
               <div class="mt-3 subtitle-1">
-                管理和发布农场技术培训项目
+                Manage and publish on-farm technical training programs
               </div>
             </v-card-text>
             <v-card-actions>
@@ -205,7 +205,7 @@
                 text
                 @click.stop="$router.push('/admin/trainings')"
               >
-                管理
+                Review
                 <v-icon right>mdi-arrow-right</v-icon>
               </v-btn>
             </v-card-actions>

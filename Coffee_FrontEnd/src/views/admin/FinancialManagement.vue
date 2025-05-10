@@ -10,9 +10,9 @@
                 <v-icon size="40" color="white">mdi-cash</v-icon>
               </v-avatar>
               <div>
-                <h1 class="text-h4 font-weight-bold success--text mb-1">财务支持管理</h1>
+                <h1 class="text-h4 font-weight-bold success--text mb-1">FinancialManagement</h1>
                 <div class="text-subtitle-1 grey--text">
-                  审核和管理农场的财务支持申请
+                  Review and manage applications for financial support from farms
                 </div>
               </div>
               <v-spacer></v-spacer>
@@ -23,7 +23,7 @@
                 :loading="loading"
               >
                 <v-icon left>mdi-refresh</v-icon>
-                刷新数据
+                REFRESH DATA
               </v-btn>
             </div>
           </v-card>
@@ -35,7 +35,7 @@
         <v-col cols="12">
           <v-card class="pa-4">
             <v-card-title class="px-0 pt-0">
-              申请状态筛选
+              Application Status Screening
             </v-card-title>
             <v-card-text class="px-0 pb-0">
               <v-chip-group
@@ -98,7 +98,7 @@
                   @click="viewDetails(item)"
                   :disabled="loading"
                 >
-                  查看
+                  View
                 </v-btn>
                 <template v-if="item.status === 'PENDING'">
                   <v-btn
@@ -108,7 +108,7 @@
                     @click="approveApplication(item)"
                     :disabled="loading"
                   >
-                    批准
+                    Approve
                   </v-btn>
                   <v-btn
                     small
@@ -116,7 +116,7 @@
                     @click="rejectApplication(item)"
                     :disabled="loading"
                   >
-                    拒绝
+                    Reject
                   </v-btn>
                 </template>
               </template>
@@ -124,7 +124,7 @@
               <template v-slot:no-data>
                 <div class="text-center pa-5">
                   <v-icon large color="grey lighten-1">mdi-cash-remove</v-icon>
-                  <p class="mt-3 grey--text">暂无财务支持申请数据</p>
+                  <p class="mt-3 grey--text">There is no data on financial support applications</p>
                 </div>
               </template>
             </v-data-table>
@@ -138,7 +138,7 @@
       <v-card v-if="selectedApplication">
         <v-card-title class="success white--text">
           <v-icon color="white" left>mdi-cash</v-icon>
-          财务支持申请详情
+          Details of the financial support application
           <v-spacer></v-spacer>
           <v-btn icon color="white" @click="detailDialog = false">
             <v-icon>mdi-close</v-icon>
@@ -148,11 +148,11 @@
         <v-card-text class="pt-4">
           <v-row>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">申请项目</div>
+              <div class="caption grey--text">Apply for a project</div>
               <div class="subtitle-1 font-weight-medium">{{ selectedApplication.financialSupport.title }}</div>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">申请状态</div>
+              <div class="caption grey--text">Application Status</div>
               <v-chip
                 :color="getStatusColor(selectedApplication.status)"
                 small
@@ -161,24 +161,24 @@
               </v-chip>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">申请时间</div>
+              <div class="caption grey--text">Application Time</div>
               <div class="subtitle-1">{{ selectedApplication.applyTime }}</div>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">申请金额</div>
+              <div class="caption grey--text">Budget</div>
               <div class="subtitle-1">¥{{ selectedApplication.financialSupport.budget }}</div>
             </v-col>
 
             <v-col cols="12">
               <v-divider class="my-3"></v-divider>
-              <div class="caption grey--text">项目描述</div>
+              <div class="caption grey--text">Project Description</div>
               <div class="body-1 mb-4">{{ selectedApplication.financialSupport.description }}</div>
 
-              <div class="caption grey--text">申请用途</div>
+              <div class="caption grey--text">Application Purpose</div>
               <div class="body-1 mb-4">{{ selectedApplication.purpose }}</div>
 
               <div v-if="selectedApplication.adminFeedback" class="mt-4">
-                <div class="caption grey--text">管理员反馈</div>
+                <div class="caption grey--text">Admin Feedback</div>
                 <div class="body-1">{{ selectedApplication.adminFeedback }}</div>
               </div>
             </v-col>
@@ -196,7 +196,7 @@
             @click="rejectDialog = true"
           >
             <v-icon left>mdi-close</v-icon>
-            拒绝
+            Reject
           </v-btn>
           <v-btn
             color="success"
@@ -204,7 +204,7 @@
             @click="approveDialog = true"
           >
             <v-icon left>mdi-check</v-icon>
-            批准
+            Approve
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -213,26 +213,26 @@
     <!-- 批准确认对话框 -->
     <v-dialog v-model="approveDialog" max-width="500">
       <v-card>
-        <v-card-title class="headline">批准财务支持</v-card-title>
+        <v-card-title class="headline">Approve financial support</v-card-title>
         <v-card-text>
-          确定要批准该农场的财务支持申请吗？批准后将为农场提供相应的资金支持。
+          Are you sure you want to approve the farm's application for financial support? After approval, the farm will be provided with corresponding financial support.
 
           <v-textarea
             v-model="approveComment"
             outlined
-            label="批准备注（可选）"
+            label="Approval Notes (Optional)"
             rows="3"
             class="mt-4"
           ></v-textarea>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="grey darken-1" text @click="approveDialog = false">取消</v-btn>
+          <v-btn color="grey darken-1" text @click="approveDialog = false">Cancel</v-btn>
           <v-btn
             color="success"
             @click="confirmApprove"
             :loading="processingAction"
-          >确认批准</v-btn>
+          >Confirm the approval</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -240,28 +240,28 @@
     <!-- 拒绝确认对话框 -->
     <v-dialog v-model="rejectDialog" max-width="500">
       <v-card>
-        <v-card-title class="headline">拒绝财务支持</v-card-title>
+        <v-card-title class="headline">Refusal of financial support</v-card-title>
         <v-card-text>
-          确定要拒绝该农场的财务支持申请吗？
+          Are you sure you want to deny an application for financial support for the farm?
 
           <v-textarea
             v-model="rejectReason"
             outlined
-            label="拒绝原因（必填）"
+            label="Reason for rejection (required)"
             rows="3"
             class="mt-4"
-            :rules="[v => !!v || '请填写拒绝原因']"
+            :rules="[v => !!v || 'Please fill in the reason for rejection']"
           ></v-textarea>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="grey darken-1" text @click="rejectDialog = false">取消</v-btn>
+          <v-btn color="grey darken-1" text @click="rejectDialog = false">Cancel</v-btn>
           <v-btn
             color="error"
             @click="confirmReject"
             :loading="processingAction"
             :disabled="!rejectReason"
-          >确认拒绝</v-btn>
+          >Confirm the rejection</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -280,7 +280,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -298,12 +298,12 @@ export default {
       // 表格列配置
       headers: [
         { text: 'ID', value: 'id', width: '80px' },
-        { text: '申请人ID', value: 'farmerId' },
-        { text: '申请项目', value: 'financialSupport.title' },
-        { text: '申请金额', value: 'financialSupport.budget' },
-        { text: '申请时间', value: 'applyTime' },
-        { text: '状态', value: 'status', width: '120px' },
-        { text: '操作', value: 'actions', sortable: false, width: '120px' }
+        { text: 'FarmerID', value: 'farmerId' },
+        { text: 'Project Title', value: 'financialSupport.title' },
+        { text: 'Application Budget', value: 'financialSupport.budget' },
+        { text: 'Apply Time', value: 'applyTime' },
+        { text: 'Status', value: 'status', width: '120px' },
+        { text: 'Action', value: 'actions', sortable: false, width: '120px' }
       ],
 
       // 数据和加载状态
@@ -314,9 +314,9 @@ export default {
       // 状态过滤
       selectedStatus: 'PENDING',
       statusOptions: [
-        { text: '待审核', value: 'PENDING' },
-        { text: '已批准', value: 'APPROVED' },
-        { text: '已拒绝', value: 'REJECTED' }
+        { text: 'Pending', value: 'PENDING' },
+        { text: 'Approve', value: 'APPROVED' },
+        { text: 'Rejected', value: 'REJECTED' }
       ],
 
       // 对话框控制
