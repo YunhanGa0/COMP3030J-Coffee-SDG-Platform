@@ -1,4 +1,3 @@
-// src/main/java/com/coffee_backend/dto/CreateOrderRequest.java
 package com.coffee_backend.dto;
 
 

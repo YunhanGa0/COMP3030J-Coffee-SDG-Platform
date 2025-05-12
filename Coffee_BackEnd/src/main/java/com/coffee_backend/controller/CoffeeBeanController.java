@@ -10,8 +10,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author Le Liu
- * @create 2025-04
+ * Coffee Bean Controller
+ * Handles operations for farmers to manage their coffee bean products
  */
 @RestController
 @RequestMapping("/api/farmers/coffee-beans")
@@ -20,8 +20,11 @@ public class CoffeeBeanController {
     private CoffeeBeanService coffeeBeanService;
 
     /**
-     * 农庄上传咖啡豆商品
+     * Create a new coffee bean product (farmer only)
      * POST /api/farmers/coffee-beans
+     * 
+     * @param request Coffee bean product details
+     * @return Created coffee bean product information
      */
     @PreAuthorize("hasAuthority('FARMER')")
     @PostMapping
@@ -30,21 +33,25 @@ public class CoffeeBeanController {
         return ApiResponse.created(coffeeBean);
     }
 
-
     /**
-     * 农庄删除咖啡豆商品
+     * Delete a coffee bean product (farmer only)
      * DELETE /api/farmers/coffee-beans/{id}
+     * 
+     * @param id Coffee bean product ID to delete
+     * @return Operation result
      */
     @PreAuthorize("hasAuthority('FARMER')")
     @DeleteMapping("/{id}")
     public ApiResponse deleteCoffeeBean(@PathVariable Long id) {
         coffeeBeanService.deleteCoffeeBean(id);
-        return ApiResponse.success("删除成功", null);
+        return ApiResponse.success("Successfully deleted", null);
     }
 
     /**
-     * 农庄获取咖啡豆商品列表
+     * Get list of all coffee bean products for the farmer
      * GET /api/farmers/coffee-beans
+     * 
+     * @return List of coffee bean products
      */
     @PreAuthorize("hasAuthority('FARMER')")
     @GetMapping
@@ -53,8 +60,12 @@ public class CoffeeBeanController {
     }
 
     /**
-     * 农庄修改咖啡豆商品
+     * Update a coffee bean product (farmer only)
      * PUT /api/farmers/coffee-beans/{id}
+     * 
+     * @param id Coffee bean product ID to update
+     * @param request Updated coffee bean product details
+     * @return Operation result
      */
     @PreAuthorize("hasAuthority('FARMER')")
     @PutMapping("/{id}")
@@ -63,6 +74,6 @@ public class CoffeeBeanController {
             @RequestBody CreateCoffeeBeanRequest request
     ) {
         coffeeBeanService.updateCoffeeBean(id, request);
-        return ApiResponse.success("修改成功", null);
+        return ApiResponse.success("Successfully updated", null);
     }
 }

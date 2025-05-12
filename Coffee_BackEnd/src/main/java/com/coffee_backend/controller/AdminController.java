@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Admin Controller
+ * Handles administrative operations for farm management, trainings,
+ * financial support, and certification processes
+ */
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
@@ -25,87 +30,158 @@ public class AdminController {
     @Autowired
     private CertificationService certificationService;
 
-    // 管理员创建农庄账户
+    // Farmer account management
+
+    /**
+     * Create a farmer account (admin only)
+     * 
+     * @param request Farmer account details
+     * @return Operation result
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/createFarmer")
     public ApiResponse saveFarmer(@RequestBody SaveFarmerRequest request){
         return adminService.saveFarmer(request);
     }
 
-    // 管理员获取所有农庄账户
+    /**
+     * Get all farmer accounts (admin only)
+     * 
+     * @return List of all farmers
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/farmers")
     public ApiResponse getFarmers() {
         return adminService.getAllFarmers();
     }
 
-    // 管理员创建技术培训
+    // Technical training management
+
+    /**
+     * Create a technical training program (admin only)
+     * 
+     * @param request Training details
+     * @return Operation result
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/trainings")
     public ApiResponse saveTechTraining(@RequestBody TechTrainingRequest request){
         return technicalTrainingService.saveTraining(request);
     }
 
-    // 改变技术培训状态
+    /**
+     * Update training status (admin only)
+     * 
+     * @param id Training ID
+     * @param status New status information
+     * @return Operation result
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/trainings/update/{id}")
     public ApiResponse updateTrainingStatus(@PathVariable Long id, @RequestBody UpdateTrainingStatusRequest status){
         return technicalTrainingService.updateTrainingStatus(id, status);
     }
 
+    /**
+     * Delete a technical training program (admin only)
+     * 
+     * @param id Training ID to delete
+     * @return Operation result
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @DeleteMapping("/trainings/{id}")
     public ApiResponse deleteTechTraining(@PathVariable Long id){
         return technicalTrainingService.deleteTechTraining(id);
     }
 
+    /**
+     * Get all farmers registered for a specific training (admin only)
+     * 
+     * @param id Training ID
+     * @return List of registered farmers
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/trainings/{id}/applications")
     public ApiResponse getTechTrainingFarmers(@PathVariable Long id){
         return technicalTrainingService.getTechTrainingFarmers(id);
     }
 
-    // 管理员创建财务支持项目
+    // Financial support management
+
+    /**
+     * Create a financial support program (admin only)
+     * 
+     * @param request Financial support details
+     * @return Operation result
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PostMapping("/financial-supports")
     public ApiResponse createFinancialSupport(@RequestBody FinancialSupportRequest request){
         return financialService.createFinancialSupport(request);
     }
 
-    // 管理员查询财务支持项目
+    /**
+     * Query financial support applications (admin only)
+     * 
+     * @param status Optional filter by application status
+     * @return List of financial support applications
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/financial-applications")
     public ApiResponse queryFinancialSupport(@RequestParam(name = "status", required = false) ApplicationStatus status){
         return financialService.queryFinancialSupport(status);
     }
 
-    // 管理员审核财务申请
+    /**
+     * Review a financial support application (admin only)
+     * 
+     * @param id Application ID
+     * @param request Review details
+     * @return Operation result
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/financial-applications/review/{id}")
     public ApiResponse reviewFinancialApplication(@PathVariable Long id, @RequestBody FinancialReviewRequest request){
         return financialService.reviewFinancialApplication(id, request);
     }
 
-    // 管理员查询认证申请
+    // Certification management
+
+    /**
+     * Query certification applications (admin only)
+     * 
+     * @param status Optional filter by certification status
+     * @return List of certification applications
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/certification/applications")
     public ApiResponse queryCertificationApplication(@RequestParam(name = "status", required = false) CertificationStatus status){
         return certificationService.queryCertificationApplication(status);
     }
 
-    // 管理员审核认证申请
+    /**
+     * Review a certification application (admin only)
+     * 
+     * @param id Application ID
+     * @param request Review details
+     * @return Operation result
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/certification/applications/review/{id}")
     public ApiResponse reviewCertificationApplication(@PathVariable Long id, @RequestBody CertificationReviewRequest request){
         return certificationService.reviewCertificationApplication(id, request);
     }
 
-    // 管理员查询CUSTOMER数量
+    // Customer management
+
+    /**
+     * Query total number of customers (admin only)
+     * 
+     * @return Customer count statistics
+     */
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/queryCustomer")
     public ApiResponse queryCustomer(){
         return adminService.queryCustomer();
     }
-
-
 }
