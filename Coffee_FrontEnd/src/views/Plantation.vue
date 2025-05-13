@@ -266,7 +266,7 @@
                     By 2025, we commit to achieving 100% traceable coffee bean sources and ensuring all coffee farmers receive fair income.
                   </p>
                 </v-slide-y-transition>
-                <v-slide-y-transition>
+                <!--<v-slide-y-transition>
                   <v-btn
                     class="mt-6"
                     outlined
@@ -276,7 +276,7 @@
                     Learn More
                     <v-icon right>mdi-arrow-right</v-icon>
                   </v-btn>
-                </v-slide-y-transition>
+                </v-slide-y-transition>-->
               </v-card-text>
             </v-card>
           </v-hover>
@@ -336,7 +336,7 @@ export default {
             certified: null
           }
         });
-        
+
         if (response.data.code === 200) {
           const data = response.data.data;
           this.farms = data.content;
