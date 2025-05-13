@@ -55,4 +55,5 @@ public class AuthController {
     public ApiResponse getAdminTokenForTest() {
         return authService.createAdminForTest();
     }
+
 }
