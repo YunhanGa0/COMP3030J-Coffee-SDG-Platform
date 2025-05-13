@@ -1,6 +1,5 @@
 package com.coffee_backend.dto;
 
-import com.coffee_backend.entity.Farm;
 import com.coffee_backend.enumType.CertificationStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

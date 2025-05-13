@@ -22,6 +22,4 @@ public class FarmResponse {
     private Integer elevation;
     private String soilType;
     private Boolean isCertificated;
-    private String blogTitle;
-    private String blogContent;
 }

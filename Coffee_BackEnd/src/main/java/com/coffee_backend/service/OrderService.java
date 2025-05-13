@@ -10,15 +10,18 @@ import com.coffee_backend.repo.CoffeeBeanRepository;
 import com.coffee_backend.repo.OrderRepository;
 import com.coffee_backend.repo.UserRepository;
 import com.coffee_backend.util.JwtUtil;
+import com.coffee_backend.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.coffee_backend.exception.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service for order management operations
+ */
 @Service
 public class OrderService {
     @Autowired
@@ -36,24 +39,34 @@ public class OrderService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**
+     * Create a new order for coffee beans
+     *
+     * @param req order creation request
+     * @return order response with created order details
+     * @throws NotFoundException if user or coffee bean not found
+     * @throws BadRequestException if stock is insufficient
+     */
     @Transactional
     public OrderResponse createOrder(CreateOrderRequest req) {
-        // 获取当前用户 ID
+        // Get current user ID
         Long userId = getCurrentUserId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("用户不存在"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
 
-        // 查询豆子单价
-        CoffeeBean coffeeBean = coffeeBeanRepository.findById(req.getCoffeeBeanId()).orElseThrow(() -> new NotFoundException("咖啡豆不存在"));
+        // Get coffee bean price
+        CoffeeBean coffeeBean = coffeeBeanRepository.findById(req.getCoffeeBeanId())
+                .orElseThrow(() -> new NotFoundException("Coffee bean not found"));
 
-        // 库存
+        // Check stock
         if (coffeeBean.getBagStock() < req.getQuantity()) {
-            throw new BadRequestException("库存不足");
+            throw new BadRequestException("Insufficient stock");
         }
-        // 库存-1
+        
+        // Update stock
         coffeeBean.setBagStock(coffeeBean.getBagStock() - req.getQuantity());
 
-
-        // 创建订单
+        // Create order
         Order order = new Order();
         order.setUser(user);
         order.setStatus(OrderStatus.PAID);
@@ -81,7 +94,11 @@ public class OrderService {
                 .build();
     }
 
-    /** 获取当前登录用户自己的订单 */
+    /**
+     * Get orders for the current user
+     *
+     * @return list of order responses for the current user
+     */
     @Transactional(readOnly = true)
     public List<OrderResponse> listMyOrders() {
         Long userId = getCurrentUserId();
@@ -101,18 +118,23 @@ public class OrderService {
                 .build()).collect(Collectors.toList());
     }
 
-    private Long getCurrentUserId() {
-        String bearer = request.getHeader("Authorization");
-        return jwtUtil.getUserIdFromToken(bearer.substring(7));
-    }
-
-    // 查询用户本人订单细节
+    /**
+     * Get order detail for a specific order
+     *
+     * @param orderId ID of the order to retrieve
+     * @return order response with detailed information
+     * @throws NotFoundException if order not found
+     * @throws ForbiddenException if user doesn't have permission to view the order
+     */
+    @Transactional(readOnly = true)
     public OrderResponse getOrderDetail(Long orderId) {
         Long currentUserId = getCurrentUserId();
 
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new NotFoundException("订单不存在"));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException("Order not found"));
+                
         if (!order.getUser().getId().equals(currentUserId)) {
-            throw new ForbiddenException("无权限查看该订单");
+            throw new ForbiddenException("No permission to view this order");
         }
         return OrderResponse.builder()
                 .id(order.getId())
@@ -133,11 +155,18 @@ public class OrderService {
 
     }
 
+    /**
+     * Get all orders for a farmer's products
+     *
+     * @return list of order responses for the farmer's products
+     * @throws NotFoundException if farmer not found
+     */
+    @Transactional(readOnly = true)
     public List<OrderResponse> listOrdersForFarmer() {
         Long farmerId = getCurrentUserId();
 
-        User farmer = userRepository.findById(farmerId)
-                .orElseThrow(() -> new NotFoundException("农户不存在"));
+        userRepository.findById(farmerId)
+                .orElseThrow(() -> new NotFoundException("Farmer not found"));
 
         List<Order> orders = orderRepository.findAllForFarmer(farmerId);
 
@@ -157,40 +186,53 @@ public class OrderService {
 
     }
 
-
     /**
-     * 农户发货（将订单状态改为 SHIPPED）
+     * Ship an order (change order status to SHIPPED)
+     *
+     * @param orderId ID of the order to ship
+     * @throws NotFoundException if order not found
+     * @throws ForbiddenException if the order doesn't belong to the farmer's farm
+     * @throws BadRequestException if the order cannot be shipped in its current state
      */
     @Transactional
     public void shipOrder(Long orderId) {
-
-        // 当前登录用户（农户）ID
+        // Get current user (farmer) ID
         Long farmerId = getCurrentUserId();
 
-        // 取订单 & 校验归属
+        // Get order and verify ownership
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NotFoundException("订单不存在"));
+                .orElseThrow(() -> new NotFoundException("Order not found"));
 
-        // 农庄归属校验
+        // Verify farm ownership
         boolean belongsToFarmer = order.getCoffeeBean()
                 .getFarm()
                 .getUser()
                 .getId()
                 .equals(farmerId);
 
-
         if (!belongsToFarmer) {
-            throw new ForbiddenException("该订单不属于你的农庄");
+            throw new ForbiddenException("This order doesn't belong to your farm");
         }
 
-        // 只有待发货(PAID) 才能发货
+        // Only PAID orders can be shipped
         if (order.getStatus() != OrderStatus.PAID) {
-            throw new BadRequestException("当前状态不可发货");
+            throw new BadRequestException("Order cannot be shipped in its current status");
         }
 
-        // 更新状态
+        // Update status
         order.setStatus(OrderStatus.SHIPPED);
         orderRepository.save(order);
     }
+
+    /**
+     * Get the current user ID from JWT token in request header
+     *
+     * @return current user ID
+     */
+    private Long getCurrentUserId() {
+        String bearer = request.getHeader("Authorization");
+        return jwtUtil.getUserIdFromToken(bearer.substring(7));
+    }
+
 
 }
