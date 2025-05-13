@@ -387,7 +387,7 @@
     </section>
 
     <!-- 成功案例部分 -->
-    <section class="success-stories-section py-12 cream-bg">
+    <!--<section class="success-stories-section py-12 cream-bg">
       <v-container>
         <v-row justify="center">
           <v-col cols="12" class="text-center mb-8">
@@ -430,7 +430,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </section>
+    </section>-->
   </div>
 </template>
 
