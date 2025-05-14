@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import java.io.PrintWriter;
+import java.io.IOException;
+
 
 @Slf4j
 @Component
@@ -21,19 +23,18 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(
             HttpServletRequest request,
             HttpServletResponse response,
-            AuthenticationException authException) {
+            AuthenticationException authException) throws IOException {
 
         log.warn("未登录或 Token 无效：{}", authException.getMessage());
 
-        // ① 状态码
+        //
+        ApiResponse api = ApiResponse.error(401, "Login required");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // 401
-        response.setContentType("application/json;charset=UTF-8");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        // ② JSON 体
-        ApiResponse body = ApiResponse.error(401, "未登录或 Token 已过期");
-        try (PrintWriter out = response.getWriter()) {
-            out.print(MAPPER.writeValueAsString(body));
-            out.flush();
-        } catch (Exception ignore) {}
+        //
+
+        MAPPER.writeValue(response.getWriter(), api);
+
     }
 }
