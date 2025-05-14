@@ -24,25 +24,80 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+    <floating-ai-button @toggle="showAi = !showAi" />
+
+    <ai-chat-modal
+      v-if="$route.meta.ai"
+      :visible.sync="showAi"
+      v-bind="aiProps"
+    />
   </v-app>
 </template>
 
 <script>
 import TopNavBar from '@/components/TopNavBar.vue'
+import FloatingAiButton from "./components/FloatingAiButton.vue";
+import AiChatModal from "./components/AiChatModal.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'App',
   components: {
+    AiChatModal,
+    FloatingAiButton,
     TopNavBar
   },
-  
+
   data: () => ({
     snackbar: {
       show: false,
       text: '',
       color: ''
-    }
+    },
+    showAi: false
   }),
+
+  computed: {
+    ...mapGetters('articles', ['allArticles']),
+    ...mapGetters('farms',    ['allFarms']),
+
+    aiProps() {
+      const { name, params } = this.$route
+
+      if (name === 'ArticleDetail') {
+        return {
+          resource: 'article',
+          mode:     'single',
+          targetId: params.id
+        }
+      }
+      if (name === 'ArticleList') {
+        return {
+          resource: 'article',
+          mode:     'list',
+          dataList: this.allArticles
+        }
+      }
+      if (name === 'FarmDetail') {
+        return {
+          resource: 'farm',
+          mode:     'single',
+          targetId: params.id
+        }
+      }
+      if (name === 'FarmList') {
+        return {
+          resource: 'farm',
+          mode:     'list',
+          dataList: this.allFarms
+        }
+      }
+
+      return {}
+    }
+  },
+
 
   methods: {
     showMessage(message) {

@@ -79,12 +79,14 @@ const routes = [
   {
     path: '/articles',
     name: 'ArticleList',
-    component: ArticleList
+    component: ArticleList,
+    meta: { ai: true }
   },
   {
     path: '/articles/:id',
     name: 'ArticleDetail',
-    component: ArticleDetail
+    component: ArticleDetail,
+    meta: { ai: true }
   },
   {
     path: '/admin',
@@ -113,7 +115,8 @@ const routes = [
   {
     path: '/farms/:id',
     name: 'FarmDetail',
-    component: FarmDetail
+    component: FarmDetail,
+    meta: { ai: true }
   },
   {
     path: '/farms/:farmId/blogs/:blogId',

@@ -61,6 +61,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/trainings/**").permitAll()
                         .requestMatchers("/api/financial-supports/**").permitAll()
                         .requestMatchers("/api/coffee-beans/**").permitAll()
+                        .requestMatchers("/api/ai/**").permitAll()
                         .requestMatchers(new MvcRequestMatcher(introspector, "/api/{farmId}/coffee-beans")).permitAll()
                         .anyRequest().authenticated()
 
