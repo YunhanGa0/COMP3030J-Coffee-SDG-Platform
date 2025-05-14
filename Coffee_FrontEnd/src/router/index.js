@@ -190,6 +190,15 @@ const routes = [
     name: 'OrderDetail',
     component: () => import('@/views/OrderDetail.vue'),
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/farmer/coffee-beans',
+    name: 'CoffeeBeanList',
+    component: () => import('@/views/farmer/CoffeeBeanList.vue'),
+    meta: {
+      requiresAuth: true,
+      role: 'FARMER'
+    }
   }
 ]
 
