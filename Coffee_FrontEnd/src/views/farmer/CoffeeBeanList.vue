@@ -4,12 +4,12 @@
       <v-col cols="12">
         <v-card>
           <v-card-title class="d-flex justify-space-between align-center">
-            我的咖啡豆
+            My Coffee Beans
             <v-btn color="primary" @click="openCreateDialog">
-              添加咖啡豆
+              Add Coffee Bean
             </v-btn>
           </v-card-title>
-          
+
           <v-card-text>
             <v-data-table
               :headers="headers"
@@ -33,7 +33,7 @@
                   color="primary"
                   @click="viewItemDetails(item)"
                 >
-                  查看详情
+                  Details
                 </v-btn>
                 <v-btn
                   small
@@ -41,7 +41,7 @@
                   color="warning"
                   @click="editItem(item)"
                 >
-                  编辑
+                  Edit
                 </v-btn>
                 <v-btn
                   small
@@ -49,7 +49,7 @@
                   color="error"
                   @click="confirmDelete(item)"
                 >
-                  删除
+                  Delete
                 </v-btn>
               </template>
             </v-data-table>
@@ -71,71 +71,71 @@
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="editedItem.name"
-                  label="咖啡豆名称"
-                  :rules="[v => !!v || '名称不能为空']"
+                  label="Coffee Name"
+                  :rules="[v => !!v || 'The name cannot be empty']"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="editedItem.variety"
-                  label="品种"
+                  label="Varieties"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="editedItem.processMethod"
-                  label="处理方法"
+                  label="Solution"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="editedItem.roastLevel"
-                  label="烘焙度"
+                  label="Roast degree"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-textarea
                   v-model="editedItem.flavorNotes"
-                  label="风味描述"
+                  label="Flavor description"
                   rows="3"
                 ></v-textarea>
               </v-col>
               <v-col cols="12" md="4">
                 <v-text-field
                   v-model.number="editedItem.weightPerBagKg"
-                  label="每包重量(kg)"
+                  label="Weight per pack(kg)"
                   type="number"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
                 <v-text-field
                   v-model.number="editedItem.bagStock"
-                  label="库存数量"
+                  label="Inventory quantity"
                   type="number"
-                  :rules="[v => !!v || '库存不能为空']"
+                  :rules="[v => !!v || 'Inventory cannot be empty']"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
                 <v-text-field
                   v-model.number="editedItem.pricePerBag"
-                  label="每包价格"
+                  label="Price per pack"
                   type="number"
-                  :rules="[v => !!v || '价格不能为空']"
+                  :rules="[v => !!v || 'The price cannot be empty']"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-switch
                   v-model="editedItem.available"
-                  label="是否上架"
+                  label="Whether it is on the shelf or not"
                 ></v-switch>
               </v-col>
               <v-col cols="12" md="6">
                 <v-switch
                   v-model="editedItem.limitedEdition"
-                  label="限量版"
+                  label="Limited edition"
                 ></v-switch>
               </v-col>
               <v-col cols="12">
@@ -147,7 +147,7 @@
                       @click="$refs.imageInput.click()"
                     >
                       <v-icon left>mdi-image-plus</v-icon>
-                      选择咖啡豆图片
+                      Select a picture of coffee beans
                     </v-btn>
                     <input
                       ref="imageInput"
@@ -157,7 +157,7 @@
                       @change="onImageSelected"
                     >
                   </div>
-                  
+
                   <div v-else class="image-preview-container">
                     <v-img
                       :src="imagePreview || editedItem.imageUrl"
@@ -171,7 +171,7 @@
                         </v-row>
                       </template>
                     </v-img>
-                    
+
                     <div class="image-actions">
                       <v-btn
                         icon
@@ -190,7 +190,7 @@
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
                     </div>
-                    
+
                     <input
                       ref="imageInput"
                       type="file"
@@ -199,7 +199,7 @@
                       @change="onImageSelected"
                     >
                   </div>
-                  
+
                   <v-progress-linear
                     v-if="uploadingImage"
                     indeterminate
@@ -214,15 +214,15 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="grey darken-1" text @click="closeDialog" :disabled="loading">取消</v-btn>
-          <v-btn 
-            color="primary" 
-            text 
-            @click="save" 
-            :disabled="!valid || loading" 
+          <v-btn color="grey darken-1" text @click="closeDialog" :disabled="loading">Cancel</v-btn>
+          <v-btn
+            color="primary"
+            text
+            @click="save"
+            :disabled="!valid || loading"
             :loading="loading"
           >
-            保存
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -231,14 +231,14 @@
     <!-- 删除确认对话框 -->
     <v-dialog v-model="deleteDialog" max-width="400px">
       <v-card>
-        <v-card-title class="text-h5">确认删除</v-card-title>
+        <v-card-title class="text-h5">Confirm the deletion</v-card-title>
         <v-card-text>
-          确定要删除这个咖啡豆商品吗？此操作不可撤销。
+          Are you sure you want to delete this coffee bean product? This action is irreversible.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="grey darken-1" text @click="deleteDialog = false">取消</v-btn>
-          <v-btn color="error" text @click="deleteItem">确认删除</v-btn>
+          <v-btn color="grey darken-1" text @click="deleteDialog = false">Cancel</v-btn>
+          <v-btn color="error" text @click="deleteItem">Confirm the deletion</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -247,20 +247,20 @@
     <v-dialog v-model="detailDialog" max-width="800px">
       <v-card>
         <v-card-title class="d-flex justify-space-between align-center">
-          <span>咖啡豆详情</span>
+          <span>Coffee details</span>
           <div>
             <v-btn
               color="warning"
               class="mr-2"
               @click="editItem(viewedItem)"
             >
-              编辑
+              Edit
             </v-btn>
             <v-btn
               color="error"
               @click="confirmDelete(viewedItem)"
             >
-              删除
+              Delete
             </v-btn>
           </div>
         </v-card-title>
@@ -275,68 +275,68 @@
                 class="grey lighten-2"
               ></v-img>
             </v-col>
-            
+
             <v-col cols="12" md="8">
               <v-list>
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>名称</v-list-item-subtitle>
+                    <v-list-item-subtitle>Name</v-list-item-subtitle>
                     <v-list-item-title>{{ viewedItem.name }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>品种</v-list-item-subtitle>
+                    <v-list-item-subtitle>Varieties</v-list-item-subtitle>
                     <v-list-item-title>{{ viewedItem.variety }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>处理方法</v-list-item-subtitle>
+                    <v-list-item-subtitle>Solution</v-list-item-subtitle>
                     <v-list-item-title>{{ viewedItem.processMethod }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>烘焙度</v-list-item-subtitle>
+                    <v-list-item-subtitle>Roast degree</v-list-item-subtitle>
                     <v-list-item-title>{{ viewedItem.roastLevel }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>风味描述</v-list-item-subtitle>
+                    <v-list-item-subtitle>Flavor description</v-list-item-subtitle>
                     <v-list-item-title>{{ viewedItem.flavorNotes }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>每包重量</v-list-item-subtitle>
+                    <v-list-item-subtitle>Weight per pack</v-list-item-subtitle>
                     <v-list-item-title>{{ viewedItem.weightPerBagKg }} kg</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>库存数量</v-list-item-subtitle>
+                    <v-list-item-subtitle>Inventory quantity</v-list-item-subtitle>
                     <v-list-item-title>{{ viewedItem.bagStock }} 包</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>每包价格</v-list-item-subtitle>
+                    <v-list-item-subtitle>Price per pack</v-list-item-subtitle>
                     <v-list-item-title>¥{{ viewedItem.pricePerBag }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>状态</v-list-item-subtitle>
+                    <v-list-item-subtitle>Status</v-list-item-subtitle>
                     <v-list-item-title>
                       <v-chip
                         :color="viewedItem.available ? 'success' : 'error'"
@@ -350,13 +350,13 @@
 
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-subtitle>限量版</v-list-item-subtitle>
+                    <v-list-item-subtitle>Limited edition</v-list-item-subtitle>
                     <v-list-item-title>
                       <v-chip
                         :color="viewedItem.limitedEdition ? 'warning' : 'grey'"
                         small
                       >
-                        {{ viewedItem.limitedEdition ? '是' : '否' }}
+                        {{ viewedItem.limitedEdition ? 'Yes' : 'No' }}
                       </v-chip>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -368,7 +368,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="detailDialog = false">关闭</v-btn>
+          <v-btn color="primary" text @click="detailDialog = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -387,7 +387,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -400,21 +400,21 @@ import axios from 'axios'
 
 export default {
   name: 'CoffeeBeanList',
-  
+
   data: () => ({
     loading: false,
     dialog: false,
     deleteDialog: false,
     valid: false,
     headers: [
-      { text: '图片', value: 'imageUrl', sortable: false },
-      { text: '名称', value: 'name' },
-      { text: '品种', value: 'variety' },
-      { text: '处理方法', value: 'processMethod' },
-      { text: '库存', value: 'bagStock' },
-      { text: '价格', value: 'pricePerBag' },
-      { text: '状态', value: 'available' },
-      { text: '操作', value: 'actions', sortable: false }
+      { text: 'Image', value: 'imageUrl', sortable: false },
+      { text: 'Name', value: 'name' },
+      { text: 'Varieties', value: 'variety' },
+      { text: 'Solution', value: 'processMethod' },
+      { text: 'Stock', value: 'bagStock' },
+      { text: 'Price', value: 'pricePerBag' },
+      { text: 'Status', value: 'available' },
+      { text: 'Actions', value: 'actions', sortable: false }
     ],
     coffeeBeans: [],
     editedIndex: -1,
@@ -459,7 +459,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? '添加咖啡豆' : '编辑咖啡豆'
+      return this.editedIndex === -1 ? 'Add Coffee Beans' : 'Edit Coffee Beans'
     }
   },
 
@@ -476,7 +476,7 @@ export default {
       } catch (error) {
         this.snackbar = {
           show: true,
-          text: '获取咖啡豆列表失败',
+          text: 'Failed to get coffee bean list',
           color: 'error',
           timeout: 3000
         }
@@ -501,83 +501,83 @@ export default {
     onImageSelected(event) {
       const file = event.target.files[0];
       if (!file) return;
-      
+
       if (file.size > 5000000) { // 5MB 限制
         this.snackbar = {
           show: true,
-          text: '图片太大，请选择小于 5MB 的图片',
+          text: 'If the image is too large, please choose an image that is less than 5MB',
           color: 'error',
           timeout: 3000
         }
         return;
       }
-      
+
       this.imageFile = file;
-      
+
       // 立即创建本地预览
       const reader = new FileReader();
       reader.onload = e => {
         this.imagePreview = e.target.result;
       };
       reader.readAsDataURL(file);
-      
+
       // 自动上传
       this.uploadImage();
     },
-    
+
     clearImage() {
       this.imageFile = null;
       this.imagePreview = null;
       this.editedItem.imageUrl = '';
     },
-    
+
     async uploadImage() {
       if (!this.imageFile) return;
-      
+
       try {
         this.uploadingImage = true;
-        
+
         // 压缩图片
         const compressedFile = await this.compressImage(this.imageFile);
-        
+
         const formData = new FormData();
         formData.append('image', compressedFile);
         formData.append('type', 'COFFEE_BEAN');
-        
+
         const response = await axios.post('/api/articles/images/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         });
-        
+
         if (response.data.code === 200) {
           this.editedItem.imageUrl = response.data.data.url;
           this.snackbar = {
             show: true,
-            text: '图片上传成功，请点击保存完成操作',
+            text: 'If the image is uploaded, click Save to complete the operation',
             color: 'success',
             timeout: 3000
           }
         } else {
-          throw new Error(response.data.message || '上传失败');
+          throw new Error(response.data.message || 'Upload failed');
         }
       } catch (error) {
-        console.error('图片上传错误:', error);
-        
+        console.error('The image was uploaded incorrectly:', error);
+
         // 清除预览，因为上传失败
         this.imagePreview = null;
-        
+
         if (error.response && error.response.status === 401) {
           this.snackbar = {
             show: true,
-            text: '登录会话已过期，请重新登录',
+            text: 'The login session has expired, please log in again',
             color: 'error',
             timeout: 3000
           }
         } else {
           this.snackbar = {
             show: true,
-            text: '图片上传失败: ' + ((error.response && error.response.data && error.response.data.message) || error.message || '未知错误'),
+            text: 'Image upload failed: ' + ((error.response && error.response.data && error.response.data.message) || error.message || 'Unknown error'),
             color: 'error',
             timeout: 3000
           }
@@ -586,7 +586,7 @@ export default {
         this.uploadingImage = false;
       }
     },
-    
+
     async compressImage(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -596,19 +596,19 @@ export default {
             const canvas = document.createElement('canvas');
             let width = img.width;
             let height = img.height;
-            
+
             // 如果图片尺寸太大，进行缩放
             if (width > 1200) {
               height = Math.round(height * 1200 / width);
               width = 1200;
             }
-            
+
             canvas.width = width;
             canvas.height = height;
-            
+
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            
+
             // 转换为Blob
             canvas.toBlob((blob) => {
               // 创建一个新的文件对象
@@ -627,50 +627,50 @@ export default {
 
     async save() {
       if (!this.$refs.form.validate()) return;
-      
+
       this.loading = true;
-      
+
       try {
         let response;
         if (this.editedIndex > -1) {
           // 更新现有咖啡豆
           response = await coffeeBeanApi.updateCoffeeBean(this.editedItem.id, this.editedItem);
-          
+
           // 更新成功，直接关闭对话框
           this.dialog = false;
-          
+
           // 然后更新本地数据和显示成功消息
           const index = this.coffeeBeans.findIndex(item => item.id === this.editedItem.id);
           if (index !== -1) {
             Object.assign(this.coffeeBeans[index], response.data.data || this.editedItem);
           }
-          
+
           this.snackbar = {
             show: true,
-            text: '咖啡豆更新成功',
+            text: 'The coffee beans were renewed successfully',
             color: 'success',
             timeout: 3000
           }
         } else {
           // 创建新咖啡豆
           response = await coffeeBeanApi.createCoffeeBean(this.editedItem);
-          
+
           // 创建成功，直接关闭对话框
           this.dialog = false;
-          
+
           // 然后更新列表和显示成功消息
           if (response.data && response.data.data) {
             this.coffeeBeans.unshift(response.data.data);
           }
-          
+
           this.snackbar = {
             show: true,
-            text: '咖啡豆创建成功',
+            text: 'Coffee beans are created successfully',
             color: 'success',
             timeout: 3000
           }
         }
-        
+
         // 重要：在对话框关闭后重置表单
         this.$nextTick(() => {
           this.editedItem = Object.assign({}, this.defaultItem);
@@ -680,21 +680,21 @@ export default {
           if (this.$refs.form) {
             this.$refs.form.reset();
           }
-          
+
           // 刷新列表
           this.initialize();
         });
       } catch (error) {
-        console.error('保存失败:', error);
-        let errorMessage = '操作失败';
-        
+        console.error('Save failed:', error);
+        let errorMessage = 'The operation failed';
+
         if (error.response && error.response.data && error.response.data.message) {
           errorMessage = error.response.data.message;
         }
-        
+
         this.snackbar = {
           show: true,
-          text: this.editedIndex > -1 ? `更新失败: ${errorMessage}` : `创建失败: ${errorMessage}`,
+          text: this.editedIndex > -1 ? `The update failed: ${errorMessage}` : `Creation failed: ${errorMessage}`,
           color: 'error',
           timeout: 3000
         }
@@ -713,18 +713,18 @@ export default {
         await coffeeBeanApi.deleteCoffeeBean(this.editedItem.id);
         const index = this.coffeeBeans.indexOf(this.editedItem);
         this.coffeeBeans.splice(index, 1);
-        
+
         this.snackbar = {
           show: true,
-          text: '咖啡豆删除成功',
+          text: 'The coffee beans were deleted successfully',
           color: 'success',
           timeout: 3000
         };
-        
+
       } catch (error) {
         this.snackbar = {
           show: true,
-          text: '删除失败',
+          text: 'Deletion failed',
           color: 'error',
           timeout: 3000
         };
@@ -784,4 +784,4 @@ export default {
   justify-content: center;
   margin-top: 8px;
 }
-</style> 
+</style>

@@ -1,15 +1,10 @@
 import Vue from 'vue'
 import 'vuetify/dist/vuetify.min.css' // 使用预编译的 CSS
 import Vuetify from 'vuetify'
-import zhHans from 'vuetify/lib/locale/zh-Hans'
 
 Vue.use(Vuetify)
 
 export default new Vuetify({
-  lang: {
-    locales: { zhHans },
-    current: 'zhHans',
-  },
   theme: {
     themes: {
       light: {
