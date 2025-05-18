@@ -80,23 +80,36 @@
         </v-col>
         <v-col cols="12" md="6">
           <v-hover v-slot="{ hover }">
-            <v-img
-              src="https://stories.starbucks.com/uploads/2020/04/Starbucsk-coffee-farmer-Costa-Rica.jpg"
-              height="400"
-              class="rounded-lg"
-              :class="{ 'elevation-8': hover, 'elevation-2': !hover }"
-              transition="scale-transition"
+            <v-card
+              class="video-container-wrapper"
+              :elevation="hover ? 8 : 2"
+              :class="{ 'on-hover': hover }"
             >
-              <template v-slot:placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
+              <div class="video-container">
+                <iframe
+                  v-if="getProcessedVideoUrl(plantationVideo.url)"
+                  :src="getProcessedVideoUrl(plantationVideo.url)"
+                  frameborder="0"
+                  allowfullscreen
+                  class="video-iframe"
+                ></iframe>
+                <div v-else class="error-message">
+                  The video cannot be loaded, please check if the URL is correct
+                </div>
+              </div>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  text
+                  :href="plantationVideo.url"
+                  target="_blank"
                 >
-                  <v-progress-circular indeterminate color="primary"></v-progress-circular>
-                </v-row>
-              </template>
-            </v-img>
+                  Watch on Bilibili
+                  <v-icon right>mdi-open-in-new</v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
           </v-hover>
         </v-col>
       </v-row>
@@ -309,7 +322,11 @@ export default {
       last: false,
       empty: true
     },
-    error: null
+    error: null,
+    plantationVideo: {
+      url: 'https://www.bilibili.com/video/BV1tmbVeJEnV/',
+      title: ''
+    }
   }),
   created() {
     this.fetchFarms();
@@ -368,6 +385,15 @@ export default {
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
+    },
+    getProcessedVideoUrl(url) {
+      if (url.includes('bilibili.com')) {
+        const bvMatch = url.match(/BV\w+/);
+        if (bvMatch) {
+          return `//player.bilibili.com/player.html?bvid=${bvMatch[0]}&page=1`;
+        }
+      }
+      return null;
     }
   }
 }
@@ -434,5 +460,33 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   height: 4.5em;
+}
+
+.video-container-wrapper {
+  width: 100%;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 宽高比 */
+  background: #f5f5f5;
+  margin-bottom: 16px;
+}
+
+.video-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
 }
 </style>
