@@ -6,17 +6,17 @@
           <h1 class="text-h4 mb-6 text-center">咖啡种植技术培训视频</h1>
         </v-col>
       </v-row>
-      
+
       <v-row>
         <v-col v-for="video in videoList" :key="video.url" cols="12" md="6" lg="4">
           <v-card class="mx-auto h-100" elevation="3" hover>
             <v-card-title class="text-h6 font-weight-bold">
               {{ video.title }}
             </v-card-title>
-            
+
             <v-card-text>
               <div class="description mb-4">{{ video.description }}</div>
-              
+
               <!-- 视频播放区域 -->
               <div class="video-container">
                 <iframe
@@ -27,7 +27,7 @@
                   class="video-iframe"
                 ></iframe>
                 <div v-else class="error-message">
-                  无法加载视频，请检查URL是否正确
+                  The video cannot be loaded, please check if the URL is correct
                 </div>
               </div>
             </v-card-text>
@@ -40,7 +40,7 @@
                 :href="video.url"
                 target="_blank"
               >
-                在B站观看
+                Watch on Bilibili
                 <v-icon right>mdi-open-in-new</v-icon>
               </v-btn>
             </v-card-actions>
@@ -56,7 +56,7 @@
             @click="goBack"
             large
           >
-            返回
+            Return
             <v-icon right>mdi-arrow-left</v-icon>
           </v-btn>
         </v-col>
@@ -72,34 +72,34 @@ export default {
     return {
       videoList: [
         {
-          url: 'https://www.bilibili.com/video/BV1y9VmzZEGu/',
-          title: '咖啡种植基础技术',
-          description: '本视频详细介绍了咖啡种植的关键技术要点，包括土壤管理、灌溉技术、以及病虫害防治等内容。'
+          url: 'https://www.bilibili.com/video/BV1YjmnYzEu3/',
+          title: 'Coffee winter planting techniques',
+          description: 'This video details how to grow excellent quality coffee in the winter.'
         },
         {
-          url: 'https://www.bilibili.com/video/BV1Ys411K7Rf/',
-          title: '有机肥料制作指南',
-          description: '学习如何制作和使用有机肥料，提高咖啡种植的可持续性和产品品质。'
+          url: 'https://www.bilibili.com/video/BV16i4y1c7Vq/',
+          title: 'Basic coffee knowledge',
+          description: 'Some basic coffee primer for farms that are new to coffee farming.'
         },
         {
-          url: 'https://www.bilibili.com/video/BV1zp4y1D7B1/',
-          title: '咖啡树修剪技术',
-          description: '专业的咖啡树修剪技术教学，帮助您提高咖啡产量和品质。'
+          url: 'https://www.bilibili.com/video/BV1bZ4y1z73S/',
+          title: 'Introduction to coffee bean varieties',
+          description: 'Introducing common coffee varieties and their corresponding flavors.'
         },
         {
-          url: 'https://www.bilibili.com/video/BV1Wh411x7K2/',
-          title: '病虫害防治方法',
-          description: '介绍常见的咖啡树病虫害以及科学的防治方法。'
+          url: 'https://www.bilibili.com/video/BV11S4y1Q7ym/',
+          title: 'Coffee tree pruning techniques',
+          description: 'Professional teaching of coffee tree pruning techniques to help you improve your coffee yield and quality.'
         },
         {
-          url: 'https://www.bilibili.com/video/BV1su411V7dE/',
-          title: '咖啡采摘与处理',
-          description: '详解咖啡豆的采摘时机和后处理工艺，确保咖啡品质。'
+          url: 'https://www.bilibili.com/video/BV1p642137fk/',
+          title: 'Coffee picking and processing',
+          description: 'Explain the timing of coffee beans and the post-processing process to ensure the quality of the coffee.'
         },
         {
-          url: 'https://www.bilibili.com/video/BV1RN411C7VE/',
-          title: '可持续种植实践',
-          description: '探讨咖啡种植中的可持续发展实践，包括遮阴树种植和生物多样性保护。'
+          url: 'https://www.bilibili.com/video/BV14S4y197dD/',
+          title: 'Coffee grounds to make fertilizer tutorial',
+          description: 'Explore sustainable practices in coffee processing and explain how coffee residues can be used to make fertilizer.'
         }
       ]
     }
@@ -177,4 +177,4 @@ export default {
     padding: 12px;
   }
 }
-</style> 
+</style>
