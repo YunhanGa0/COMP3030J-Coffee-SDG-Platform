@@ -51,8 +51,8 @@
                         <v-icon color="primary">mdi-factory</v-icon>
                       </div>
                       <div class="detail-content">
-                        <div class="detail-label">年产量</div>
-                        <div class="detail-value">{{ selectedRegion.value }} 吨</div>
+                        <div class="detail-label">Annual output</div>
+                        <div class="detail-value">{{ selectedRegion.value }} tons</div>
                       </div>
                     </div>
                     <div class="detail-item">
@@ -60,8 +60,8 @@
                         <v-icon color="primary">mdi-seed</v-icon>
                       </div>
                       <div class="detail-content">
-                        <div class="detail-label">主要品种</div>
-                        <div class="detail-value">{{ selectedRegion.varieties || '阿拉比卡' }}</div>
+                        <div class="detail-label">The main variety</div>
+                        <div class="detail-value">{{ selectedRegion.varieties || 'Arabica' }}</div>
                       </div>
                     </div>
                     <div class="detail-item">
@@ -69,8 +69,8 @@
                         <v-icon color="primary">mdi-water</v-icon>
                       </div>
                       <div class="detail-content">
-                        <div class="detail-label">风味特点</div>
-                        <div class="detail-value">{{ selectedRegion.flavor || '醇厚，略带果香' }}</div>
+                        <div class="detail-label">Flavor characteristics</div>
+                        <div class="detail-value">{{ selectedRegion.flavor || 'Mellow, slightly fruity' }}</div>
                       </div>
                     </div>
                     <div class="detail-item">
@@ -78,8 +78,8 @@
                         <v-icon color="primary">mdi-mountains</v-icon>
                       </div>
                       <div class="detail-content">
-                        <div class="detail-label">海拔高度</div>
-                        <div class="detail-value">{{ selectedRegion.altitude || '1200-1800米' }}</div>
+                        <div class="detail-label">Altitude</div>
+                        <div class="detail-value">{{ selectedRegion.altitude || '1200-1800m' }}</div>
                       </div>
                     </div>
                   </div>
@@ -88,7 +88,7 @@
                     class="mt-4"
                     outlined
                   >
-                    了解更多
+                    Learn more
                     <v-icon right>mdi-arrow-right</v-icon>
                   </v-btn>
                 </div>
@@ -182,7 +182,7 @@
     </section>
 
     <!-- 搜索和筛选区域 -->
-    <v-row>
+    <!--<v-row>
       <v-col cols="12" md="6">
         <v-text-field
           v-model="searchQuery"
@@ -205,9 +205,10 @@
           @change="handleFilter"
         ></v-select>
       </v-col>
-    </v-row>
+    </v-row>-->
 
     <!-- 产地列表 -->
+<!--
     <v-row>
       <v-col
         v-for="origin in filteredOrigins"
@@ -236,7 +237,7 @@
             <p class="origin-description">{{ origin.description }}</p>
             <div class="d-flex align-center mt-4">
               <v-icon small color="grey" class="mr-1">mdi-map-marker</v-icon>
-              <span class="text-caption grey--text">
+              <span class="text-caption grey&#45;&#45;text">
                 {{ origin.region }}
               </span>
             </div>
@@ -245,14 +246,15 @@
       </v-col>
     </v-row>
 
-    <!-- 无数据提示 -->
+    &lt;!&ndash; 无数据提示 &ndash;&gt;
     <v-row v-if="filteredOrigins.length === 0">
       <v-col cols="12" class="text-center">
         <v-icon size="64" color="grey lighten-1" class="mb-4">mdi-map-search-outline</v-icon>
-        <h3 class="text-h5 grey--text">No origins found</h3>
-        <p class="body-2 grey--text mt-2">Try adjusting your search criteria</p>
+        <h3 class="text-h5 grey&#45;&#45;text">No origins found</h3>
+        <p class="body-2 grey&#45;&#45;text mt-2">Try adjusting your search criteria</p>
       </v-col>
     </v-row>
+-->
 
     <!-- 产区比较部分 -->
     <section class="compare-section py-12 grey-bg">
@@ -317,14 +319,14 @@ export default {
       infoTab: 0,
       selectedRegion: null,
       coffeeRegions: [
-        { name: '哥伦比亚', value: 8500, varieties: '阿拉比卡（铁比卡、波旁）', flavor: '平衡，柑橘酸，坚果味', altitude: '1200-2000米', image: 'colombia.jpg' },
-        { name: '埃塞俄比亚', value: 7200, varieties: '原生阿拉比卡（耶加雪菲、西达摩）', flavor: '花香，柑橘，浆果味', altitude: '1500-2200米', image: 'ethiopia.jpg' },
-        { name: '肯尼亚', value: 5000, varieties: 'SL28, SL34, 肯尼亚AA', flavor: '浓郁酸甜，黑醋栗，热带水果', altitude: '1700-2100米', image: 'kenya.jpg' },
-        { name: '危地马拉', value: 4800, varieties: '波旁，卡杜拉，帕卡马拉', flavor: '巧克力，焦糖，柑橘', altitude: '1300-1800米', image: 'guatemala.jpg' },
-        { name: '巴西', value: 9800, varieties: '波旁，卡图艾，蒙多诺沃', flavor: '坚果，巧克力，低酸度', altitude: '800-1300米', image: 'brazil.jpg' },
-        { name: '哥斯达黎加', value: 4200, varieties: '卡杜拉，卡图拉，维拉萨奇', flavor: '平衡，柑橘，焦糖', altitude: '1200-1800米', image: 'costa_rica.jpg' },
-        { name: '印度尼西亚', value: 6300, varieties: '爪哇，苏门答腊', flavor: '泥土气息，香料，低酸度', altitude: '1000-1500米', image: 'indonesia.jpg' },
-        { name: '越南', value: 10200, varieties: '罗布斯塔，卡蒂姆', flavor: '强烈，坚果，可可', altitude: '600-800米', image: 'vietnam.jpg' }
+        { name: "Colombia", value: 8500, varieties: "Arabica (Typica, Bourbon)", flavor: "Balanced, citrus acidity, nutty", altitude: "1200-2000m", image: "colombia.jpg" },
+        { name: "Ethiopia", value: 7200, varieties: "Heirloom Arabica (Yirgacheffe, Sidamo)", flavor: "Floral, citrus, berry notes", altitude: "1500-2200m", image: "ethiopia.jpg" },
+        { name: "Kenya", value: 5000, varieties: "SL28, SL34, Kenya AA", flavor: "Bright acidity, blackcurrant, tropical fruit", altitude: "1700-2100m", image: "kenya.jpg" },
+        { name: "Guatemala", value: 4800, varieties: "Bourbon, Caturra, Pacamara", flavor: "Chocolate, caramel, citrus", altitude: "1300-1800m", image: "guatemala.jpg" },
+        { name: "Brazil", value: 9800, varieties: "Bourbon, Catuaí, Mundo Novo", flavor: "Nutty, chocolatey, low acidity", altitude: "800-1300m", image: "brazil.jpg" },
+        { name: "Costa Rica", value: 4200, varieties: "Caturra, Catuaí, Villa Sarchi", flavor: "Balanced, citrus, caramel", altitude: "1200-1800m", image: "costa_rica.jpg" },
+        { name: "Indonesia", value: 6300, varieties: "Java, Sumatra", flavor: "Earthy, spicy, low acidity", altitude: "1000-1500m", image: "indonesia.jpg" },
+        { name: "Vietnam", value: 10200, varieties: "Robusta, Catimor", flavor: "Bold, nutty, cocoa", altitude: "600-800m", image: "vietnam.jpg" }
       ],
       regions: [
         'Africa',
@@ -382,7 +384,7 @@ export default {
           formatter: function(params) {
             if (params.data && params.data.value) {
               return `<div style="font-weight:bold;">${params.name}</div>
-                     <div>年产量: ${params.value} 吨</div>`;
+                     <div>Annual output: ${params.value} 吨</div>`;
             }
             return params.name;
           }
@@ -390,7 +392,7 @@ export default {
         visualMap: {
           min: 0,
           max: 10000,
-          text: ['产量高', '产量低'],
+          text: ['High yield', 'Low yield'],
           realtime: false,
           calculable: true,
           inRange: {
@@ -402,7 +404,7 @@ export default {
         },
         series: [
           {
-            name: '全球咖啡产地',
+            name: 'Global coffee producers',
             type: 'map',
             mapType: 'world',
             roam: true,
@@ -460,14 +462,14 @@ export default {
     getRegionImage(regionName) {
       // 根据地区名称返回对应的图片
       const imageMap = {
-        '哥伦比亚': require('@/assets/pic/咖啡园区1.jpg'),
-        '埃塞俄比亚': require('@/assets/pic/咖啡采集女1.jpg'),
-        '肯尼亚': require('@/assets/pic/咖啡采集男1.jpg'),
-        '危地马拉': require('@/assets/pic/咖啡近摄1.jpg'),
-        '巴西': require('@/assets/pic/咖啡园区2.jpg'),
-        '哥斯达黎加': require('@/assets/pic/咖啡近摄2.jpg'),
-        '印度尼西亚': require('@/assets/pic/咖啡采集女2.jpg'),
-        '越南': require('@/assets/pic/咖啡采集男2.jpg')
+        'Colombia': require('@/assets/pic/咖啡园区1.jpg'),
+        'Ethiopia': require('@/assets/pic/咖啡采集女1.jpg'),
+        'Kenya': require('@/assets/pic/咖啡采集男1.jpg'),
+        'Guatemala': require('@/assets/pic/咖啡近摄1.jpg'),
+        'Brazil': require('@/assets/pic/咖啡园区2.jpg'),
+        'Costa Rica': require('@/assets/pic/咖啡近摄2.jpg'),
+        'Indonesia': require('@/assets/pic/咖啡采集女2.jpg'),
+        'Vietnam': require('@/assets/pic/咖啡采集男2.jpg')
       }
 
       return imageMap[regionName] || require('@/assets/pic/咖啡园区3.jpg')
