@@ -35,15 +35,15 @@
                   :items="supportList"
                   item-text="title"
                   item-value="id"
-                  label="选择支持项目"
-                  :rules="[v => !!v || '请选择支持项目']"
+                  label="Select Support Program"
+                  :rules="[v => !!v || 'Please select a support program']"
                   required
                 ></v-select>
 
                 <v-textarea
                   v-model="application.purpose"
-                  label="申请用途"
-                  :rules="[v => !!v || '申请用途必填']"
+                  label="Purpose of Application"
+                  :rules="[v => !!v || 'Purpose is required']"
                   required
                   rows="4"
                 ></v-textarea>
@@ -125,11 +125,11 @@
         <v-card-text class="pt-4">
           <v-row>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">支持项目</div>
+              <div class="caption grey--text">Support Program</div>
               <div class="subtitle-1">{{ selectedApplication.financialSupport.title }}</div>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">申请状态</div>
+              <div class="caption grey--text">Application Status</div>
               <v-chip
                 :color="getStatusColor(selectedApplication.status)"
                 small
@@ -138,23 +138,23 @@
               </v-chip>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">申请金额</div>
+              <div class="caption grey--text">Requested Amount</div>
               <div class="subtitle-1">${{ selectedApplication.financialSupport.budget.toLocaleString() }}</div>
             </v-col>
             <v-col cols="12" sm="6">
-              <div class="caption grey--text">申请时间</div>
+              <div class="caption grey--text">Application Date</div>
               <div class="subtitle-1">{{ selectedApplication.applyTime }}</div>
             </v-col>
             <v-col cols="12">
-              <div class="caption grey--text">项目描述</div>
+              <div class="caption grey--text">Program Description</div>
               <div class="body-1">{{ selectedApplication.financialSupport.description }}</div>
             </v-col>
             <v-col cols="12">
-              <div class="caption grey--text">申请用途</div>
+              <div class="caption grey--text">Purpose</div>
               <div class="body-1">{{ selectedApplication.purpose }}</div>
             </v-col>
             <v-col cols="12">
-              <div class="caption grey--text">管理员反馈</div>
+              <div class="caption grey--text">Admin Feedback</div>
               <div class="body-1">{{ selectedApplication.adminFeedback || '暂无反馈' }}</div>
             </v-col>
           </v-row>
@@ -207,12 +207,12 @@ export default {
 
     // 表格配置
     headers: [
-      { text: '支持项目', value: 'financialSupport.title' },
-      { text: '申请金额', value: 'financialSupport.budget' },
-      { text: '申请状态', value: 'status' },
-      { text: '申请时间', value: 'applyTime' },
-      { text: '管理员反馈', value: 'adminFeedback' },
-      { text: '操作', value: 'actions', sortable: false }
+      { text: 'Support Program', value: 'financialSupport.title' },
+      { text: 'Requested Amount', value: 'financialSupport.budget' },
+      { text: 'Application Status', value: 'status' },
+      { text: 'Application Date', value: 'applyTime' },
+      { text: 'Admin Feedback', value: 'adminFeedback' },
+      { text: 'Actions', value: 'actions', sortable: false }
     ],
 
     // 申请列表
@@ -238,11 +238,11 @@ export default {
         if (response.data.code === 200) {
           this.supportList = response.data.data
         } else {
-          throw new Error(response.data.message || '获取支持项目列表失败')
+          throw new Error(response.data.message || 'Failed to fetch support programs')
         }
       } catch (error) {
-        console.error('获取支持项目列表失败:', error)
-        const errorMessage = error.response && error.response.data && error.response.data.message || '获取支持项目列表失败'
+        console.error('Failed to fetch support programs:', error)
+        const errorMessage = error.response && error.response.data && error.response.data.message || 'Failed to fetch support programs'
         this.showMessage(errorMessage, 'error')
       }
     },
@@ -259,7 +259,7 @@ export default {
         })
 
         if (response.data.code === 200 || 201) {
-          this.showMessage('申请提交成功', 'success')
+          this.showMessage('Application submitted successfully', 'success')
           this.$refs.form.reset()
           this.fetchApplications()
           this.application = {
@@ -267,10 +267,10 @@ export default {
             purpose: ''
           }
         } else {
-          throw new Error(response.data.message || '申请提交失败')
+          throw new Error(response.data.message || 'Application submission failed')
         }
       } catch (error) {
-        console.error('申请提交失败:', error)
+        console.error('Application submission failed:', error)
         const errorMessage = error.response && error.response.data && error.response.data.message || '申请提交失败'
         this.showMessage(errorMessage, 'error')
       } finally {

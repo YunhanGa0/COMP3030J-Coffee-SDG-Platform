@@ -10,9 +10,9 @@
                 <v-icon size="40" color="white">mdi-school</v-icon>
               </v-avatar>
               <div>
-                <h1 class="text-h4 font-weight-bold primary--text mb-1">技术培训申请</h1>
+                <h1 class="text-h4 font-weight-bold primary--text mb-1">Technical Training Application</h1>
                 <div class="text-subtitle-1 grey--text">
-                  浏览并申请参加我们的技术培训项目
+                  Browse and apply for our technical training programs
                 </div>
               </div>
             </div>
@@ -28,7 +28,7 @@
               <v-select
                 v-model="selectedType"
                 :items="trainingTypes"
-                label="培训类型"
+                label="Training Type"
                 clearable
                 class="mr-4 filter-select"
                 style="max-width: 200px"
@@ -37,7 +37,7 @@
               <v-select
                 v-model="selectedStatus"
                 :items="statusTypes"
-                label="培训状态"
+                label="Training Status"
                 clearable
                 class="mr-4 filter-select"
                 style="max-width: 200px"
@@ -78,20 +78,20 @@
               >
                 {{ getTrainingTypeName(training.type) }}
               </v-chip>
-              
+
               <div class="mt-2 text-subtitle-2 grey--text">
                 <v-icon small class="mr-1">mdi-calendar</v-icon>
                 {{ formatDate(training.startDate) }} - {{ formatDate(training.endDate) }}
               </div>
-              
+
               <div class="mt-1 text-subtitle-2 grey--text">
                 <v-icon small class="mr-1">mdi-map-marker</v-icon>
                 {{ training.location }}
               </div>
-              
+
               <div class="mt-1 text-subtitle-2 grey--text">
                 <v-icon small class="mr-1">mdi-account-group</v-icon>
-                {{ training.currentParticipants }}/{{ training.maxParticipants }} 人
+                {{ training.currentParticipants }}/{{ training.maxParticipants }} participants
               </div>
 
               <div class="mt-3 text-body-2">{{ training.description }}</div>
@@ -106,14 +106,14 @@
                 text
                 @click="showDetails(training)"
               >
-                详情
+                Details
               </v-btn>
               <v-btn
                 color="primary"
                 :disabled="!canApply(training)"
                 @click="applyTraining(training)"
               >
-                申请参加
+                Apply
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -135,7 +135,7 @@
 
         <v-card-text class="pt-4">
           <div class="mb-4">
-            <div class="text-h6 mb-2">培训详情</div>
+            <div class="text-h6 mb-2">Details</div>
             <p>{{ selectedTraining.description }}</p>
           </div>
 
@@ -145,7 +145,7 @@
                 <v-icon color="primary">mdi-calendar</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>培训时间</v-list-item-title>
+                <v-list-item-title>Training Time</v-list-item-title>
                 <v-list-item-subtitle>
                   {{ formatDate(selectedTraining.startDate) }} - {{ formatDate(selectedTraining.endDate) }}
                 </v-list-item-subtitle>
@@ -157,7 +157,7 @@
                 <v-icon color="primary">mdi-map-marker</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>培训地点</v-list-item-title>
+                <v-list-item-title>Location</v-list-item-title>
                 <v-list-item-subtitle>{{ selectedTraining.location }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -167,7 +167,7 @@
                 <v-icon color="primary">mdi-account-group</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>参与人数</v-list-item-title>
+                <v-list-item-title>Participants</v-list-item-title>
                 <v-list-item-subtitle>
                   {{ selectedTraining.currentParticipants }}/{{ selectedTraining.maxParticipants }} 人
                 </v-list-item-subtitle>
@@ -179,7 +179,7 @@
                 <v-icon color="primary">mdi-tag</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>培训类型</v-list-item-title>
+                <v-list-item-title>Training Type</v-list-item-title>
                 <v-list-item-subtitle>
                   {{ getTrainingTypeName(selectedTraining.type) }}
                 </v-list-item-subtitle>
@@ -196,7 +196,7 @@
             text
             @click="detailDialog = false"
           >
-            关闭
+            Close
           </v-btn>
           <v-btn
             color="primary"
@@ -223,7 +223,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -258,10 +258,10 @@ export default {
 
     // 状态选项
     statusTypes: [
-      { text: '即将开始', value: 'UPCOMING' },
-      { text: '进行中', value: 'ONGOING' },
-      { text: '已完成', value: 'COMPLETED' },
-      { text: '已取消', value: 'CANCELLED' }
+      { text: 'Upcoming', value: 'UPCOMING' },
+      { text: 'Ongoing', value: 'ONGOING' },
+      { text: 'Completed', value: 'COMPLETED' },
+      { text: 'Cancelled', value: 'CANCELLED' }
     ],
 
     // 详情对话框
@@ -290,7 +290,7 @@ export default {
           this.filterTrainings()
         }
       } catch (error) {
-        this.showMessage('获取培训列表失败', 'error')
+        this.showMessage('Failed to fetch training list', 'error')
       }
     },
 
@@ -308,13 +308,13 @@ export default {
       try {
         const response = await axios.post(`/api/trainings/${training.id}/apply`)
         if (response.data.code === 200) {
-          this.showMessage('申请成功', 'success')
+          this.showMessage('Application successful', 'success')
           this.detailDialog = false
           await this.fetchTrainings()
         }
       } catch (error) {
         const errorMessage = error.response && error.response.data && error.response.data.message
-        this.showMessage(errorMessage || '申请失败', 'error')
+        this.showMessage(errorMessage || 'Application failed', 'error')
       }
     },
 
@@ -327,13 +327,13 @@ export default {
     // 判断是否可以申请
     canApply(training) {
       console.log('Training status:', training.status);
-      
+
       const statusOk = training.status === 'UPCOMING' || training.status === 'ONGOING';
       //const hasSpace = training.currentParticipants < training.maxParticipants;
-      
+
       console.log('Status OK:', statusOk);
       //console.log('Has space:', hasSpace);
-      
+
       return statusOk;
     },
 
@@ -412,4 +412,4 @@ export default {
     margin-bottom: 1rem;
   }
 }
-</style> 
+</style>

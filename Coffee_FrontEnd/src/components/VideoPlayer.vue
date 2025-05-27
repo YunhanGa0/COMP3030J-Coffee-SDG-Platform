@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="12">
-          <h1 class="text-h4 mb-6 text-center">咖啡种植技术培训视频</h1>
+          <h1 class="text-h4 mb-6 text-center">Coffee Cultivation Training Videos</h1>
         </v-col>
       </v-row>
 
