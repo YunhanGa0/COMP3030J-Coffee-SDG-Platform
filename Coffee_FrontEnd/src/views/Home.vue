@@ -137,7 +137,7 @@
     </section>
 
     <!-- 咖啡地图滚动视差部分 -->
-    <section class="map-parallax">
+    <!--<section class="map-parallax">
       <v-parallax
         :src="require('../assets/pic/worldmap.png')"
         height="500"
@@ -161,11 +161,23 @@
                 Open Global Coffee Map
                 <v-icon right>mdi-map</v-icon>
               </v-btn>
+              <v-btn
+                x-large
+                color="primary"
+                rounded
+                elevation="2"
+                class="explore-btn px-8"
+                :to="{ path: '/plantation' }"
+              >
+                Learn More
+                <v-icon right>mdi-arrow-right</v-icon>
+              </v-btn>
             </v-col>
           </v-row>
         </v-container>
       </v-parallax>
     </section>
+    -->
 
     <!-- Signup Section -->
     <section class="signup-section py-12 cream-bg">
@@ -642,11 +654,11 @@ export default {
   .main-title {
     font-size: 2.8rem;
   }
-  
+
   .main-subtitle {
     font-size: 1.3rem;
   }
-  
+
   .section-title {
     font-size: 2rem;
   }
@@ -656,19 +668,19 @@ export default {
   .main-title {
     font-size: 2.2rem;
   }
-  
+
   .main-subtitle {
     font-size: 1.1rem;
   }
-  
+
   .stat-number {
     font-size: 2.5rem;
   }
-  
+
   .stat-label {
     font-size: 1rem;
   }
-  
+
   .section-title {
     font-size: 1.8rem;
   }

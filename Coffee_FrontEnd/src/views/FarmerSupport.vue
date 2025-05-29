@@ -18,15 +18,7 @@
                 <p class="text-h5 white--text hero-subtitle">
                   Support for coffee farmers, building a sustainable future together
                 </p>
-                <v-btn
-                  color="primary"
-                  large
-                  class="mt-6 hero-btn"
-                  depressed
-                >
-                  Learn More
-                  <v-icon right>mdi-arrow-right</v-icon>
-                </v-btn>
+
               </div>
             </v-col>
           </v-row>
@@ -372,15 +364,7 @@
               </v-stepper-header>
             </v-stepper>
 
-            <v-btn
-              color="primary"
-              large
-              class="mt-10"
-              depressed
-            >
-              Apply Now
-              <v-icon right>mdi-send</v-icon>
-            </v-btn>
+
           </v-col>
         </v-row>
       </v-container>
