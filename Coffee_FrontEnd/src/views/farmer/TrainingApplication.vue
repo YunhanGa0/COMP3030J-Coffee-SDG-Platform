@@ -169,7 +169,7 @@
               <v-list-item-content>
                 <v-list-item-title>Participants</v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ selectedTraining.currentParticipants }}/{{ selectedTraining.maxParticipants }} 人
+                  {{ selectedTraining.currentParticipants }}/{{ selectedTraining.maxParticipants }} people
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -203,7 +203,7 @@
             :disabled="!canApply(selectedTraining)"
             @click="applyTraining(selectedTraining)"
           >
-            申请参加
+            Apply
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -351,10 +351,10 @@ export default {
     // 获取状态名称
     getStatusName(status) {
       const statusMap = {
-        'UPCOMING': '即将开始',
-        'ONGOING': '进行中',
-        'COMPLETED': '已完成',
-        'CANCELLED': '已取消'
+        'UPCOMING': 'Upcoming',
+        'ONGOING': 'Ongoing',
+        'COMPLETED': 'Completed',
+        'CANCELLED': 'Cancelled'
       }
       return statusMap[status] || status
     },

@@ -33,7 +33,7 @@
               </div>
             </v-col>
           </v-row>
-          <!-- 滚动提示 -->
+          <!-- Scroll hint -->
           <div class="scroll-hint">
             <span class="scroll-text">SCROLL DOWN</span>
             <v-icon color="white" class="scroll-arrow">mdi-chevron-down</v-icon>
@@ -42,7 +42,7 @@
       </v-img>
     </section>
 
-    <!-- 视频对话框 -->
+    <!-- Video dialog -->
     <v-dialog v-model="showVideo" max-width="900">
       <v-card>
         <v-card-title class="headline">
@@ -185,8 +185,8 @@
         <v-row justify="center" align="center">
           <v-col cols="12" md="6" class="text-center text-md-left">
             <h2 class="text-h3 font-weight-bold mb-4 primary--text">
-              Join Starbucks Sustainable Coffee Membership
-            </h2>
+        Join Starbucks Sustainable Coffee Membership
+      </h2>
             <p class="text-h6 mb-8">
               Become a member to receive exclusive coffee culture information and participate in sustainable development projects
             </p>
@@ -291,10 +291,10 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
-    // 初始化时设置导航栏为透明
+    // Initialize navigation bar as transparent
     this.$root.$emit('update-nav-transparency', true);
     this.handleScroll();
-    // 获取文章列表
+    // Get article list
     this.fetchArticles();
   },
   beforeDestroy() {
@@ -303,7 +303,7 @@ export default {
   // 添加路由监听
   watch: {
     '$route'(to, from) {
-      // 当路由变化时，如果是回到主页，就重新获取文章
+      // When route changes, if returning to home page, refresh articles
       if (to.path === '/') {
         this.fetchArticles();
       }
@@ -314,18 +314,18 @@ export default {
       try {
         const response = await axios.get('/api/articles');
         if (response.data.code === 200) {
-          // 获取所有文章并按创建时间排序
+          // Get all articles and sort by creation time
           this.articles = response.data.data.sort((a, b) => {
             const dateA = new Date(a.createTime || a.createDate);
             const dateB = new Date(b.createTime || b.createDate);
             return dateB - dateA;
           });
         } else {
-          this.showMessage('获取文章失败: ' + response.data.message, 'error');
+          this.showMessage('Failed to get articles: ' + response.data.message, 'error');
         }
       } catch (error) {
-        console.error('获取文章错误:', error);
-        this.showMessage('获取文章失败', 'error');
+        console.error('Error getting articles:', error);
+        this.showMessage('Failed to get articles', 'error');
       }
     },
     handleScroll() {

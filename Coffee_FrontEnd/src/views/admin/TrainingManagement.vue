@@ -745,20 +745,20 @@ export default {
     // 工具方法
     getTrainingTypeName(type) {
       const typeMap = {
-        'PLANTING': '咖啡种植',
-        'PROCESSING': '咖啡加工',
-        'QUALITY_CONTROL': '质量控制',
-        'SUSTAINABILITY': '可持续发展'
+        'PLANTING': 'Coffee Planting',
+        'PROCESSING': 'Coffee Processing',
+        'QUALITY_CONTROL': 'Quality Control',
+        'SUSTAINABILITY': 'Sustainability'
       }
       return typeMap[type] || type
     },
 
     getStatusName(status) {
       const statusMap = {
-        'UPCOMING': '即将开始',
-        'ONGOING': '进行中',
-        'COMPLETED': '已完成',
-        'CANCELLED': '已取消'
+        'UPCOMING': 'Upcoming',
+        'ONGOING': 'Ongoing',
+        'COMPLETED': 'Completed',
+        'CANCELLED': 'Cancelled'
       }
       return statusMap[status] || status
     },

@@ -323,7 +323,7 @@
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-subtitle>Inventory quantity</v-list-item-subtitle>
-                    <v-list-item-title>{{ viewedItem.bagStock }} 包</v-list-item-title>
+                    <v-list-item-title>{{ viewedItem.bagStock }} bags</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
 
@@ -342,7 +342,7 @@
                         :color="viewedItem.available ? 'success' : 'error'"
                         small
                       >
-                        {{ viewedItem.available ? '已上架' : '已下架' }}
+                        {{ viewedItem.available ? 'Listed' : 'Unlisted' }}
                       </v-chip>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -502,7 +502,7 @@ export default {
       const file = event.target.files[0];
       if (!file) return;
 
-      if (file.size > 5000000) { // 5MB 限制
+      if (file.size > 5000000) { // 5MB limit
         this.snackbar = {
           show: true,
           text: 'If the image is too large, please choose an image that is less than 5MB',

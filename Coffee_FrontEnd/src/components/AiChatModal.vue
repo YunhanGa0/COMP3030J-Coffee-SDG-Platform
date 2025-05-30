@@ -42,7 +42,7 @@ export default {
           this.$refs.bottom.scrollIntoView({ behavior: 'smooth' })
         })
       } catch (e) {
-        this.history.push({ role: 'assistant', content: '请求失败，请重试' })
+        this.history.push({ role: 'assistant', content: 'Request failed, please try again' })
       } finally {
         this.userInput = ''
         this.loading = false

@@ -1,6 +1,6 @@
 <template>
   <div class="explore-page">
-    <!-- 页面标题区域 -->
+    <!-- Page title area -->
     <section class="page-header">
       <v-parallax
         :src="require('@/assets/pic/worldmap.png')"
@@ -21,7 +21,7 @@
       </v-parallax>
     </section>
 
-    <!-- 主要内容区域 -->
+    <!-- Main content area -->
     <section class="map-section py-8">
       <v-container>
         <v-card class="map-card" elevation="4">
@@ -181,7 +181,7 @@
       </v-container>
     </section>
 
-    <!-- 搜索和筛选区域 -->
+    <!-- Search and filter area -->
     <!--<v-row>
       <v-col cols="12" md="6">
         <v-text-field
@@ -207,7 +207,7 @@
       </v-col>
     </v-row>-->
 
-    <!-- 产地列表 -->
+    <!-- Origin list -->
 <!--
     <v-row>
       <v-col
@@ -256,7 +256,7 @@
     </v-row>
 -->
 
-    <!-- 产区比较部分 -->
+    <!-- Region comparison section -->
     <section class="compare-section py-12 grey-bg">
       <v-container>
         <v-row justify="center">
@@ -384,7 +384,7 @@ export default {
           formatter: function(params) {
             if (params.data && params.data.value) {
               return `<div style="font-weight:bold;">${params.name}</div>
-                     <div>Annual output: ${params.value} 吨</div>`;
+                     <div>Annual output: ${params.value} tons</div>`;
             }
             return params.name;
           }
@@ -446,21 +446,21 @@ export default {
       }
     },
     translateCountryName(chineseName) {
-      // 将中文国家名称转换为英文（ECharts地图使用英文名称）
+      // Convert country names to English (ECharts map uses English names)
       const nameMap = {
-        '哥伦比亚': 'Colombia',
-        '埃塞俄比亚': 'Ethiopia',
-        '肯尼亚': 'Kenya',
-        '危地马拉': 'Guatemala',
-        '巴西': 'Brazil',
-        '哥斯达黎加': 'Costa Rica',
-        '印度尼西亚': 'Indonesia',
-        '越南': 'Vietnam'
+        'Colombia': 'Colombia',
+        'Ethiopia': 'Ethiopia',
+        'Kenya': 'Kenya',
+        'Guatemala': 'Guatemala',
+        'Brazil': 'Brazil',
+        'Costa Rica': 'Costa Rica',
+        'Indonesia': 'Indonesia',
+        'Vietnam': 'Vietnam'
       }
       return nameMap[chineseName] || chineseName
     },
     getRegionImage(regionName) {
-      // 根据地区名称返回对应的图片
+      // Return the corresponding image based on region name
       const imageMap = {
         'Colombia': require('@/assets/pic/咖啡园区1.jpg'),
         'Ethiopia': require('@/assets/pic/咖啡采集女1.jpg'),
@@ -475,11 +475,11 @@ export default {
       return imageMap[regionName] || require('@/assets/pic/咖啡园区3.jpg')
     },
     handleSearch() {
-      // 实现搜索逻辑
+      // Implement search logic
       console.log('Searching for:', this.searchQuery)
     },
     handleFilter() {
-      // 实现筛选逻辑
+      // Implement filtering logic
       console.log('Filtering by region:', this.selectedRegion)
     }
   }
@@ -491,7 +491,7 @@ export default {
   overflow-x: hidden;
 }
 
-/* 页面标题区域 */
+/* Page title area */
 .page-header {
   position: relative;
 }
@@ -519,7 +519,7 @@ export default {
   to { width: 80px; }
 }
 
-/* 地图区域 */
+/* Map area */
 .wrapper {
   width: 100%;
   height: 60vh;
@@ -539,7 +539,7 @@ export default {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* 信息卡片 */
+/* Information cards */
 .region-card, .info-card {
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -608,7 +608,7 @@ export default {
   text-align: center;
 }
 
-/* 标签页样式 */
+/* Tab styles */
 .tab-button {
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -619,7 +619,7 @@ export default {
   border-radius: 8px;
 }
 
-/* 比较区域 */
+/* Comparison area */
 .grey-bg {
   background-color: #f9f9f9;
 }
@@ -678,7 +678,7 @@ export default {
   align-items: center;
 }
 
-/* 响应式调整 */
+/* Responsive adjustments */
 @media (max-width: 960px) {
   .wrapper {
     height: 50vh;
