@@ -126,12 +126,12 @@ public class AuthService {
                 .orElse(null);
 
         if (user == null) {
-            return ApiResponse.error(400, "用户不存在");
+            return ApiResponse.error(400, "User not exist");
         }
 
         // 验证密码
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            return ApiResponse.error(400, "密码错误");
+            return ApiResponse.error(400, "Password error");
         }
 
         // 生成token

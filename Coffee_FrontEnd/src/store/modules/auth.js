@@ -35,8 +35,8 @@ const actions = {
 
       const data = response.data
 
-      if (!data.data || !data.data.token) {
-        throw new Error('登录响应数据格式错误')
+      if (data.code !== 200 || !data.data || !data.data.token) {
+        throw new Error(data.message || 'Login failed')
       }
 
       commit('SET_USER', data.data)
@@ -67,7 +67,7 @@ const actions = {
     try {
       const response = await axios.get('/api/auth/admin/test')
       const data = response.data
-      
+
       if (data.code === 200) {
         commit('SET_USER', data.data)
         commit('SET_TOKEN', data.data.token)

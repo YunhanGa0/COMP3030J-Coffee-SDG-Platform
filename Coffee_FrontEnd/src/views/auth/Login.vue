@@ -26,40 +26,26 @@
                 @click:append="showPassword = !showPassword"
                 required
               ></v-text-field>
+
+              <v-btn
+                color="primary"
+                block
+                :loading="loading"
+                type="submit"
+                class="mt-4"
+                @click="handleLogin"
+              >
+                Login
+              </v-btn>
+
+              <div class="text-center mt-4">
+                <router-link to="/register" class="text-decoration-none">
+                  No account? Register here
+                </router-link>
+              </div>
+
             </v-form>
           </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              block
-              :loading="loading"
-              type="submit"
-              class="mt-4"
-              @click="handleLogin"
-            >
-              Login
-            </v-btn>
-            <div class="text-center mt-4">
-              <router-link to="/register" class="text-decoration-none">
-                No account? Register here
-              </router-link>
-            </div>
-
-            <v-divider class="my-4"></v-divider>
-
-            <!-- <div class="text-center">
-              <v-btn
-                text
-                color="grey"
-                @click="getAdminAccount"
-                :loading="adminLoading"
-              >
-                <v-icon left small>mdi-shield-account</v-icon>
-                Get Admin Account (For Testing)
-              </v-btn>
-            </div> -->
-          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
