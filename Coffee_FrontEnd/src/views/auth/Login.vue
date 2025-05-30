@@ -45,20 +45,20 @@
                 No account? Register here
               </router-link>
             </div>
-            
+
             <v-divider class="my-4"></v-divider>
-            
-            <div class="text-center">
-              <v-btn 
-                text 
-                color="grey" 
-                @click="getAdminAccount" 
+
+            <!-- <div class="text-center">
+              <v-btn
+                text
+                color="grey"
+                @click="getAdminAccount"
                 :loading="adminLoading"
               >
                 <v-icon left small>mdi-shield-account</v-icon>
                 Get Admin Account (For Testing)
               </v-btn>
-            </div>
+            </div> -->
           </v-card-actions>
         </v-card>
       </v-col>
@@ -142,11 +142,11 @@ export default {
     async getAdminAccount() {
       this.adminLoading = true
       this.errorMessage = ''
-      
+
       try {
         const response = await this.$store.dispatch('auth/getAdminForTest')
         console.log('Admin account:', response)
-        
+
         this.$emit('show-message', { text: 'Logged in as admin', color: 'success' })
         this.$router.push('/admin')
       } catch (error) {
@@ -158,4 +158,4 @@ export default {
     }
   }
 }
-</script> 
+</script>
