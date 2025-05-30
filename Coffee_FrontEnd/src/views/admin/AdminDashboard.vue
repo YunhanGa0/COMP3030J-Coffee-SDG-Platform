@@ -213,7 +213,7 @@
         </v-col>
 
         <!-- Farm Audit Card -->
-        <v-col cols="12" md="4">
+        <!--<v-col cols="12" md="4">
           <v-card
             class="admin-card h-100"
             hover
@@ -245,7 +245,7 @@
               </v-btn>
             </v-card-actions>
           </v-card>
-        </v-col>
+        </v-col> -->
       </v-row>
 
       <!-- Platform Statistics -->

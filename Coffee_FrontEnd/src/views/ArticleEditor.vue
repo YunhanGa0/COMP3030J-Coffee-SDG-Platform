@@ -37,7 +37,7 @@
               @change="handleImageUpload"
               class="mb-4"
             ></v-file-input>
-            
+
             <!-- 编辑器容器 -->
             <div ref="editor" class="editor-container"></div>
 
@@ -121,7 +121,7 @@ export default {
 
       this.editor.config.height = 500
       this.editor.config.placeholder = 'Please enter content...'
-      
+
       this.editor.config.menus = [
         'head',
         'bold',
@@ -151,13 +151,13 @@ export default {
           const formData = new FormData()
           formData.append('image', resultFiles[0])
           formData.append('type', 'CONTENT')
-          
+
           const response = await axios.post('/api/articles/images/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           })
-          
+
           if (response.data.code === 200 && response.data.data.url) {
             insertImgFn(response.data.data.url)
           } else {
@@ -186,7 +186,7 @@ export default {
             const canvas = document.createElement('canvas');
             let width = img.width;
             let height = img.height;
-            
+
             // 如果图片大于1200px，按比例缩小
             if (width > 1200) {
               height = Math.floor(height * (1200 / width));
@@ -195,10 +195,10 @@ export default {
 
             canvas.width = width;
             canvas.height = height;
-            
+
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            
+
             // 转换为blob
             canvas.toBlob((blob) => {
               resolve(new File([blob], file.name, {
@@ -215,7 +215,7 @@ export default {
 
     async handleImageUpload(file) {
       if (!file) return;
-      
+
       if (file.size > 2000000) {
         this.showMessage('Image size cannot exceed 2MB', 'error');
         return;
@@ -224,7 +224,7 @@ export default {
       try {
         // 压缩图片
         const compressedFile = await this.compressImage(file);
-        
+
         const formData = new FormData();
         formData.append('image', compressedFile);
         formData.append('type', 'COVER');
@@ -266,19 +266,19 @@ export default {
         }
 
         const response = await axios.post('/api/articles', articleData)
-        
+
         if (response.data.code === 200) {
           this.showMessage('Article saved successfully', 'success')
           setTimeout(() => {
-            this.$router.push('/articles')
+            this.$router.push('/')
           }, 1500)
         } else {
           this.showMessage(response.data.message || 'Save failed', 'error')
         }
       } catch (error) {
         console.error('Save article error:', error)
-        const errorMessage = error.response && error.response.data && error.response.data.message 
-          ? error.response.data.message 
+        const errorMessage = error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
           : 'Save failed'
         this.showMessage(errorMessage, 'error')
       } finally {
@@ -354,4 +354,4 @@ export default {
 :deep(.w-e-text p) {
   margin: 10px 0;
 }
-</style> 
+</style>
