@@ -240,17 +240,17 @@
     <!-- 拒绝确认对话框 -->
     <v-dialog v-model="rejectDialog" max-width="500">
       <v-card>
-        <v-card-title class="headline">Refusal of financial support</v-card-title>
+        <v-card-title class="headline">Reject Application</v-card-title>
         <v-card-text>
           Are you sure you want to deny an application for financial support for the farm?
 
           <v-textarea
             v-model="rejectReason"
             outlined
-            label="Reason for rejection (required)"
+            label="Rejection Reason (Required)"
             rows="3"
             class="mt-4"
-            :rules="[v => !!v || 'Please fill in the reason for rejection']"
+            :rules="[v => !!v || 'Please enter rejection reason']"
           ></v-textarea>
         </v-card-text>
         <v-card-actions>
@@ -361,11 +361,11 @@ export default {
         if (response.data.code === 200) {
           this.applications = response.data.data;
         } else {
-          this.showMessage(response.data.message || '获取财务支持申请列表失败', 'error');
+          this.showMessage(response.data.message || 'Failed to get financial support application list', 'error');
         }
       } catch (error) {
-        console.error('获取财务支持申请列表失败:', error);
-        this.showMessage('获取财务支持申请列表失败', 'error');
+        console.error('Failed to get financial support application list:', error);
+        this.showMessage('Failed to get financial support application list', 'error');
       } finally {
         this.loading = false;
       }
@@ -401,17 +401,17 @@ export default {
         });
 
         if (response.data.code === 200) {
-          this.showMessage('财务支持申请已成功批准', 'success');
+          this.showMessage('Financial support application approved successfully', 'success');
           this.fetchApplications();
           this.approveDialog = false;
           this.detailDialog = false;
           this.approveComment = '';
         } else {
-          throw new Error(response.data.message || '批准财务支持申请失败');
+          throw new Error(response.data.message || 'Failed to approve financial support application');
         }
       } catch (error) {
-        console.error('批准财务支持申请失败:', error);
-        this.showMessage('批准财务支持申请失败: ' + (error.message || '未知错误'), 'error');
+        console.error('Failed to approve financial support application:', error);
+        this.showMessage('Failed to approve financial support application: ' + (error.message || 'Unknown error'), 'error');
       } finally {
         this.processingAction = false;
       }
@@ -429,17 +429,17 @@ export default {
         });
 
         if (response.data.code === 200) {
-          this.showMessage('财务支持申请已成功拒绝', 'success');
+          this.showMessage('Financial support application rejected successfully', 'success');
           this.fetchApplications();
           this.rejectDialog = false;
           this.detailDialog = false;
           this.rejectReason = '';
         } else {
-          throw new Error(response.data.message || '拒绝财务支持申请失败');
+          throw new Error(response.data.message || 'Failed to reject financial support application');
         }
       } catch (error) {
-        console.error('拒绝财务支持申请失败:', error);
-        this.showMessage('拒绝财务支持申请失败: ' + (error.message || '未知错误'), 'error');
+        console.error('Failed to reject financial support application:', error);
+        this.showMessage('Failed to reject financial support application: ' + (error.message || 'Unknown error'), 'error');
       } finally {
         this.processingAction = false;
       }
@@ -448,9 +448,9 @@ export default {
     // 获取状态文本
     getStatusText(status) {
       const statusMap = {
-        'PENDING': '待审核',
-        'APPROVED': '已批准',
-        'REJECTED': '已拒绝'
+        'PENDING': 'Pending',
+        'APPROVED': 'Approved',
+        'REJECTED': 'Rejected'
       };
       return statusMap[status] || status;
     },

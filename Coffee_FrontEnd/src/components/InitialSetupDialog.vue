@@ -2,37 +2,37 @@
   <v-dialog v-model="show" persistent max-width="800px">
     <v-card>
       <v-card-title class="headline">
-        欢迎使用农场管理系统
+        Welcome to Farm Management System
       </v-card-title>
       <v-card-text>
-        <p class="mb-4">看起来这是您第一次登录。请填写以下基本信息来完成农场设置：</p>
+        <p class="mb-4">It looks like this is your first login. Please fill in the following basic information to complete your farm setup:</p>
         <v-form ref="form" v-model="valid">
           <v-text-field
             v-model="farmData.farmName"
-            :rules="[v => !!v || '农场名称是必填项']"
-            label="农场名称"
+            :rules="[v => !!v || 'Farm name is required']"
+            label="Farm Name"
             required
           ></v-text-field>
           
           <v-text-field
             v-model="farmData.country"
-            :rules="[v => !!v || '国家是必填项']"
-            label="国家"
+            :rules="[v => !!v || 'Country is required']"
+            label="Country"
             required
           ></v-text-field>
           
           <v-text-field
             v-model="farmData.location"
-            :rules="[v => !!v || '具体位置是必填项']"
-            label="具体位置"
+            :rules="[v => !!v || 'Location is required']"
+            label="Location"
             required
           ></v-text-field>
           
           <v-text-field
             v-model="farmData.size"
             type="number"
-            :rules="[v => !!v || '农场面积是必填项']"
-            label="农场面积（公顷）"
+            :rules="[v => !!v || 'Farm area is required']"
+            label="Farm Area (hectares)"
             required
           ></v-text-field>
           
@@ -40,17 +40,17 @@
             v-model="farmData.establishedYear"
             type="number"
             :rules="[
-              v => !!v || '成立年份是必填项',
-              v => (v && v <= new Date().getFullYear()) || '年份不能超过当前年份'
+              v => !!v || 'Establishment year is required',
+              v => (v && v <= new Date().getFullYear()) || 'Year cannot exceed current year'
             ]"
-            label="成立年份"
+            label="Establishment Year"
             required
           ></v-text-field>
           
           <v-textarea
             v-model="farmData.description"
-            :rules="[v => !!v || '农场描述是必填项']"
-            label="农场描述"
+            :rules="[v => !!v || 'Farm description is required']"
+            label="Farm Description"
             required
           ></v-textarea>
         </v-form>
@@ -62,7 +62,7 @@
           :disabled="!valid"
           @click="saveProfile"
         >
-          完成设置
+          Complete Setup
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -104,13 +104,13 @@ export default {
         if (response.data.code === 200) {
           this.$emit('setup-completed')
           this.$emit('update:show', false)
-          this.showMessage('农场信息设置成功！', 'success')
+          this.showMessage('Farm information set successfully!', 'success')
         } else {
-          this.showMessage(response.data.message || '保存失败', 'error')
+          this.showMessage(response.data.message || 'Save failed', 'error')
         }
       } catch (error) {
-        console.error('保存农场信息失败:', error)
-        this.showMessage('保存农场信息失败', 'error')
+        console.error('Failed to save farm information:', error)
+        this.showMessage('Failed to save farm information', 'error')
       }
     },
     
@@ -119,4 +119,4 @@ export default {
     }
   }
 }
-</script> 
+</script>

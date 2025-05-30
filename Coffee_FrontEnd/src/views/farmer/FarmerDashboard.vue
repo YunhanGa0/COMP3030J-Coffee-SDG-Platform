@@ -459,13 +459,14 @@
     <!-- 确认删除对话框 -->
     <v-dialog v-model="deleteDialog" max-width="400">
       <v-card>
-        <v-card-title class="headline">确认删除</v-card-title>
+        <v-card-title class="headline">Confirm Deletion</v-card-title>
         <v-card-text>
-          Are you sure you want to delete blog "{{ blogToDelete ? blogToDelete.title : '' }}"? This action cannot be undone.
+          Are you sure you want to delete blog "{{ blogToDelete ? blogToDelete.title : '' }}"? This action cannot be
+          undone.
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="deleteDialog = false">取消</v-btn>
+          <v-btn text @click="deleteDialog = false">Cancel</v-btn>
           <v-btn
             color="error"
             text
@@ -492,7 +493,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -533,55 +534,55 @@
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model="farmProfile.location"
-                  label="地址"
+                  label="Address"
                   outlined
                   dense
-                  :rules="[v => !!v || '请输入地址']"
+                  :rules="[v => !!v || 'Please enter address']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model.number="farmProfile.size"
-                  label="面积 (公顷)"
+                  label="Area (hectares)"
                   outlined
                   dense
                   type="number"
-                  :rules="[v => !!v || '请输入面积']"
+                  :rules="[v => !!v || 'Please enter area']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model.number="farmProfile.establishedYear"
-                  label="成立年份"
+                  label="Establishment Year"
                   outlined
                   dense
                   type="number"
-                  :rules="[v => !!v || '请输入成立年份']"
+                  :rules="[v => !!v || 'Please enter establishment year']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                   v-model.number="farmProfile.elevation"
-                  label="海拔 (米)"
+                  label="Altitude (meters)"
                   outlined
                   dense
                   type="number"
-                  :rules="[v => !!v || '请输入海拔']"
+                  :rules="[v => !!v || 'Please enter altitude']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-select
                   v-model="farmProfile.soilType"
                   :items="soilTypes"
-                  label="土壤类型"
+                  label="Soil Type"
                   outlined
                   dense
-                  :rules="[v => !!v || '请选择土壤类型']"
+                  :rules="[v => !!v || 'Please select soil type']"
                 ></v-select>
               </v-col>
               <v-col cols="12">
                 <div class="image-upload-section">
-                  <label class="image-label">农场图片</label>
+                  <label class="image-label">Farm Image</label>
                   <div class="d-flex align-center">
                     <v-img
                       v-if="farmProfile.imageUrl"
@@ -596,11 +597,11 @@
                       outlined
                       dense
                       hide-details
-                      placeholder="选择图片"
+                      placeholder="Select Image"
                       prepend-icon="mdi-camera"
                       @change="handleImageUpload"
                       class="flex-grow-1"
-                      :rules="[v => !!v || '请上传农场图片']"
+                      :rules="[v => !!v || 'Please upload farm image']"
                     ></v-file-input>
                   </div>
                 </div>
@@ -608,9 +609,9 @@
               <v-col cols="12">
                 <v-textarea
                   v-model="farmProfile.description"
-                  label="农场描述"
+                  label="Farm Description"
                   outlined
-                  :rules="[v => !!v || '请输入农场描述']"
+                  :rules="[v => !!v || 'Please enter farm description']"
                 ></v-textarea>
               </v-col>
             </v-row>
@@ -623,7 +624,7 @@
             :loading="saveLoading"
             @click="saveProfile"
           >
-            保存信息
+            Save Information
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -637,8 +638,7 @@ import axios from 'axios'
 export default {
   name: 'FarmerDashboard',
 
-  components: {
-  },
+  components: {},
 
   data: () => ({
     // 设置初始数据
@@ -650,9 +650,9 @@ export default {
 
     // 博客表格列
     blogHeaders: [
-      { text: '博客信息', value: 'info', sortable: false },
-      { text: '状态', value: 'published', sortable: true, width: 100 },
-      { text: '操作', value: 'actions', sortable: false, align: 'end', width: 120 }
+      {text: 'Blog Information', value: 'info', sortable: false},
+      {text: 'Status', value: 'published', sortable: true, width: 100},
+      {text: 'Actions', value: 'actions', sortable: false, align: 'end', width: 120}
     ],
 
     // 编辑对话框
@@ -709,15 +709,15 @@ export default {
     orders: [],
     orderStatusFilter: 'ALL',
     orderHeaders: [
-      { text: 'Order ID', value: 'id', sortable: false },
-      { text: 'Recipient', value: 'recipientName', sortable: false },
-      { text: 'Contact', value: 'contactNumber', sortable: false },
-      { text: 'Address', value: 'shippingAddress', sortable: false },
-      { text: 'Product', value: 'coffeeBeanName', sortable: false },
-      { text: 'Quantity', value: 'quantity', sortable: false },
-      { text: 'Total', value: 'totalAmount', sortable: false },
-      { text: 'Status', value: 'status', sortable: false },
-      { text: 'Actions', value: 'actions', sortable: false }
+      {text: 'Order ID', value: 'id', sortable: false},
+      {text: 'Recipient', value: 'recipientName', sortable: false},
+      {text: 'Contact', value: 'contactNumber', sortable: false},
+      {text: 'Address', value: 'shippingAddress', sortable: false},
+      {text: 'Product', value: 'coffeeBeanName', sortable: false},
+      {text: 'Quantity', value: 'quantity', sortable: false},
+      {text: 'Total', value: 'totalAmount', sortable: false},
+      {text: 'Status', value: 'status', sortable: false},
+      {text: 'Actions', value: 'actions', sortable: false}
     ]
   }),
 
@@ -757,8 +757,8 @@ export default {
           }
         }
       } catch (error) {
-        console.error('检查农场状态失败:', error)
-        this.showMessage('检查农场状态失败', 'error')
+        console.error('Failed to check farm status:', error)
+        this.showMessage('Failed to check farm status', 'error')
       }
     },
 
@@ -787,12 +787,12 @@ export default {
 
           // 更新页面标题
           if (this.farm.farmName) {
-            document.title = `${this.farm.farmName} - 农场管理中心`
+            document.title = `${this.farm.farmName} - Farm Management Center`
           }
         }
       } catch (error) {
-        console.error('获取农场信息失败:', error)
-        this.showMessage('暂无农场信息', 'info')
+        console.error('Failed to get farm information:', error)
+        this.showMessage('No farm information available', 'info')
       }
     },
 
@@ -816,7 +816,7 @@ export default {
 
         if (response.data.code === 200) {
           this.showMessage(
-            !this.hasCompletedProfile ? '农场信息创建成功' : '农场信息更新成功',
+            !this.hasCompletedProfile ? 'Farm information created successfully' : 'Farm information updated successfully',
             'success'
           );
           this.hasCompletedProfile = true;
@@ -824,11 +824,11 @@ export default {
           await this.fetchFarmProfile();
           await this.fetchBlogs();
         } else {
-          this.showMessage(response.data.message || '保存农场信息失败', 'error');
+          this.showMessage(response.data.message || 'Failed to save farm information', 'error');
         }
       } catch (error) {
-        console.error('保存农场信息失败:', error);
-        this.showMessage('保存农场信息失败', 'error');
+        console.error('Failed to save farm information:', error);
+        this.showMessage('Failed to save farm information', 'error');
       } finally {
         this.saveLoading = false;
       }
@@ -844,11 +844,11 @@ export default {
         if (response.data.code === 200) {
           this.blogs = response.data.data.content || []
         } else {
-          this.showMessage(response.data.message || '获取博客列表失败', 'error')
+          this.showMessage(response.data.message || 'Failed to get blog list', 'error')
         }
       } catch (error) {
-        console.error('获取博客列表失败:', error)
-        this.showMessage('获取博客列表失败', 'error')
+        console.error('Failed to get blog list:', error)
+        this.showMessage('Failed to get blog list', 'error')
       }
     },
 
@@ -856,7 +856,7 @@ export default {
     createNewBlog() {
       this.$router.push({
         path: '/blog-editor',
-        query: { farmId: this.farm.id }
+        query: {farmId: this.farm.id}
       })
     },
 
@@ -871,7 +871,7 @@ export default {
       })
     },
 
-    // 关闭博客编辑对话框
+    // Close博客编辑对话框
     closeBlogDialog() {
       this.blogDialog = false
       setTimeout(() => {
@@ -919,17 +919,17 @@ export default {
 
         if (response.data.code === 200) {
           this.showMessage(
-            `博客${this.editMode ? '更新' : '创建'}成功${published ? '并已发布' : ''}`,
+            `Blog ${this.editMode ? 'updated' : 'created'} successfully${published ? ' and published' : ''}`,
             'success'
           )
           this.blogDialog = false
           this.fetchBlogs()
         } else {
-          this.showMessage(response.data.message || `博客${this.editMode ? '更新' : '创建'}失败`, 'error')
+          this.showMessage(response.data.message || `Blog ${this.editMode ? 'update' : 'creation'} failed`, 'error')
         }
       } catch (error) {
-        console.error(`博客${this.editMode ? '更新' : '创建'}失败:`, error)
-        this.showMessage(`博客${this.editMode ? '更新' : '创建'}失败`, 'error')
+        console.error(`Blog ${this.editMode ? 'update' : 'creation'} failed:`, error)
+        this.showMessage(`Blog ${this.editMode ? 'update' : 'creation'} failed`, 'error')
       } finally {
         this.saveLoading = false
       }
@@ -953,15 +953,15 @@ export default {
         )
 
         if (response.data.code === 200) {
-          this.showMessage('博客已成功删除', 'success')
+          this.showMessage('Blog deleted successfully', 'success')
           this.deleteDialog = false
           this.fetchBlogs()
         } else {
-          this.showMessage(response.data.message || '删除博客失败', 'error')
+          this.showMessage(response.data.message || 'Failed to delete blog', 'error')
         }
       } catch (error) {
-        console.error('删除博客失败:', error)
-        this.showMessage('删除博客失败', 'error')
+        console.error('Failed to delete blog:', error)
+        this.showMessage('Failed to delete blog', 'error')
       } finally {
         this.deleteLoading = false
       }
@@ -972,21 +972,21 @@ export default {
       try {
         const response = await axios.patch(
           `/api/farms/${this.farm.id}/blogs/${blog.id}/publish`,
-          { published: !blog.published }
+          {published: !blog.published}
         )
 
         if (response.data.code === 200) {
           this.showMessage(
-            `博客已${blog.published ? '取消发布' : '发布'}`,
+            `Blog ${blog.published ? 'unpublished' : 'published'} successfully`,
             'success'
           )
           this.fetchBlogs()
         } else {
-          this.showMessage(response.data.message || `${blog.published ? '取消发布' : '发布'}失败`, 'error')
+          this.showMessage(response.data.message || `${blog.published ? 'Unpublishing' : 'Publishing'} failed`, 'error')
         }
       } catch (error) {
-        console.error(`${blog.published ? '取消发布' : '发布'}失败:`, error)
-        this.showMessage(`${blog.published ? '取消发布' : '发布'}失败`, 'error')
+        console.error(`${blog.published ? 'Unpublishing' : 'Publishing'} failed:`, error)
+        this.showMessage(`${blog.published ? 'Unpublishing' : 'Publishing'} failed`, 'error')
       }
     },
 
@@ -1023,13 +1023,13 @@ export default {
 
         if (response.data.code === 200) {
           this.farmProfile.imageUrl = response.data.data.url;
-          this.showMessage('图片上传成功', 'success');
+          this.showMessage('Image uploaded successfully', 'success');
         } else {
-          throw new Error(response.data.message || '图片上传失败');
+          throw new Error(response.data.message || 'Image upload failed');
         }
       } catch (error) {
-        console.error('图片上传失败:', error);
-        this.showMessage(error.message || '图片上传失败', 'error');
+        console.error('Image upload failed:', error);
+        this.showMessage(error.message || 'Image upload failed', 'error');
         this.farmImageFile = null;
       }
     },
@@ -1056,10 +1056,10 @@ export default {
       }
     },
     // 标记订单为已发货
-    async markAsShipped (orderId) {
+    async markAsShipped(orderId) {
       try {
         // 等待请求完成
-        const { data } = await axios.put(`/api/farmers/orders/${orderId}/ship`);
+        const {data} = await axios.put(`/api/farmers/orders/${orderId}/ship`);
 
         if (data.code === 200) {
           this.showMessage('Order marked as shipped', 'success');
@@ -1084,7 +1084,7 @@ export default {
     }
   },
   computed: {
-    filteredOrders () {
+    filteredOrders() {
       // 确保有数据
       if (!this.orders || this.orders.length === 0) return []
 

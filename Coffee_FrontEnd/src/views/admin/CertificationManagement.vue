@@ -94,7 +94,7 @@
                   @click="viewDetails(item)"
                   :disabled="loading"
                 >
-                  查看
+                  View
                 </v-btn>
                 <v-btn
                   small
@@ -103,7 +103,7 @@
                   @click="approveCertification(item)"
                   :disabled="loading || item.status !== 'PENDING'"
                 >
-                  批准
+                  Approve
                 </v-btn>
                 <v-btn
                   small
@@ -111,7 +111,7 @@
                   @click="rejectCertification(item)"
                   :disabled="loading || item.status !== 'PENDING'"
                 >
-                  拒绝
+                  Reject
                 </v-btn>
               </template>
 
@@ -235,14 +235,14 @@
           <v-textarea
             v-model="approveComment"
             outlined
-            label="批准备注（可选）"
+            label="Approval Notes (Optional)"
             rows="3"
             class="mt-4"
           ></v-textarea>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="grey darken-1" text @click="approveDialog = false">取消</v-btn>
+          <v-btn color="grey darken-1" text @click="approveDialog = false">Cancel</v-btn>
           <v-btn
             color="success"
             @click="confirmApprove"
@@ -255,22 +255,22 @@
     <!-- 拒绝确认对话框 -->
     <v-dialog v-model="rejectDialog" max-width="500">
       <v-card>
-        <v-card-title class="headline">拒绝认证</v-card-title>
+        <v-card-title class="headline">Reject Certification</v-card-title>
         <v-card-text>
           Are you sure you want to reject the farm's application for certification?
 
           <v-textarea
             v-model="rejectReason"
             outlined
-            label="拒绝原因（必填）"
+            label="Rejection Reason (Required)"
             rows="3"
             class="mt-4"
-            :rules="[v => !!v || '请填写拒绝原因']"
+            :rules="[v => !!v || 'Please enter rejection reason']"
           ></v-textarea>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="grey darken-1" text @click="rejectDialog = false">取消</v-btn>
+          <v-btn color="grey darken-1" text @click="rejectDialog = false">Cancel</v-btn>
           <v-btn
             color="error"
             @click="confirmReject"
@@ -468,9 +468,9 @@ export default {
     // 获取状态文本
     getStatusText(status) {
       const statusMap = {
-        'PENDING': '待审核',
-        'APPROVED': '已批准',
-        'REJECTED': '已拒绝'
+        'PENDING': 'Pending',
+        'APPROVED': 'Approved',
+        'REJECTED': 'Rejected'
       };
       return statusMap[status] || status;
     },

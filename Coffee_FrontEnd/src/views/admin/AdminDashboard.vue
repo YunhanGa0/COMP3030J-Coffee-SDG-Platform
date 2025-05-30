@@ -655,7 +655,7 @@ export default {
         const response = await axios.get('/api/farms');
         if (response.data.code === 200) {
           this.farms = response.data.data.content;
-          // 获取每个农场的博客信息
+          // Get blog information for each farm
           for (const farm of this.farms) {
             await this.fetchFarmBlogs(farm.id);
           }
@@ -673,7 +673,7 @@ export default {
       try {
         const response = await axios.get(`/api/farms/${farmId}/blogs`);
         if (response.data.code === 200) {
-          // 将博客信息添加到对应的农场对象中
+          // Add blog information to the corresponding farm object
           const farmIndex = this.farms.findIndex(farm => farm.id === farmId);
           if (farmIndex !== -1) {
             Vue.set(this.farms[farmIndex], 'blogs', response.data.data);
@@ -686,20 +686,20 @@ export default {
 
     async fetchStatistics() {
       try {
-        // 获取用户统计
+        // Get user statistics
         const usersResponse = await axios.get('/api/admin/farmers');
         const farmersCount = usersResponse.data.code === 200 ? usersResponse.data.data.length : 0;
 
-        // 获取文章统计
+        // Get article statistics
         const articlesResponse = await axios.get('/api/articles');
         const articlesCount = articlesResponse.data.code === 200 ? articlesResponse.data.data.length : 0;
 
-        // 获取农场统计
+        // Get farm statistics
         const farmsResponse = await axios.get('/api/farms');
         const farmsCount = farmsResponse.data.code === 200 ? farmsResponse.data.data.content.length : 0;
 
         this.statistics = {
-          usersCount: farmersCount + 1, // +1 表示管理员账号
+          usersCount: farmersCount + 1, // +1 represents admin account
           articlesCount: articlesCount,
           farmersCount: farmersCount,
           farmsCount: farmsCount
@@ -732,12 +732,12 @@ export default {
     },
 
     viewFarmer(item) {
-      // 这里可以跳转到农户详情页面
+      // Here can navigate to farmer detail page
       console.log('View farmer:', item);
     },
 
     viewFarm(item) {
-      // 这里可以跳转到农场详情页面
+      // Here can navigate to farm detail page
       this.$router.push(`/farms/${item.id}`);
     },
 

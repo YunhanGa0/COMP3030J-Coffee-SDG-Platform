@@ -185,19 +185,7 @@ const routes = [
     name: 'OrderList',
     component: () => import('@/views/OrderList.vue'),
   },
-  {
-    path: '/orders/:id',
-    name: 'OrderDetail',
-    component: () => import('@/views/OrderDetail.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/farmer/coffee-beans',
-    name: 'CoffeeBeanList',
-    component: () => import('@/views/farmer/CoffeeBeanList.vue'),
-    meta: {
-      requiresAuth: true,
-      role: 'FARMER'
+  {    path: '/orders/:id',    name: 'OrderDetail',    component: () => import('@/views/OrderDetail.vue'),    meta: { requiresAuth: true }  },  {    path: '/profile',    name: 'Profile',    component: () => import('@/views/Profile.vue'),    meta: { requiresAuth: true }  },  {    path: '/farmer/coffee-beans',    name: 'CoffeeBeanList',    component: () => import('@/views/farmer/CoffeeBeanList.vue'),    meta: {      requiresAuth: true,      role: 'FARMER'
     }
   }
 ]

@@ -6,19 +6,19 @@
           <v-card class="pa-6">
             <div class="d-flex align-center mb-6">
               <h2 class="text-h5 font-weight-bold primary--text">
-                {{ isEditing ? '编辑博客' : '创建新博客' }}
+                {{ isEditing ? 'Edit Blog' : 'Create New Blog' }}
               </h2>
               <div class="ml-auto">
                 <v-chip v-if="isEditing" small :color="blogPublished ? 'success' : 'grey'" class="mr-2">
-                  {{ blogPublished ? '已发布' : '草稿' }}
+                  {{ blogPublished ? 'Published' : 'Draft' }}
                 </v-chip>
-                <v-chip small color="primary" class="ml-2">农场：{{ farmName }}</v-chip>
+                <v-chip small color="primary" class="ml-2">Farm: {{ farmName }}</v-chip>
               </div>
             </div>
 
             <v-text-field
               v-model="blogTitle"
-              label="博客标题"
+              label="Blog Title"
               outlined
               dense
               class="mb-4"
@@ -26,7 +26,7 @@
 
             <v-text-field
               v-model="blogSummary"
-              label="博客摘要"
+              label="Blog Summary"
               outlined
               dense
               class="mb-4"
@@ -34,7 +34,7 @@
 
             <v-text-field
               v-model="imageUrl"
-              label="封面图片URL"
+              label="Cover Image URL"
               outlined
               dense
               class="mb-4"
@@ -44,7 +44,7 @@
             <v-file-input
               v-model="imageFile"
               accept="image/*"
-              label="上传封面图片"
+              label="Upload Cover Image"
               prepend-icon="mdi-camera"
               @change="handleImageUpload"
               class="mb-4"
@@ -61,7 +61,7 @@
                 class="mr-4"
                 @click="handleCancel"
               >
-                取消
+                Cancel
               </v-btn>
               <v-btn
                 outlined
@@ -70,14 +70,14 @@
                 :loading="loading"
                 @click="handleSave(false)"
               >
-                保存为草稿
+                Save as Draft
               </v-btn>
               <v-btn
                 color="success"
                 :loading="loading"
                 @click="handleSave(true)"
               >
-                {{ isEditing ? '更新并发布' : '保存并发布' }}
+                {{ isEditing ? 'Update and Publish' : 'Save and Publish' }}
               </v-btn>
             </div>
           </v-card>
@@ -99,7 +99,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
@@ -119,13 +119,13 @@ export default {
       blogSummary: '',
       imageUrl: '',
       imageFile: null,
-      blogContent: '<p>请输入博客内容...</p>',
+      blogContent: '<p>Please enter blog content...</p>',
       loading: false,
       farmId: null,
       blogId: null,
       isEditing: false,
       blogPublished: false,
-      farmName: '加载中...',
+      farmName: 'Loading...',
       snackbar: {
         show: false,
         text: '',
@@ -160,7 +160,7 @@ export default {
     // 获取农场信息
     async fetchFarmInfo() {
       if (!this.farmId) {
-        this.showMessage('缺少农场ID参数', 'error')
+        this.showMessage('Missing farm ID parameter', 'error')
         setTimeout(() => this.$router.push('/farmer-dashboard'), 2000)
         return
       }
@@ -171,13 +171,13 @@ export default {
         if (response.data.code === 200) {
           const farmData = response.data.data
           this.farmName = farmData.farmName
-          document.title = `${this.isEditing ? '编辑' : '创建'}博客 - ${farmData.farmName}`
+          document.title = `${this.isEditing ? 'Edit' : 'Create'} Blog - ${farmData.farmName}`
         } else {
-          this.showMessage('获取农场信息失败', 'error')
+          this.showMessage('Failed to get farm information', 'error')
         }
       } catch (error) {
-        console.error('获取农场信息失败:', error)
-        this.showMessage('获取农场信息失败', 'error')
+        console.error('Failed to get farm information:', error)
+        this.showMessage('Failed to get farm information', 'error')
       }
     },
     
@@ -199,11 +199,11 @@ export default {
             this.editor.txt.html(this.blogContent)
           }
         } else {
-          this.showMessage('获取博客详情失败', 'error')
+          this.showMessage('Failed to get blog details', 'error')
         }
       } catch (error) {
-        console.error('获取博客详情失败:', error)
-        this.showMessage('获取博客详情失败', 'error')
+        console.error('Failed to get blog details:', error)
+        this.showMessage('Failed to get blog details', 'error')
       }
     },
     
@@ -211,7 +211,7 @@ export default {
       this.editor = new E(this.$refs.editor)
 
       this.editor.config.height = 500
-      this.editor.config.placeholder = '请输入博客内容...'
+      this.editor.config.placeholder = 'Please enter blog content...'
       
       this.editor.config.menus = [
         'head',
@@ -252,11 +252,11 @@ export default {
           if (response.data.code === 200 && response.data.data.url) {
             insertImgFn(response.data.data.url)
           } else {
-            this.showMessage('图片上传失败', 'error')
+            this.showMessage('Image upload failed', 'error')
           }
         } catch (error) {
-          console.error('图片上传失败:', error)
-          this.showMessage('图片上传失败', 'error')
+          console.error('Image upload failed:', error)
+          this.showMessage('Image upload failed', 'error')
         }
       }
 
@@ -312,7 +312,7 @@ export default {
       if (!file) return;
       
       if (file.size > 2000000) {
-        this.showMessage('图片大小不能超过2MB', 'error');
+        this.showMessage('Image size cannot exceed 2MB', 'error');
         return;
       }
 
@@ -332,17 +332,17 @@ export default {
 
         if (response.data.code === 200) {
           this.imageUrl = response.data.data.url;
-          this.showMessage('图片上传成功', 'success');
+          this.showMessage('Image uploaded successfully', 'success');
         } else {
-          this.showMessage('图片上传失败: ' + response.data.message, 'error');
+          this.showMessage('Image upload failed: ' + response.data.message, 'error');
         }
       } catch (error) {
-        console.error('图片上传失败:', error);
-        let errorMessage = '文件可能太大';
+        console.error('Image upload failed:', error);
+        let errorMessage = 'File may be too large';
         if (error.response && error.response.data && error.response.data.message) {
           errorMessage = error.response.data.message;
         }
-        this.showMessage('图片上传失败: ' + errorMessage, 'error');
+        this.showMessage('Image upload failed: ' + errorMessage, 'error');
       }
     },
 
@@ -372,18 +372,18 @@ export default {
         }
         
         if (response.data.code === 200) {
-          this.showMessage(`博客${this.isEditing ? '更新' : '创建'}成功${published ? '并已发布' : ''}`, 'success')
+          this.showMessage(`Blog ${this.isEditing ? 'updated' : 'created'} successfully${published ? ' and published' : ''}`, 'success')
           setTimeout(() => {
             this.$router.push('/farmer-dashboard')
           }, 1500)
         } else {
-          this.showMessage(response.data.message || `${this.isEditing ? '更新' : '创建'}失败`, 'error')
+          this.showMessage(response.data.message || `${this.isEditing ? 'Update' : 'Creation'} failed`, 'error')
         }
       } catch (error) {
-        console.error(`${this.isEditing ? '更新' : '创建'}博客失败:`, error)
+        console.error(`${this.isEditing ? 'Update' : 'Creation'} blog failed:`, error)
         const errorMessage = error.response && error.response.data && error.response.data.message 
           ? error.response.data.message 
-          : `${this.isEditing ? '更新' : '创建'}失败`
+          : `${this.isEditing ? 'Update' : 'Creation'} failed`
         this.showMessage(errorMessage, 'error')
       } finally {
         this.loading = false
@@ -392,19 +392,19 @@ export default {
 
     validateForm() {
       if (!this.blogTitle.trim()) {
-        this.showMessage('请输入博客标题', 'error')
+        this.showMessage('Please enter a blog title', 'error')
         return false
       }
       if (!this.blogSummary.trim()) {
-        this.showMessage('请输入博客摘要', 'error')
+        this.showMessage('Please enter a blog summary', 'error')
         return false
       }
       if (!this.imageUrl.trim()) {
-        this.showMessage('请上传封面图片', 'error')
+        this.showMessage('Please upload a cover image', 'error')
         return false
       }
-      if (!this.editor.txt.html().trim() || this.editor.txt.html() === '<p>请输入博客内容...</p>') {
-        this.showMessage('请输入博客内容', 'error')
+      if (!this.editor.txt.html().trim() || this.editor.txt.html() === '<p>Please enter blog content...</p>') {
+        this.showMessage('Please enter blog content', 'error')
         return false
       }
       return true
@@ -458,4 +458,4 @@ export default {
 :deep(.w-e-text p) {
   margin: 10px 0;
 }
-</style> 
+</style>
