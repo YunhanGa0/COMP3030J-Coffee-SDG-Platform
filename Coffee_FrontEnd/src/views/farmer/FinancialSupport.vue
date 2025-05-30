@@ -235,7 +235,7 @@ export default {
     async fetchSupportList() {
       try {
         const response = await axios.get('/api/financial-supports')
-        if (response.data.code === 200) {
+        if (response.data.code === 200 || 201) {
           this.supportList = response.data.data
         } else {
           throw new Error(response.data.message || 'Failed to fetch support programs')
