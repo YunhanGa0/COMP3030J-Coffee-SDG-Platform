@@ -93,10 +93,11 @@ export default {
     submitting: false,
     formValid: false,
     description: '',
+    farm: null,
 
     // 验证规则
     rules: {
-      required: [v => !!v || '此项为必填']
+      required: [v => !!v || 'This field is required']
     },
 
     // 提示消息
@@ -107,7 +108,34 @@ export default {
     }
   }),
 
+  async created() {
+    // 检查农场认证状态
+    await this.checkFarmCertification()
+  },
+
   methods: {
+    // 检查农场认证状态
+    async checkFarmCertification() {
+      try {
+        const response = await axios.get('/api/farms/profile')
+        if (response.data.code === 200) {
+          this.farm = response.data.data
+          console.log('Farm certification status:', this.farm)
+          console.log('isCertificated value:', this.farm.isCertificated)
+          if (this.farm.isCertificated === true) {
+            this.showMessage('Your farm is already certified and there is no need to reapply', 'info')
+            // 延迟跳转回农场管理页面
+            setTimeout(() => {
+              this.$router.push('/farmer-support')
+            }, 1500)
+          }
+        }
+      } catch (error) {
+        console.error('Failed to get farm information:', error)
+        this.showMessage('Failed to get farm information, please try again later', 'error')
+      }
+    },
+
     // 提交申请
     async submitApplication() {
       if (!this.$refs.certForm.validate()) return
