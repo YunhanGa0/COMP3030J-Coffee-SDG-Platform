@@ -276,53 +276,32 @@
 
               <template v-slot:item.actions="{ item }">
                 <div class="actions-cell">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        x-small
-                        color="primary"
-                        v-bind="attrs"
-                        v-on="on"
-                        @click="editBlog(item)"
-                      >
-                        <v-icon>mdi-pencil</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Edit</span>
-                  </v-tooltip>
+                  <v-btn
+                    text
+                    x-small
+                    color="primary"
+                    @click="editBlog(item)"
+                  >
+                    Edit
+                  </v-btn>
 
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        x-small
-                        :color="item.published ? 'orange' : 'success'"
-                        v-bind="attrs"
-                        v-on="on"
-                        @click="togglePublish(item)"
-                      >
-                        <v-icon>{{ item.published ? 'mdi-eye-off' : 'mdi-eye' }}</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>{{ item.published ? 'Unpublish' : 'Publish' }}</span>
-                  </v-tooltip>
+                  <v-btn
+                    text
+                    x-small
+                    :color="item.published ? 'orange' : 'success'"
+                    @click="togglePublish(item)"
+                  >
+                    {{ item.published ? 'Unpublish' : 'Publish' }}
+                  </v-btn>
 
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        x-small
-                        color="error"
-                        v-bind="attrs"
-                        v-on="on"
-                        @click="confirmDelete(item)"
-                      >
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Delete</span>
-                  </v-tooltip>
+                  <v-btn
+                    text
+                    x-small
+                    color="error"
+                    @click="confirmDelete(item)"
+                  >
+                    Delete
+                  </v-btn>
                 </div>
               </template>
             </v-data-table>
