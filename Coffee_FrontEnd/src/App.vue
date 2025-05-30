@@ -20,7 +20,7 @@
           v-bind="attrs"
           @click="snackbar.show = false"
         >
-          关闭
+          Close
         </v-btn>
       </template>
     </v-snackbar>
