@@ -1,4 +1,8 @@
 # Coffee_SDG_Platform
+>This is my work for BDIC course *COMP3030J-Software Engineering Project*
+>
+>View our website on https://csi420-02-vm2.ucd.ie/
+
 A Springboot and Vue based platform aiming to support sustainable development of coffee farmers
 ## Quick start
 Modify `application.properties` to your own configuration, especially the DB part
