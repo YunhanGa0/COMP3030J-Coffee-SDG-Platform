@@ -7,7 +7,7 @@ A Springboot and Vue based platform aiming to support sustainable development of
 ## Documentation
 | Document | Description |
 |----------|-------------|
-| [团队合同 (Team Contract)](Doc/Group_1_USPA%20.pdf) | Team agreement and collaboration contract |
+| [Team Agreement](Doc/Group_1_USPA%20.pdf) | Team agreement and collaboration contract |
 | [项目提案 (Project Proposal)](Doc/Group_1_USPA.pdf) | Project proposal and requirements |
 | [用户文档 (User Documentation)](Doc/Group_1_user_final.pdf) | End-user guide and manual |
 | [系统文档 (System Documentation)](Doc/Group_1_system_final.pdf) | System design and technical documentation |
